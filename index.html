@@ -38,7 +38,7 @@ to twoje sumienie że oszukujesz w grze :)
 
   */
 var gameversion = " 1.5.8 pre5 "
-var APKversion=true;
+var APKversion=false;
 let experimentalmultiplayer=0;
 let gametest=0;
     var yourItems = [];  // Ekwipunek
@@ -364,13 +364,33 @@ justify-content: center;
 <script>
 var cancontinue=0
 var isPlayingGame=0
+function playseed(){
+  showTextInput("Type game seed . warning seeds arent great : ",
+    async function(text) {
+      seed=text
+       
+   isPlayingGame=1;
+   updateTextMenuLoading()
+   splashrandomize()
+   document.getElementById('loadingMenu').style.display = 'flex';
+   setTimeout(function (){
+     abletostart=1;
+   document.getElementById('loadingMenu').style.display='none' ;
+   document.getElementById('MainMenu').style.display='none' ;
+   if(paused==1){document.getElementById('advanced').style.display='block';}
+   isUpdating=0
+   update()
+   playRandomMusic();
+   paused = 1
+  setTimeout(function(){paused=0; update() },1500);
+  options.autopause = 1;setTimeout(function() {
+    closeInventory()
+    document.getElementById('advanced').style.display = 'none';}, 2000)},1500);
+    })
+}
  function playgamenew(){
-   isPlayingGame=1
-/*   caveChunks={}; housechunks={} ; house2chunks={};
-   overworldChunks={} ; seachunks={} ; hellchunks={}; abysschunks={} ; chunks={};
-   yourItems=[];
-   isinhouse=0; isinhouse2=0; generateCave=0; isunderwater=0; inhell=0; inabyss=0; 
-   playerX=0; playerY=0; */
+   isPlayingGame=1;
+ 
    updateTextMenuLoading()
    splashrandomize()
    document.getElementById('loadingMenu').style.display = 'flex';
@@ -427,18 +447,22 @@ setTimeout(function() {
  }
 
   let dat=""
+  var saveNames=[]
 async function upadtegameslots(){
- document.getElementById('loadingMenu').innerHTML="is loading please wait ..."
-  
+document.getElementById('slotgames').innerHTML=" "
+saveNames = []
+dat=""
+document.getElementById('loadingMenu').innerHTML="is loading please wait ..."
  splashrandomize()
- const saveNames = [];
-
 try {
   const db = await initDB(); 
   const transaction = db.transaction("gameStates", "readonly"); 
   const store = transaction.objectStore("gameStates");
-  const allSavesRequest = store.getAll();
+  const allSavesRequest = store.getAll(); 
+
   allSavesRequest.onsuccess = function(event) {
+    document.getElementById('slotgames').innerHTML=" "
+    
     const gameStates = event.target.result;
     gameStates.forEach(gameState => {
       const slot = gameState.slot;
@@ -531,13 +555,14 @@ window.onload = randomizeCloudsAnimation;
 <input style="display:none;" type="file" id="fileInput" onchange="loadData22(event)" />
 
   </div>
-    <div id="gamescontainer" style="display:none;  position: absolute; top:50vh ; left:50vw; transform: translate(-50%,-50%); width: 75vw; height: 80vh ; background: grey; border:3px solid rgb(50,50,50) ; ">
+    <div id="gamescontainer" style="display:none;  position: absolute; top:50vh ; left:50vw; transform: translate(-50%,-50%); width: 75vw; height: 80vh ; background: grey; border:3px solid rgb(50,50,50) ;  overflow: hidden;  ">
     <div style="padding: 10px 50%; background: rgb(50,50,50); color:white;  " ><sds data-lang="start" > Play</sds> <fds onclick=" document.getElementById('gamescontainer').style.display='none' ; " style="color: red; position: absolute ; right:20px; top:5px" >X</fds></div>
-    <div id="slotgames" style="white-space: pre-wrap; color:white; margin: 5px; height: 100% width :100% ;">
+    <div id="slotgames" style="white-space: pre-wrap; color:white; margin: 5px; height: calc(100% - 90px) ; overflow: hidden scroll;  width :100% ;">
     </div>
       <div style="width: 200px; position: absolute; bottom: 10px; height: 20px; left:20px;  background: rgb(200,200,200);" data-lang="newgame" onclick="playgamenew(); closeInventory()" >
           new game/continue
       </div>
+ <div style="width: 200px; position: absolute; bottom: 10px; height: 20px; left:230px;  background: rgb(200,200,200);" data-lang="seedplay" id="seedplay" onclick="playseed();">play seed</div>
   </div>
 
     <pre id="gameversion1" style="position:absolute; z-index:9; top:0; left:0; color:grey;" > commit </pre>
@@ -547,35 +572,35 @@ window.onload = randomizeCloudsAnimation;
   <div id="aboutcontainer" style="display:none;  position: absolute; top:50vh ; left:50vw; transform: translate(-50%,-50%); width: 75vw; height: 80vh ; background: grey; border:3px solid rgb(50,50,50) ; overflow: hidden scroll ; ">
     <div style="padding: 10px 50%; background: rgb(50,50,50); color:white;  "  > About <fds onclick=" document.getElementById('aboutcontainer').style.display='none' ; " style="color: red; position: absolute ; right:20px; top:5px" >X</fds></div>
     <pre style="white-space: pre-wrap; color:white; margin: 5px; height: 100% width :100% ; overflow: hidden scroll;" data-lang="readme" >
-Howdy im Krystian Popiolek a game developer from Poland 
-who like survival games . 
-i spend ± 11 months . so this is my biggest game for now.
-i maded every music every sprite everything. 
+<span style="color: lightblue;">Hello!</span> I'm <span style="color: orange;">Krystian Popiołek</span>, a game developer from <span style="color: yellow;">Poland</span> who loves survival games.  
 
-i hope you like this game 
+This is my biggest game so far.  
+I have created <span style="color: cyan;">the entire game from scratch</span>—music, graphics, and all the code.  
 
-     game is maded with full javascript no engine no libraries etc 
-     i dont spend money on fl to make music when jummbox is better and free  :) .  
-     
-     
-if you have an idea for this game you can tell me it to add at awlie8518@gmail.com or Kashumy Github Primoria ferox issues
+I hope you like it!  
 
+This game is written entirely in <span style="color: gold;">pure JavaScript</span>, without engines or libraries.  
+For the music, I used <span style="color: violet;">JummBox</span>, a great free open-source program!  
 
-kashumy.github.io copyright © all rights reserved 
-dat : 24.21.12, last update dat FEB 15 25
+Got a game idea? You can share it at  
+<span style="color: pink;">awlie8518@gmail.com</span> or on  
+**Kashumy GitHub** → <span style="color: lightgreen;">Primoria Ferox issues</span>.  
 
+<span style="color: red;">kashumy.github.io</span> <span style="color: gray;">© All rights reserved</span>  
+<span style="color: silver;">Date:</span> 24.21.12, <span style="color: silver;">Last update:</span> February 15, 2025  
 
-** chesz zmienić język na polski proszę bardzo 
-<select id="languageSelect" onchange="changeLanguage()"> <option value="en">English</option>
-      <option value="pl">Polski</option>
+<span style="color: lightblue;">This is a pre-update version.</span>  
+<span style="color: yellow;">Changes in this version:</span>  
+- Rendering improvements  
+- Fixed game speed bug on faster devices  
+- New cave system  
+
+<span style="color: lightgreen;">Want to change the language?</span>  
+<select id="languageSelect" onchange="changeLanguage()">  
+  <option value="en">English</option>  
+  <option value="pl">Polski</option>  
 </select>
  
- this is a pre version of full update that is comming
- this version include 
- 
- small renderer changes
- game speed bug on faster devices 
- new cave system 
     </pre>
   </div>
 </div>
@@ -593,6 +618,10 @@ var langDEactive=0;
         "Splash Text is always welcome",
         "Powered with HTML5!",
         "Hello World",
+        "Try randomloot",
+        " Badseed is bad",
+        "Try rock seed",
+        "Try night seed",
         "Ahh primoria ferox classic soundtrack",
         "What is Jeremi doing in the washing machine? He clears memories",
         "The world is as simple as black and white",
@@ -851,66 +880,67 @@ console.log(loadingMenu.innerText )
     const htmltranslations = {
       "pl": {
                 "readme": `
-Cześć, jestem Krystian Popiołek, twórca gier z Polski,
-który lubi gry survivalowe.
+<span style="color: lightblue;">Cześć!</span> Jestem <span style="color: orange;">Krystian Popiołek</span>, twórca gier z <span style="color: yellow;">Polski</span>, który uwielbia gry survivalowe.  
 
-Spędziłem około 11 miesięcy na tworzeniu tej gry,
-więc jest to jak dotąd mój największy projekt.
+Jest to moją największa gra do tej pory
+Stworzyłem <span style="color: cyan;">Całą grę od podstaw</span>—muzykę, grafikę i cały kod.  
 
-Stworzyłem każdą muzykę, każdy sprite – wszystko od podstaw.
+Mam nadzieję, że Ci się spodoba!  
 
-Mam nadzieję, że spodoba Ci się ta gra!
+Ta gra jest napisana w całości w <span style="color: gold;">czystym JavaScript</span>, bez silników i bibliotek.  
+Do muzyki użyłem <span style="color: violet;">JummBox</span>, świetnego darmowego programu który jest opensource !  
 
- 
+Masz pomysł na grę? Możesz podzielić się nim pod  
+<span style="color: pink;">awlie8518@gmail.com</span> lub na  
+**Kashumy GitHub** → <span style="color: lightgreen;">Primoria Ferox issues</span>.  
 
-Gra została stworzona w pełni w JavaScript – bez silników, bez bibliotek itd.
-Nie wydaję pieniędzy na FL Studio do tworzenia muzyki, skoro Jummbox jest lepszy i darmowy :)
+<span style="color: red;">kashumy.github.io</span> <span style="color: gray;">© Wszelkie prawa zastrzeżone</span>  
+<span style="color: silver;">Data:</span> 24.21.12, <span style="color: silver;">Ostatnia aktualizacja:</span> 15 lutego 2025  
 
- 
-Jeśli masz pomysł na rozwój tej gry, możesz się ze mną skontaktować:
-**E-mail:** awlie8518@gmail.com
- **GitHub (Primoria Ferox - Issues):** Kashumy
+<span style="color: lightblue;">To wersja przed pełną aktualizacją.</span>  
+<span style="color: yellow;">Zmiany w tej wersji:</span>  
+- Poprawki w renderowaniu  
+- Naprawiony błąd prędkości gry na szybszych urządzeniach  
+- Nowy system jaskiń  
 
- **Strona:** [kashumy.github.io]
- kashumy.github.io copyright © wszelkie prawa zastrzeżone 
- 
-
- Chcesz zmienić język na polski? Proszę bardzo!
-<select id="languageSelect" onchange="changeLanguage()">
-  <option value="en">English</option>
-  <option value="pl" selected>Polski</option>
+<span style="color: lightgreen;">Chcesz zmienić język?</span>  
+<select id="languageSelect" onchange="changeLanguage()">  
+  <option value="en">English</option>  
+  <option value="pl">Polski</option>  
 </select>
+ 
 `
       },
       "en": {
-"readme":`Howdy im Krystian Popiolek a game developer from Poland 
-who like survival games . 
-i spend ± 11 months . so this is my biggest game for now.
-i maded every music every sprite everything. 
+"readme":`<span style="color: lightblue;">Hello!</span> I'm <span style="color: orange;">Krystian Popiołek</span>, a game developer from <span style="color: yellow;">Poland</span> who loves survival games.  
 
-i hope you like this game 
+This is my biggest game so far.  
+I have created <span style="color: cyan;">the entire game from scratch</span>—music, graphics, and all the code.  
 
-     game is maded with full javascript no engine no libraries etc 
-     i dont spend money on fl to make music when jummbox is better and free  :) .  
-     
-     
-if you have an idea for this game you can tell me it to add at awlie8518@gmail.com or Kashumy Github Primoria ferox issues
+I hope you like it!  
 
+This game is written entirely in <span style="color: gold;">pure JavaScript</span>, without engines or libraries.  
+For the music, I used <span style="color: violet;">JummBox</span>, a great free open-source program!  
 
-kashumy.github.io copyright © all rights reserved 
+Got a game idea? You can share it at  
+<span style="color: pink;">awlie8518@gmail.com</span> or on  
+**Kashumy GitHub** → <span style="color: lightgreen;">Primoria Ferox issues</span>.  
 
+<span style="color: red;">kashumy.github.io</span> <span style="color: gray;">© All rights reserved</span>  
+<span style="color: silver;">Date:</span> 24.21.12, <span style="color: silver;">Last update:</span> February 15, 2025  
 
-** chesz zmienić język na polski proszę bardzo 
-<select id="languageSelect" onchange="changeLanguage()"> <option value="en">English</option>
-      <option value="pl">Polski</option>
+<span style="color: lightblue;">This is a pre-update version.</span>  
+<span style="color: yellow;">Changes in this version:</span>  
+- Rendering improvements  
+- Fixed game speed bug on faster devices  
+- New cave system  
+
+<span style="color: lightgreen;">Want to change the language?</span>  
+<select id="languageSelect" onchange="changeLanguage()">  
+  <option value="en">English</option>  
+  <option value="pl">Polski</option>  
 </select>
- 
- this is a pre version of full update that is comming
- this version include 
- 
- small renderer changes
- game speed bug on faster devices 
- new cave system `
+`
       }
     }
     
@@ -921,7 +951,7 @@ kashumy.github.io copyright © all rights reserved
         "load":"Wczytaj plik pfd",
         "newgame":"Nowa Gra/Kontynuuj",
         "continue":"Kontynuuj ?",
-
+        "seedplay":"Uruchom Ziarno",
     },
     "en": {
         "start": "Play",
@@ -929,7 +959,7 @@ kashumy.github.io copyright © all rights reserved
         "load": "load pfd file",
         "newgame":"new game/continue ",
         "continue":"Continue ?",
-
+        "seedplay":"play seed",
     }
 };
 function translatePage(lang) { document.querySelectorAll("[data-lang]").forEach((el) => {let key = el.getAttribute("data-lang");if(translations[lang][key]){el.innerText = translations[lang][key];} });
@@ -986,7 +1016,7 @@ setTimeout(() => {
       .health-bar-container {
         position: fixed;
 z-index: 0;
-        right: 20px;
+        right: 50px;
         top: 0;
         width: 100px;
         height: 6px;
@@ -998,7 +1028,7 @@ opacity: 0.8
       .stamina-bar-container {
         position: fixed;
 z-index: 0;
-        right: 20px;
+        right: 50px;
         top: 7px;
         width: 100px;
         height: 6px;
@@ -1012,7 +1042,7 @@ opacity: 0.8
         position: fixed;
         display: none;
         z-index: 1;
-        right: 20px;
+        right: 50px;
         top: 24px;
         width: 100px;
         height: 10px;
@@ -1027,14 +1057,14 @@ opacity: 0.8
 }
       .health-bar {
         height: 100%;
-        background-color: #FF0000;
+        background-color: #EF0000;
         /* Czerwony - aktualne życie */
         width: 100%;
         /* Domyślnie pełne zdrowie */
       }
 .stamina-bar {
         height: 100%;
-        background-color: #DDD600;
+        background-color: #FFDD07;
         /* Czerwony - aktualne życie */
         width: 100%;
         /* Domyślnie pełne zdrowie */
@@ -1052,6 +1082,7 @@ opacity: 0.8
       <div id="hungerBar" class="hunger-bar"></div>
     </div>
     <script>
+    var diedRMEN=0
     let options = {
   autoclose: 0,
   dontbreakfloor: 0,
@@ -1139,7 +1170,7 @@ if(currentHP<50){
           currentHP=100;
           if(options.creativemode!==1){
           playdeathsound();
-          options.dropany=1
+           
           for(let i =0; i< yourItems.length; i++){
            if(yourItems[i]!==""&&yourItems[i]!==" "&&yourItems[i]!==undefined){
            dropItemAtPlayerPosition2(yourItems[i])
@@ -1186,7 +1217,8 @@ chunks = housechunks;
 offsetX = player.spawnX;
 offsetY = player.spawnY;
 
-renderedEnemies = [];
+
+diedRMEN=1
 paused=0
           
           achievementget("You died LMFAO ",0)
@@ -1197,11 +1229,12 @@ paused=0
 const healthPercentage = (currentHP / maxHP) * 100;
 healthBar.style.width = healthPercentage + '%';
 setTimeout(function (){
-renderedEnemies=[]
-//loadGameState(document.getElementById('savename').value || '');
-playRandomMusic();
+   
+//renderedEnemies=[]
+ 
+ 
 },200);
-nightpower=nightpower-1 
+// nightpower=nightpower-1 
 if(nightpower<0){
  nightpower=0
 }
@@ -1283,8 +1316,8 @@ chunks = housechunks;
 offsetX = player.spawnX;
 offsetY = player.spawnY;
 
-renderedEnemies = [];
  
+ diedRMEN=1
  
 paused=0
           
@@ -1296,9 +1329,9 @@ paused=0
 const healthPercentage = (currentHP / maxHP) * 100;
 healthBar.style.width = healthPercentage + '%';
 setTimeout(function (){
-renderedEnemies=[]
+   
+//renderedEnemies=[]
 //loadGameState(document.getElementById('savename').value || '');
-playRandomMusic();
 },200);
 nightpower=nightpower-1 
 if(nightpower<0){
@@ -1372,8 +1405,8 @@ healthBar.style.width = healthPercentage + '%';
             position: absolute;
              
             bottom: 12vh;
-            width: 70px;
-            height: 70px;
+            width: 80px;
+            height: 80px;
             
             background: url('./joystick.png') ;
             background-size: 100%;
@@ -1394,7 +1427,7 @@ healthBar.style.width = healthPercentage + '%';
 }
 
         .thumb {
-            width: 70px; margin: -50px;
+            width: 70px; margin: -45px;
             height: 70px;
             background: url('./thumb.png') ;
             background-size: 100%;
@@ -1617,10 +1650,10 @@ const inventory = {
     items: [], // Tablica przechowująca przedmioty
     maxSlots: 4, // Maksymalna liczba slotów w ekwipunku
 };
-const waterBuilder = ["stone_floor", "fiber_floor","grasslayer","yellow","violet","thistle","clayblock","clayblock1","dandelion","toadstool","sandblock2","gypsumblock","glass","fern","planks_floor","log_floor","ashblock","ashfloor","brickfloor","dirt","daffodil","flax" ,"myosotis" ,"fiber_floor","bed1","magnetite","nettle","stone_floor","emeraldfloor","sapphirefloor","rubyfloor","opalblock","opalblock","violetfloor","gypsum_dirt","gypsumfloor","gelfloor","gelblock","fiber_floor", "grasslayer", "yellow", "violet", "clayblock", "clayblock1", "dandelion", "toadstool", "sandblock2", "gypsumblock", "glass", "fern", "planks_floor", "log_floor", "ashblock", "ashfloor", "brickfloor", "daffodil", "fiber_floor", "bed1", "magnetite", "nettle", "stone_floor", "emeraldfloor", "sapphirefloor", "rubyfloor", "clayblock1", "clayblock","violetfloor","toadstool","stones","thistle","ryeroof","houseroof","housewall","brickhouse","gelblock","gypsum_dirt","roadfloor","gypsumblock","gypsumfloor","brickfloor2","grass2","forestgrasslayer","deadgrassfloor2","deadgrassfloor","forestgrasslayer","hill","climbhill","hellplank","abyssplank","polishedfloor","snowgrass2","dandelion","dandelion2"];
+const waterBuilder = ["stone_floor", "fiber_floor","grasslayer","yellow","violet","thistle","clayblock","clayblock1","dandelion","toadstool","sandblock2","gypsumblock","glass","fern","planks_floor","log_floor","ashblock","ashfloor","brickfloor","dirt","daffodil","flax" ,"myosotis" ,"fiber_floor","bed1","magnetite","nettle","stone_floor","emeraldfloor","sapphirefloor","rubyfloor","opalblock","opalblock","violetfloor","gypsum_dirt","gypsumfloor","gelfloor","gelblock","fiber_floor", "grasslayer", "yellow", "violet", "clayblock", "clayblock1", "dandelion", "toadstool", "sandblock2", "gypsumblock", "glass", "fern", "planks_floor", "log_floor", "ashblock", "ashfloor", "brickfloor", "daffodil", "fiber_floor", "bed1", "magnetite", "nettle", "stone_floor", "emeraldfloor", "sapphirefloor", "rubyfloor", "clayblock1", "clayblock","violetfloor","toadstool","stones","thistle","ryeroof","houseroof","housewall","brickhouse","gelblock","gypsum_dirt","roadfloor","gypsumblock","gypsumfloor","brickfloor2","grass2","forestgrasslayer","deadgrassfloor2","deadgrassfloor","forestgrasslayer","hill","climbhill","hellplank","abyssplank","polishedfloor","snowgrass2","dandelion","dandelion2","smooth_stone","blossomblock","curedgrasslayer"];
 function isPlayerInWater() {
     let isInWater = false;
-
+ 
     // Najpierw sprawdzamy, czy gracz jest w bloku wody
     for (const block of renderedBlocks) {
         const playerCenterX = player.x + player.width / 2;
@@ -2236,6 +2269,7 @@ const boss2 = new Audio('./boss2.mp3');
 const boss3 = new Audio('./fleshbe2winus.mp3');
 const boss4 = new Audio('./soulreinforcement.mp3');
 const boss1 = new Audio('./electric force.mp3');
+const crimsondoomon = new Audio('./DOOMON.mp3');
 const trueTrack = new Audio('./TRUE.mp3');
 const desertTrack = new Audio('./SandInEyes.mp3');
 const desertnightTrack = new Audio('./ruins.mp3');
@@ -2271,6 +2305,9 @@ if(Math.random()<0.5){
 if( nightpower>2.3){
 randomIndex = getRandomInt(0, audioInstances3.length - 1 );
 randomTrack = audioInstances3[randomIndex];
+}
+if(seed.startsWith("badseed") && !isStayOn("curredgrass")   && !isStayOn("water1")  ){
+randomTrack = crimsondoomon
 }
   if (currentTrack) {
     currentTrack.pause();
@@ -2549,7 +2586,7 @@ function playSnowyMusic() {
   if(options.nomusic==1)return;
   
   if (currentTrack === snowyTrack ||currentTrack === snowyTrack2 ) return; // Jeśli już odtwarzamy pustynną muzykę, nic nie rób
-
+if( seed.startsWith("badseed") ){return;} 
   if (currentTrack) {
     fadeOut(currentTrack, () => {
       currentTrack.pause();
@@ -2755,7 +2792,16 @@ const textures = {};
 
 // Definicja nazw tekstur i ich ścieżek
 const textureSources = {
-  wolframite: "./wolframite.png",
+  corruptedthing:"./corruptedthing.png",
+  thingeyes:"./thingeyes.png",
+  bloodentrance:"./bloodentrance.png",
+  darkmagnetite:"./darkmagnetite.png",
+  bloodsnow:"./bdsnow.png",
+  blood1: "./blood1.png",
+  blood2: "./blood2.png",
+  darksand: "./darksand.png",
+darkgrass: "./darkgrass.png",
+   wolframite: "./wolframite.png",
   cavebuilder: "./cavebuilder.png",
   wolframaxe: "./wolframaxe.png",
   chest: "./chest.png",
@@ -3280,6 +3326,7 @@ ignited_fiber  :"./embered_fiber.png",
 log_floor  :"./log_floor.png",
 stoneshovel  :"./shovel.png",
 grasslayer  :"./grass.png",
+curedgrasslayer  :"./grass.png",
 decrafter  :"./decrafter.png",
 };
  
@@ -3295,6 +3342,10 @@ const animatedTextures = {
     hallucinate: {
         frames : ["./hallucinate1.png","./hallucinate2.png","./hallucinate3.png","./hallucinate4.png","./hallucinate5.png","./hallucinate6.png",],
         speed:0.5
+    },
+    bloodliquid:{
+      frames: ['./blood1.png', './blood2.png'],
+  speed: 1.5
     },
 warporb: {
     frames: ['./warporb1.png', './warporb2.png'],
@@ -3556,18 +3607,18 @@ if (island.typ == 1) {
 }
           
 }}
-if (distanceFromCenter > minDistance && Math.random() < islandChance) {
-  let radius = Math.floor(Math.random() * 150) + 20;
+if (distanceFromCenter > minDistance && hashCoords(x,y,0, seed) < islandChance) {
+  let radius = Math.floor(hashCoords(x,y,1, seed) * 150) + 20;
   let type = 0
-if (Math.random() < 0.75 ) {
+if (hashCoords(x,y,1, seed) < 0.75 ) {
   type = 2
-  radius = Math.floor(Math.random() * 155) + 70;
-}else if (Math.random() < 0.65) {
+  radius = Math.floor(hashCoords(x,y,2, seed) * 155) + 70;
+}else if (hashCoords(x,y,1, seed) < 0.65) {
   type = 3
-  radius = Math.floor(Math.random() * 155) + 70;
+  radius = Math.floor(hashCoords(x,y,3, seed) * 155) + 70;
 } else {
   type = 1
-  radius = Math.floor(Math.random() * 120) + 20;
+  radius = Math.floor(hashCoords(x,y,4, seed) * 120) + 20;
 }
 
 const islandX = x ;
@@ -3590,10 +3641,10 @@ function generateCaves3(x, y) {
         if (distToIslandCenter <= island.radius) {
 if (distanceFromEdge < 30) {return true;
 } else { return true;}}}
-if (distanceFromCenter > minDistance && Math.random() < islandChance) {
-const radius = Math.floor(Math.random() * 100) + 10;
-const islandX = x + Math.floor(Math.random() * 300) - 250; 
-const islandY = y + Math.floor(Math.random() * 300) - 250;
+if (distanceFromCenter > minDistance && hashCoords(x,y,4.5, seed) < islandChance) {
+const radius = Math.floor(hashCoords(x,y,5, seed) * 100) + 10;
+const islandX = x + Math.floor(hashCoords(x,y,6, seed) * 300) - 250; 
+const islandY = y + Math.floor(hashCoords(x,y,7, seed) * 300) - 250;
 cavesempty3.push({ x: islandX, y: islandY, radius: radius  });
 let dta=Math.sqrt((x - islandX) ** 2 + (y - islandY) ** 2)
         if(dta<=radius){ return true; }else{ return false;}
@@ -3611,10 +3662,10 @@ function generateFlesh(x, y) {
         if (distToIslandCenter <= island.radius) {
 if (distanceFromEdge < 30) {return true;
 } else { return true;}}}
-if (distanceFromCenter > minDistance && Math.random() < islandChance) {
-const radius = Math.floor(Math.random() * 200) + 10;
-const islandX = x + Math.floor(Math.random() * 300) - 250; 
-const islandY = y + Math.floor(Math.random() * 300) - 250;
+if (distanceFromCenter > minDistance && hashCoords(x,y,8, seed) < islandChance) {
+const radius = Math.floor(hashCoords(x,y,9, seed) * 200) + 10;
+const islandX = x + Math.floor(hashCoords(x,y,10, seed) * 300) - 250; 
+const islandY = y + Math.floor(hashCoords(x,y,10.5, seed) * 300) - 250;
 cavesempty4.push({ x: islandX, y: islandY, radius: radius });
 let dta=Math.sqrt((x - islandX) ** 2 + (y - islandY) ** 2)
         if(dta<=radius){ return true; }else{ return false;}
@@ -3632,10 +3683,10 @@ function generateGranite(x, y) {
         if (distToIslandCenter <= island.radius) {
 if (distanceFromEdge < 30) {return true;
 } else { return true;}}}
-if (distanceFromCenter > minDistance && Math.random() < islandChance) {
-const radius = Math.floor(Math.random() * 200) + 10;
-const islandX = x + Math.floor(Math.random() * 300) - 250; 
-const islandY = y + Math.floor(Math.random() * 300) - 250;
+if (distanceFromCenter > minDistance && hashCoords(x,y,11, seed) < islandChance) {
+const radius = Math.floor(hashCoords(x,y,12, seed) * 200) + 10;
+const islandX = x + Math.floor(hashCoords(x,y,12.5, seed) * 300) - 250; 
+const islandY = y + Math.floor(hashCoords(x,y,13, seed) * 300) - 250;
 cavesempty5.push({ x: islandX, y: islandY, radius: radius });
 let dta=Math.sqrt((x - islandX) ** 2 + (y - islandY) ** 2)
         if(dta<=radius){ return true; }else{ return false;}
@@ -3653,10 +3704,10 @@ function generateBasalt(x, y) {
         if (distToIslandCenter <= island.radius) {
 if (distanceFromEdge < 30) {return true;
 } else { return true;}}}
-if (distanceFromCenter > minDistance && Math.random() < islandChance) {
-const radius = Math.floor(Math.random() * 200) + 10;
-const islandX = x + Math.floor(Math.random() * 300) - 250; 
-const islandY = y + Math.floor(Math.random() * 300) - 250;
+if (distanceFromCenter > minDistance && hashCoords(x,y,14, seed) < islandChance) {
+const radius = Math.floor(hashCoords(x,y,15, seed) * 200) + 10;
+const islandX = x + Math.floor(hashCoords(x,y,17, seed) * 300) - 250; 
+const islandY = y + Math.floor(hashCoords(x,y,18, seed) * 300) - 250;
 cavesempty6.push({ x: islandX, y: islandY, radius: radius });
 let dta=Math.sqrt((x - islandX) ** 2 + (y - islandY) ** 2)
         if(dta<=radius){ return true; }else{ return false;}
@@ -3675,10 +3726,10 @@ function generateCaves2(x, y) {
         if (distToIslandCenter <= island.radius) {
 if (distanceFromEdge < 30) {return true;
 } else { return true;}}}
-if (distanceFromCenter > minDistance && Math.random() < islandChance) {
-const radius = Math.floor(Math.random() * 200) + 40;
-const islandX = x + Math.floor(Math.random() * 300) - 250; 
-const islandY = y + Math.floor(Math.random() * 300) - 250;
+if (distanceFromCenter > minDistance && hashCoords(x,y,7, seed) < islandChance) {
+const radius = Math.floor(hashCoords(x,y,19, seed) * 200) + 40;
+const islandX = x + Math.floor(hashCoords(x,y,20, seed) * 300) - 250; 
+const islandY = y + Math.floor(hashCoords(x,y,21, seed) * 300) - 250;
 cavesempty2.push({ x: islandX, y: islandY, radius: radius });
 let dta=Math.sqrt((x - islandX) ** 2 + (y - islandY) ** 2)
         if(dta<=radius){ return true; }else{ return false;}
@@ -3697,10 +3748,10 @@ const distanceFromEdge = Math.abs(distToIslandCenter - island.radius);
         if (distToIslandCenter <= island.radius) {
 if (distanceFromEdge < 30) {return true;
 } else { return true;}}}
-if (distanceFromCenter > minDistance && Math.random() < islandChance) {
-const radius = Math.floor(Math.random() * 100) + 80;
-const islandX = x + Math.floor(Math.random() * 300) - 250; 
-const islandY = y + Math.floor(Math.random() * 300) - 250;
+if (distanceFromCenter > minDistance && hashCoords(x,y,22, seed) < islandChance) {
+const radius = Math.floor(hashCoords(x,y,23, seed) * 100) + 80;
+const islandX = x + Math.floor(hashCoords(x,y,24, seed) * 300) - 250; 
+const islandY = y + Math.floor(hashCoords(x,y,25, seed) * 300) - 250;
 deadlands.push({ x: islandX, y: islandY, radius: radius });
 let dta=Math.sqrt((x - islandX) ** 2 + (y - islandY) ** 2)
 if(dta<=radius){ return true; }else{ return false;}}
@@ -3717,10 +3768,10 @@ const distanceFromEdge = Math.abs(distToIslandCenter - island.radius);
         if (distToIslandCenter <= island.radius) {
 if (distanceFromEdge < 30) {return true;
 } else { return true;}}}
-if (distanceFromCenter > minDistance && Math.random() < islandChance) {
-const radius = Math.floor(Math.random() * 60) + 30;
-const islandX = x + Math.floor(Math.random() * 300) - 250; 
-const islandY = y + Math.floor(Math.random() * 300) - 250;
+if (distanceFromCenter > minDistance && hashCoords(x,y,26, seed) < islandChance) {
+const radius = Math.floor(hashCoords(x,y,27, seed) * 60) + 30;
+const islandX = x + Math.floor(hashCoords(x,y,28, seed) * 300) - 250; 
+const islandY = y + Math.floor(hashCoords(x,y,29, seed) * 300) - 250;
 grassroad.push({ x: islandX, y: islandY, radius: radius });
 let dta=Math.sqrt((x - islandX) ** 2 + (y - islandY) ** 2)
 if(dta<=radius){ return true; }else{ return false;}}
@@ -3731,9 +3782,9 @@ let islands = [];
 function generateRandomIsland(x, y) {
   const islandChance = 0.012; // Szansa na wygenerowanie nowej wyspy
   let addchance=0.015
-  const snowIslandChance = 0.024+addchance;
-  const desertIslandChance = 0.010+addchance;
-  const ForestIslandChance = 0.080+addchance;
+  const snowIslandChance = 0.019+addchance;
+  const desertIslandChance = 0.021+addchance;
+  const ForestIslandChance = 0.040+addchance; 
   const minDistance = 750; // Minimalna odległość, po której mogą zacząć się generować wyspy
   const distanceFromCenter = Math.sqrt(x ** 2 + y ** 2);
   for (const island of islands) {
@@ -3753,9 +3804,13 @@ function generateRandomIsland(x, y) {
        
       }
       if( distanceFromEdge < 65){
-       return "coast"
+       if (!seed.startsWith("badseed")) {
+  return'coast';
+} else {
+  return'water';
+}
       }else if(distanceFromEdge < 120){
-       return Math.random()<0.05 ? "magnetite" : "sand"
+       return hashCoords(x,y,29.5, seed)<0.05 ? "magnetite" : "sand"
       }else {
  return "grass"
 }
@@ -3763,25 +3818,27 @@ function generateRandomIsland(x, y) {
     }
   }
 
-  if (distanceFromCenter > minDistance && Math.random() < islandChance) {
-    const randomType = Math.random();
+  if (distanceFromCenter > minDistance && hashCoords(x,y,30, seed) < islandChance) {
+    const randomType = hashCoords(x,y,997, seed);
+    const randomType2 = hashCoords(x,y,998, seed);
+    const randomType3 = hashCoords(x,y,999, seed);
     const isSnowy = randomType < snowIslandChance;
-    const isDesert = randomType >= snowIslandChance && randomType < (snowIslandChance + desertIslandChance);
-    const isForest = randomType < ForestIslandChance;
+    const isDesert = randomType2 <  desertIslandChance;
+    const isForest = randomType3 <  ForestIslandChance;
     
     let radius;
     if (isSnowy) {
-      radius = Math.floor(Math.random() * 500) + 400; // Duże śnieżne wyspy (300–800)
+      radius = Math.floor(hashCoords(x,y,33, seed) * 500) + 400; // Duże śnieżne wyspy (300–800)
     } else if (isDesert) {
-      radius = Math.floor(Math.random() * 750) + 450; // Pustynne wyspy (450–1200)
+      radius = Math.floor(hashCoords(x,y,34, seed) * 750) + 450; // Pustynne wyspy (450–1200)
     }else if (isForest) {
-      radius = Math.floor(Math.random() * 750) + 500; // Pustynne wyspy (450–1200)
+      radius = Math.floor(hashCoords(x,y,35, seed) * 750) + 500; // Pustynne wyspy (450–1200)
     }else {
-      radius = Math.floor(Math.random() * 375) + 150; // Normalne wyspy (50–425)
+      radius = Math.floor(hashCoords(x,y,36, seed) * 375)  + 150; // Normalne wyspy (50–425)
     }
 
-    const islandX = x + Math.floor(Math.random() * 300) - 250; // Losowe przesunięcie wyspy
-    const islandY = y + Math.floor(Math.random() * 300) - 250;
+    const islandX = x + Math.floor(hashCoords(x,y,37, seed) * 300) - 250; // Losowe przesunięcie wyspy
+    const islandY = y + Math.floor(hashCoords(x,y,38, seed) * 300) - 250;
 
     islands.push({ x: islandX, y: islandY, radius, isSnowy, isDesert , isForest });
 
@@ -3819,8 +3876,8 @@ function generateHills(x, y) {
             return "hill"; // Punkt znajduje się w zasięgu istniejącego wzgórza
         }
     }
-    if (distanceFromCenter > minDistance && Math.random() < islandChance) {
-     let scale =(Math.random()*6)+5
+    if (distanceFromCenter > minDistance && hashCoords(x,y,390, seed) < islandChance) {
+     let scale =(hashCoords(x,y,180, seed)*6)+5
         const width = scale * 32;  
         const height = scale * 32; 
         const islandX = x;
@@ -3864,20 +3921,32 @@ let isflying=0
  
 let inhell = 0;
  
+ 
+function getRandomKey(obj) {
+    const klucze = Object.keys(obj); 
+    const losowyIndeks = Math.floor(Math.random() * klucze.length); 
+    return klucze[losowyIndeks]; 
+}
+
+function xorshift(seed) { let state = BigInt(seed) & 0xFFFFFFFFFFFFFFFFn; return function() { state ^= state << 13n; state ^= state >> 7n; state ^= state << 17n; return Number(state & 0x7FFFFFFFFFFFFFFFn) / Number(0x7FFFFFFFFFFFFFFFn); }; }
+
+function hashStringToBigInt(str) { let hash = 0xcbf29ce484222325n; const prime = 0x100000001b3n; for (let i = 0; i < str.length; i++) { hash ^= BigInt(str.charCodeAt(i)); hash *= prime; } return hash & 0xFFFFFFFFFFFFFFFFn; }
+
+function hashCoords(x, y, z, seed) { let hash = hashStringToBigInt(`${x},${y},${z},${seed}`); let random = xorshift(hash); return random();
+}
+
+ 
+var seed = Math.floor(10 ** 15 + Math.random() * 9 * 10 ** 15).toString(); 
+
 function generateChunk(chunkX, chunkY) {
   const chunkKey = `${Math.floor(chunkX)},${Math.floor(chunkY)}`;
- // if(!isinhouse){
   if (chunks[chunkKey]) return;
-// }
-
   const blocks = [];
   for (let i = 0; i < 1; i++) {
     for (let j = 0; j < 1; j++) {
       const blockPosX = chunkX * blockSize + i * blockSize;
       const blockPosY = chunkY * blockSize + j * blockSize;
       const distanceFromSpawn = Math.sqrt(blockPosX ** 2 + blockPosY ** 2);
-
-      // Inicjalizacja typu bloku w zależności od odległości
       let blockType;
       const isInSpawnArea = Math.abs(chunkX-5) <= 4 && Math.abs(chunkY-5) <= 4;
       if(isinhouse!==1&&isinhouse2!==1){
@@ -3888,7 +3957,7 @@ if(inabyss==1){
 }else if (distanceFromSpawn > 890) {
         blockType = generateRandomIsland(blockPosX, blockPosY) // Generowanie wysp
         if(blockType=="water"){
-         if (Math.random() < 0.002) {
+         if (hashCoords(chunkX,chunkY,40, seed) < 0.002) {
          blockType = 'underwaterentrance';
          allunderwater.push([blockPosX, blockPosY])
         } else {
@@ -3897,49 +3966,56 @@ if(inabyss==1){
         }
       } else if (distanceFromSpawn > 830) {
         
-        if(Math.random()<0.005){
+        if(hashCoords(chunkX,chunkY,41, seed)<0.005){
           blockType = 'underwaterentrance';
           allunderwater.push([blockPosX, blockPosY])
         }else{
           blockType = 'water'; // Woda poza 1600 bloków
         }
       }else if (distanceFromSpawn > 686 && distanceFromSpawn < 760) {
-        blockType =  Math.random() < 0.1 ? 'magnetite' : 'sand'; // Piasek między 1000 a 1600 bloków
+        blockType =  hashCoords(chunkX,chunkY,42, seed) < 0.1 ? 'magnetite' : 'sand'; 
       }else if (distanceFromSpawn > 700) {
+        if(!seed.startsWith("badseed")){
  blockType = 'coast';
+        }else{
+          blockType = 'water';
+        }
 } else {
         
       }
-       
- if (blockType === 'desertsand') {
 
-  if (Math.random() < 0.003) {
+ if (blockType === 'desertsand') {
+if (seed.startsWith("randomloot") && !isInSpawnArea && hashCoords(chunkX, chunkY, 0.5, seed) < 0.008) {
+  blocks.push({ x: i * blockSize, y: j * blockSize, type: 'forestgrass' });
+  blocks.push({ x: 0, y: 0, type: 'chest' });
+  chestsData[`${chunkX},${chunkY}`] = [getRandomKey(allItems), getRandomKey(allItems)];
+}else  if (hashCoords(chunkX,chunkY,43, seed) < 0.003) {
     blocks.push({ x: i * blockSize, y: j * blockSize, type: 'desertsand' });
     blocks.push({ x: i * blockSize, y: j * blockSize, type: 'skull' });
-}else if (Math.random() < 0.002) {
+}else if (hashCoords(chunkX,chunkY,44, seed) < 0.002) {
     blocks.push({ x: i * blockSize, y: j * blockSize, type: 'desertsand' });
     blocks.push({ x: i * blockSize, y: j * blockSize, type: 'shell1' });
-}else if (Math.random() < 0.002) {
+}else if (hashCoords(chunkX,chunkY,45, seed) < 0.002) {
     blocks.push({ x: i * blockSize, y: j * blockSize, type: 'desertsand' });
     blocks.push({ x: i * blockSize, y: j * blockSize, type: 'shell2' });
-}else if (Math.random() < 0.002) {
+}else if (hashCoords(chunkX,chunkY,46, seed) < 0.002) {
     blocks.push({ x: i * blockSize, y: j * blockSize, type: 'desertsand' });
     blocks.push({ x: i * blockSize, y: j * blockSize, type: 'shell3' });
-}else if (Math.random() < 0.005) {
+}else if (hashCoords(chunkX,chunkY,47, seed) < 0.005) {
     blocks.push({ x: i * blockSize, y: j * blockSize, type: 'desertsand' });
     blocks.push({ x: i * blockSize, y: (j ) * blockSize, type: 'palm1' });
     blocks.push({ x: i * blockSize, y: (j - 1) * blockSize, type: 'palm3' });
 blocks.push({ x: i * blockSize, y: (j - 2) * blockSize, type: 'palm2' });
-  }else if (Math.random() < 0.004) {
+  }else if (hashCoords(chunkX,chunkY,48, seed) < 0.004) {
     blocks.push({ x: i * blockSize, y: j * blockSize, type: 'desertsand' });
     blocks.push({ x: i * blockSize, y: j * blockSize, type: 'bone' });
-} else if (Math.random() < 0.05) {
+} else if (hashCoords(chunkX,chunkY,49, seed) < 0.05) {
     blocks.push({ x: i * blockSize, y: j * blockSize, type: 'desertsand' });
     blocks.push({ x: i * blockSize, y: j * blockSize, type: 'magnetite' });
-  } else if (Math.random() < 0.05) {
+  } else if (hashCoords(chunkX,chunkY,50, seed) < 0.05) {
     blocks.push({ x: i * blockSize, y: j * blockSize, type: 'desertsand' });
     blocks.push({ x: i * blockSize, y: j * blockSize, type: 'bush' });
-}else if (Math.random() < 0.009) {
+}else if (hashCoords(chunkX,chunkY,51, seed) < 0.009) {
     blocks.push({ x: i * blockSize, y: j * blockSize, type: 'desertsand' });
     blocks.push({ x: i * blockSize, y: j * blockSize, type: 'cactus' });
 } else {
@@ -3954,37 +4030,41 @@ if (blockType == "forestgrass") {
   }
 }
 if (blockType === 'forestgrass') {
-  if (Math.random() < 0.15) {
+  if (seed.startsWith("randomloot") && !isInSpawnArea && hashCoords(chunkX, chunkY, 0.5, seed) < 0.008) {
+  blocks.push({ x: i * blockSize, y: j * blockSize, type: 'forestgrass' });
+  blocks.push({ x: 0, y: 0, type: 'chest' });
+  chestsData[`${chunkX},${chunkY}`] = [getRandomKey(allItems), getRandomKey(allItems)];
+}else if (hashCoords(chunkX,chunkY,52, seed) < 0.15) {
     blocks.push({ x: i * blockSize, y: j * blockSize, type: 'forestgrass' });
      blocks.push({ x: i * blockSize, y: j * blockSize, type: 'pine0' });
  blocks.push({ x: i * blockSize, y: (j - 1) * blockSize, type: 'pine1' });
  blocks.push({ x: i * blockSize, y: (j - 2) * blockSize, type: 'pine2' });
  blocks.push({ x: i * blockSize, y: (j - 3) * blockSize, type: 'pine2' });
-  } else if (Math.random() < 0.08) {
+  } else if (hashCoords(chunkX,chunkY,53, seed) < 0.08) {
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'forestgrass' });
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'forestleaf' });
-}else if (Math.random() < 0.02) {
+}else if (hashCoords(chunkX,chunkY,54, seed) < 0.02) {
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'forestgrass' });
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'bigrock' });
-}else if (Math.random() < 0.02) {
+}else if (hashCoords(chunkX,chunkY,55, seed) < 0.02) {
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'forestgrass' });
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'longstick' });
-}else if (Math.random() < 0.02) {
+}else if (hashCoords(chunkX,chunkY,56, seed) < 0.02) {
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'forestgrass' });
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'log0' });
-} else if (Math.random() < 0.02) {
+} else if (hashCoords(chunkX,chunkY,57, seed) < 0.02) {
     blocks.push({ x: i * blockSize, y: j * blockSize, type: 'forestgrass' });
     blocks.push({ x: i * blockSize, y: j * blockSize, type: 'sticks' });
-  } else if (Math.random() < 0.01) {
+  } else if (hashCoords(chunkX,chunkY,58, seed) < 0.01) {
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'forestgrass' });
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'stones' });
-}else if (Math.random() < 0.03) {
+}else if (hashCoords(chunkX,chunkY,59, seed) < 0.03) {
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'forestgrass' });
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'blackberry' });
-}else if (Math.random() < 0.2) {
+}else if (hashCoords(chunkX,chunkY,60, seed) < 0.2) {
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'forestgrass' });
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'blush' });
-}else if (Math.random() < 0.05) {
+}else if (hashCoords(chunkX,chunkY,61, seed) < 0.012) {
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'forestgrass' });
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'kite1' });
 }else {
@@ -3993,16 +4073,16 @@ if (blockType === 'forestgrass') {
 }else{
   
   blockType = "deadgrassfloor"
-  if (Math.random() < 0.008) {
+  if (hashCoords(chunkX,chunkY,62, seed) < 0.008) {
     blocks.push({ x: i * blockSize, y: j * blockSize, type: 'deadgrassfloor' });
     blocks.push({ x: i * blockSize, y: j * blockSize, type: 'bone' });
-  } else if (Math.random() < 0.2) {
+  } else if (hashCoords(chunkX,chunkY,63, seed) < 0.2) {
     blocks.push({ x: i * blockSize, y: j * blockSize, type: 'deadgrassfloor' });
     blocks.push({ x: i * blockSize, y: j * blockSize, type: 'gravestone' });
-  } else if (Math.random() < 0.4) {
+  } else if (hashCoords(chunkX,chunkY,64, seed) < 0.4) {
     blocks.push({ x: i * blockSize, y: j * blockSize, type: 'deadgrassfloor' });
     blocks.push({ x: i * blockSize, y: j * blockSize, type: 'road' });
-  } else if (Math.random() < 0.4) {
+  } else if (hashCoords(chunkX,chunkY,65, seed) < 0.4) {
     blocks.push({ x: i * blockSize, y: j * blockSize, type: 'deadgrassfloor' });
     blocks.push({ x: i * blockSize, y: j * blockSize, type: 'deadgrass' });
   } else {
@@ -4012,51 +4092,54 @@ if (blockType === 'forestgrass') {
 
 }
 }else if (blockType === 'snowgrass') {
-
-    if (Math.random() < 0.1) {
+if (seed.startsWith("randomloot") && !isInSpawnArea && hashCoords(chunkX, chunkY, 0.5, seed) < 0.008) {
+  blocks.push({ x: i * blockSize, y: j * blockSize, type: 'snowgrass' });
+  blocks.push({ x: 0, y: 0, type: 'chest' });
+  chestsData[`${chunkX},${chunkY}`] = [getRandomKey(allItems), getRandomKey(allItems)];
+}else if (hashCoords(chunkX,chunkY,66, seed) < 0.1) {
       blocks.push({ x: i * blockSize, y: j * blockSize, type: 'snowgrass' });
         blocks.push({ x: i * blockSize, y: j * blockSize, type: 'snowpine1' });
         blocks.push({ x: i * blockSize, y: (j - 1) * blockSize, type: 'snowpine2' });
         blocks.push({ x: i * blockSize, y: (j - 2) * blockSize, type: 'snowpine3' });
         blocks.push({ x: i * blockSize, y: (j - 3) * blockSize, type: 'snowpine3' });
-    } else if (Math.random() < 0.08) {
+    } else if (hashCoords(chunkX,chunkY,67, seed) < 0.08) {
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'snowgrass' });
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'snowflower' });
-}else if (Math.random() < 0.02) {
+}else if (hashCoords(chunkX,chunkY,68, seed) < 0.02) {
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'snowgrass' });
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'longstick' });
-}else if (Math.random() < 0.01) {
+}else if (hashCoords(chunkX,chunkY,69, seed) < 0.01) {
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'snowgrass' });
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'sticks' });
-}else if (Math.random() < 0.01) {
+}else if (hashCoords(chunkX,chunkY,70, seed) < 0.01) {
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'snowgrass' });
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'stones' });
 } else {
         blocks.push({ x: i * blockSize, y: j * blockSize, type: 'snowgrass' });
     }
-} else if (blockType === 'dirt'  ||blockType === 'sand' || blockType === 'water' || blockType=="underwaterentrance" || blockType === 'coast') {
+} else if (blockType === 'dirt'  ||blockType === 'sand' || blockType === 'water' || blockType=="underwaterentrance" || blockType === 'coast') { 
   blocks.push({ x: i * blockSize, y: j * blockSize, type: blockType });
   if (blockType === 'sand') {
- if (Math.random() < 0.004) {
+ if (hashCoords(chunkX,chunkY,71, seed) < 0.004) {
     blocks.push({ x: i * blockSize, y: j * blockSize, type: 'sand' });
     blocks.push({ x: i * blockSize, y: j * blockSize, type: 'shell1' });
-} else if (Math.random() < 0.004) {
+} else if (hashCoords(chunkX,chunkY,72, seed) < 0.004) {
     blocks.push({ x: i * blockSize, y: j * blockSize, type: 'sand' });
     blocks.push({ x: i * blockSize, y: j * blockSize, type: 'shell2' });
-} else if (Math.random() < 0.004) {
+} else if (hashCoords(chunkX,chunkY,73, seed) < 0.004) {
     blocks.push({ x: i * blockSize, y: j * blockSize, type: 'sand' });
     blocks.push({ x: i * blockSize, y: j * blockSize, type: 'shell3' });
-}else if (Math.random() < 0.022) {
+}else if (hashCoords(chunkX,chunkY,74, seed) < 0.022) {
      
 blocks.push({ x: i * blockSize, y: (j ) * blockSize, type: 'palm12' });
 blocks.push({ x: i * blockSize, y: (j - 1) * blockSize, type: 'palm32' });
 blocks.push({ x: i * blockSize, y: (j - 2) * blockSize, type: 'coconutpalm' });
 }
-  if (Math.random() < 0.02) {
+  if (hashCoords(chunkX,chunkY,75, seed) < 0.02) {
 
     blocks.push({ x: i * blockSize, y: j * blockSize, type: 'bone' });
 
-  }else if (Math.random() < 0.04) {
+  }else if (hashCoords(chunkX,chunkY,76, seed) < 0.04) {
 
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'cactus' });
 
@@ -4078,29 +4161,29 @@ if(!isInSpawnArea){
    blocks.push({ x: i * blockSize, y: j * blockSize, type: 'grass' });
    blockType = "hill1";
    blocks.push({ x: i * blockSize, y: j * blockSize, type: 'hill1' });
-   if (Math.random() < 0.11) {
+   if (hashCoords(chunkX,chunkY,0, seed) < 0.11) {
  blocks.push({ x: i * blockSize, y: j * blockSize, type: 'tree0' });
  blocks.push({ x: i * blockSize, y: (j - 1) * blockSize, type: 'tree1' });
  blocks.push({ x: i * blockSize, y: (j - 2) * blockSize, type: 'tree2' });
-} else if (Math.random() < 0.05) {
+} else if (hashCoords(chunkX,chunkY,77, seed) < 0.05) {
  blocks.push({ x: i * blockSize, y: j * blockSize, type: 'pine0' });
  blocks.push({ x: i * blockSize, y: (j - 1) * blockSize, type: 'pine1' });
  blocks.push({ x: i * blockSize, y: (j - 2) * blockSize, type: 'pine2' });
  blocks.push({ x: i * blockSize, y: (j - 3) * blockSize, type: 'pine2' });
-}else if (Math.random() < 0.2) {
+}else if (hashCoords(chunkX,chunkY,78, seed) < 0.2) {
  blocks.push({ x: i * blockSize, y: j * blockSize, type: 'grassdeco' });
-}else if (Math.random() < 0.22) {
+}else if (hashCoords(chunkX,chunkY,79, seed) < 0.22) {
  blocks.push({ x: i * blockSize, y: j * blockSize, type: 'deepblues' });
  
-}else if (Math.random() < 0.22) {
+}else if (hashCoords(chunkX,chunkY,80, seed) < 0.22) {
  blocks.push({ x: i * blockSize, y: j * blockSize, type: 'sticks' });
-}else if (Math.random() < 0.22) {
+}else if (hashCoords(chunkX,chunkY,81, seed) < 0.22) {
  blocks.push({ x: i * blockSize, y: j * blockSize, type: 'lightwhite' });
-}else if (Math.random() < 0.22) {
+}else if (hashCoords(chunkX,chunkY,82, seed) < 0.22) {
  blocks.push({ x: i * blockSize, y: j * blockSize, type: 'stones' });
-}else if (Math.random() < 0.32) {
+}else if (hashCoords(chunkX,chunkY,83, seed) < 0.32) {
  blocks.push({ x: i * blockSize, y: j * blockSize, type: 'blueflower2' });
-}else if (Math.random() < 0.32) {
+}else if (hashCoords(chunkX,chunkY,84, seed) < 0.32) {
  blocks.push({ x: i * blockSize, y: j * blockSize, type: 'redflower2' });
 }
   }}
@@ -4110,121 +4193,134 @@ if(!isInSpawnArea){
 
 
 if (blockType!=="hill1"){
-if (!isInSpawnArea && Math.random() < 0.009) {
+if (seed.startsWith("randomloot") && !isInSpawnArea && hashCoords(chunkX, chunkY, 0.5 , seed) < 0.008  ) {
+  blocks.push({ x: i * blockSize, y: j * blockSize, type: 'grass' });
+  blocks.push({ x: 0, y: 0, type: 'chest' });
+  chestsData[`${chunkX},${chunkY}`]=[ getRandomKey( allItems  ),getRandomKey( allItems )  ];  
+}else if(seed.startsWith("badseed") && !isInSpawnArea && hashCoords(chunkX,chunkY,84.5, seed) < 0.8){ 
+  blocks.push({ x: 0, y: 0, type: 'fleshblock1' });
+ if (  hashCoords(chunkX, chunkY, 894.5, seed) < 0.005) {
+  blocks.push({ x: 0, y: 0, type: 'corruptedthing' });
+}
+}else if (!isInSpawnArea && hashCoords(chunkX,chunkY,85, seed) < 0.009) {
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'grass' });
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'grass2' });
-}else if (!isInSpawnArea && Math.random() < 0.05) {
+}else if (!isInSpawnArea && hashCoords(chunkX,chunkY,86, seed) < 0.05) {
     blocks.push({ x: i * blockSize, y: j * blockSize, type: 'grass' });
     blocks.push({ x: i * blockSize, y: j * blockSize, type: 'tree0' });
     blocks.push({ x: i * blockSize, y: (j - 1) * blockSize, type: 'tree1' });
     blocks.push({ x: i * blockSize, y: (j - 2) * blockSize, type: 'tree2' });
-  }else if (!isInSpawnArea && Math.random() < 0.01) {
+  }else if (!isInSpawnArea && hashCoords(chunkX,chunkY,87, seed) < 0.01) {
     blocks.push({ x: i * blockSize, y: j * blockSize, type: 'grass' });
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'birch0' });
   blocks.push({ x: i * blockSize, y: (j - 1) * blockSize, type: 'birch1' });
   blocks.push({ x: i * blockSize, y: (j - 2) * blockSize, type: 'birch2' });
-}else if (!isInSpawnArea && Math.random() < 0.05) {
+}else if (!isInSpawnArea && hashCoords(chunkX,chunkY,88, seed) < 0.05) {
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'grass' });
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'pine0' });
   blocks.push({ x: i * blockSize, y: (j - 1) * blockSize, type: 'pine1' });
   blocks.push({ x: i * blockSize, y: (j - 2) * blockSize, type: 'pine2' });
 blocks.push({ x: i * blockSize, y: (j - 3) * blockSize, type: 'pine2' });
-}else if (!isInSpawnArea && Math.random() < 0.02) {
+}else if (!isInSpawnArea && hashCoords(chunkX,chunkY,89, seed) < 0.02 ) {
     blocks.push({ x: i * blockSize, y: j * blockSize, type: 'grass' });
     blocks.push({ x: i * blockSize, y: j * blockSize, type: 'rock' });
-}else if (!isInSpawnArea && Math.random() < 0.007) {
+}  else if (!isInSpawnArea && hashCoords(chunkX,chunkY,90, seed) < 0.007) {
     blocks.push({ x: i * blockSize, y: j * blockSize, type: 'grass' });
     blocks.push({ x: i * blockSize, y: j * blockSize, type: 'longstick' });
-}else if (!isInSpawnArea && Math.random() < 0.005) {
+}else if (!isInSpawnArea && hashCoords(chunkX,chunkY,91, seed) < 0.005) {
     blocks.push({ x: i * blockSize, y: j * blockSize, type: 'grass' });
     blocks.push({ x: i * blockSize, y: j * blockSize, type: 'wildcarrot' });
-}else if (Math.random() < 0.03) {
+}else if (hashCoords(chunkX,chunkY,92, seed) < 0.03) {
                 blocks.push({ x: i * blockSize, y: j * blockSize, type: 'grass' });
                 blocks.push({ x: i * blockSize, y: j * blockSize, type: 'sticks' });
-            }else if (Math.random() < 0.05) {
+            }else if (hashCoords(chunkX,chunkY,93, seed) < 0.05) {
                 blocks.push({ x: i * blockSize, y: j * blockSize, type: 'grass' });
                 blocks.push({ x: i * blockSize, y: j * blockSize, type: 'stones' });
-            } else if (Math.random() < 0.15) {
+            } else if (hashCoords(chunkX,chunkY,94, seed) < 0.15 && !seed.startsWith("badseed")) {
+             
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'grass' });
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'yellow' });
-}else if (Math.random() < 0.05) {
+}else if (hashCoords(chunkX,chunkY,95, seed) < 0.05 && !seed.startsWith("badseed") ) {
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'grass' });
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'daffodil' });
   
-}else if (Math.random() < 0.02) {
+}else if (hashCoords(chunkX,chunkY,96, seed) < 0.02 && !seed.startsWith("badseed")) {
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'grass' });
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'myosotis' });
-}else if (Math.random() < 0.015) {
+}else if (hashCoords(chunkX,chunkY,97, seed) < 0.015 && !seed.startsWith("badseed")) {
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'grass' });
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'flax' });
-}else if (Math.random() < 0.03) {
+}else if (hashCoords(chunkX,chunkY,98, seed) < 0.006 && !seed.startsWith("badseed")) {
                 blocks.push({ x: i * blockSize, y: j * blockSize, type: 'grass' });
                 blocks.push({ x: i * blockSize, y: j * blockSize, type: 'kite1' });
-            } else if (Math.random() < 0.01) {
+            } else if (hashCoords(chunkX,chunkY,99, seed) < 0.01 && !seed.startsWith("badseed")) {
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'grass' });
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'briar' });
-}else if (Math.random() < 0.003) {
+}else if (hashCoords(chunkX,chunkY,100, seed) < 0.003 && !seed.startsWith("badseed")) {
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'grass' });
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'poppy' });
-}else if (Math.random() < 0.002) {
+}else if (hashCoords(chunkX,chunkY,101, seed) < 0.002 ) {
                 blocks.push({ x: i * blockSize, y: j * blockSize, type: 'grass' });
                 blocks.push({ x: i * blockSize, y: j * blockSize, type: 'black_elderberry' });
 blocks.push({ x: i * blockSize, y: (j - 1) * blockSize, type: 'black_elderberry2' });
-          }else if (Math.random() < 0.05) {
-  blocks.push({ x: i * blockSize, y: j * blockSize, type: 'grass' });
-  blocks.push({ x: i * blockSize, y: j * blockSize, type: 'nettle' });
-}else if (Math.random() < 0.05) {
-  blocks.push({ x: i * blockSize, y: j * blockSize, type: 'grass' });
-  blocks.push({ x: i * blockSize, y: j * blockSize, type: 'thistle1' });
-}else if (Math.random() < 0.02) {
+          }  else if (hashCoords(chunkX,chunkY,104, seed) < 0.02 && !seed.startsWith("badseed") ) {
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'grass' });
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'violet' });
-}else if (Math.random() < 0.02) {
+}else if (hashCoords(chunkX,chunkY,105, seed) < 0.02) {
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'grass' });
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'treebark' });
-} else if (Math.random() < 0.2) {
+} else if (hashCoords(chunkX,chunkY,106, seed) < 0.2 ) {
                 blocks.push({ x: i * blockSize, y: j * blockSize, type: 'grass' });
                 blocks.push({ x: i * blockSize, y: j * blockSize, type: 'tallgrass' });
-            }else if (Math.random() < 0.12) {
+            }else if (hashCoords(chunkX,chunkY,107, seed) < 0.12  ) {
+ 
  blocks.push({ x: i * blockSize, y: j * blockSize, type: 'grass' });
  blocks.push({ x: i * blockSize, y: j * blockSize, type: 'grassdeco' });
-}else if (Math.random() < 0.01) {
+
+}else if (hashCoords(chunkX,chunkY,108, seed) < 0.01 ) {
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'grass' });
-    if (Math.random() < 0.3) {
+    if (hashCoords(chunkX,chunkY,109, seed) < 0.3) {
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'hallucinate' });
   }
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'toadstool' });
-} else if (Math.random() < 0.07) {
+} else if (hashCoords(chunkX,chunkY,110, seed) < 0.07 && !seed.startsWith("badseed")) {
+   
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'grass' });
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'fern' });
-}else if (Math.random() < 0.03) {
+
+}else if (hashCoords(chunkX,chunkY,110, seed) < 0.03 && !seed.startsWith("badseed")) {
+   
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'grass' });
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'shiny' });
-}else if (Math.random() < 0.005) {
+
+}else if (hashCoords(chunkX,chunkY,112, seed) < 0.005) {
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'grass' });
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'blackberry' });
-}else if (Math.random() < 0.04) {
+}else if (hashCoords(chunkX,chunkY,113, seed) < 0.04 && !seed.startsWith("badseed") ) {
+  
+ 
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'grass' });
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'dandelion' });
-}else if (Math.random() < 0.004) {
+
+}else if (hashCoords(chunkX,chunkY,114, seed) < 0.004) {
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'grass' });
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'chalcopyrite' });
-}else if (Math.random() < 0.002) {
+}else if (hashCoords(chunkX,chunkY,115, seed) < 0.002) {
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'grass' });
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'cave_entrance' });
 
   allCaveEntrances.push([blockPosX, blockPosY])
 
-}else if (Math.random() < 0.02) {
+} else if (hashCoords(chunkX,chunkY,116, seed) < 0.02) {
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'grass' });
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'rye1' });
-}else if (Math.random() < 0.02) {
+}else if (hashCoords(chunkX,chunkY,117, seed) < 0.02) {
  blocks.push({ x: i * blockSize, y: j * blockSize, type: 'grass' });
  blocks.push({ x: i * blockSize, y: j * blockSize, type: 'blueflower2' });
-} else if (Math.random() < 0.03) {
+} else if (hashCoords(chunkX,chunkY,118, seed) < 0.03) {
  blocks.push({ x: i * blockSize, y: j * blockSize, type: 'grass' });
  blocks.push({ x: i * blockSize, y: j * blockSize, type: 'redflower2' });
-}else if (Math.random() < 0.02) {
+}else if (hashCoords(chunkX,chunkY,119, seed) < 0.02) {
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'grass' });
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'honey_mushrooms' });
 }else {
@@ -4250,7 +4346,7 @@ const isCaveEntrance = allCaveEntrances.some(([entranceX, entranceY]) => {
 const isNearCaveEntrance = allCaveEntrances.some(([entranceX, entranceY]) => {
   return Math.abs(entranceX - blockPosX) <= blockSize * 3 && Math.abs(entranceY - blockPosY) <= blockSize * 3;
 });
-const shouldPlaceHole = Math.random() < 0.05; // Ustal prawdopodobieństwo tworzenia dziury
+const shouldPlaceHole = hashCoords(chunkX,chunkY,120, seed) < 0.05; // Ustal prawdopodobieństwo tworzenia dziury
 var shcave=generateCaves(blockPosX, blockPosY);
 if (shcave == 1) {
   blocks.push({ x: 0, y: 0, type: 'cave_floor' });
@@ -4263,21 +4359,21 @@ if (shcave == 1) {
   blocks.push({ x: 0, y: 0, type: 'cave_floor' });
   blocks.push({ x: 0, y: 0, type: 'cavedirt' });
   
-if (Math.random() < 0.12) {
+if (hashCoords(chunkX,chunkY,121, seed) < 0.12) {
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'stones' });
-}else if (Math.random() < 0.05) {
+}else if (hashCoords(chunkX,chunkY,122, seed) < 0.05) {
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'rock' });
-}else if (Math.random() < 0.01) {
+}else if (hashCoords(chunkX,chunkY,123, seed) < 0.003 ) {
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'kite1' });
-}else if (Math.random() < 0.012) { 
+}else if (hashCoords(chunkX,chunkY,124, seed) < 0.012) { 
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'water1' });
-}else if (Math.random() < 0.012) {
+}else if (hashCoords(chunkX,chunkY,125, seed) < 0.012) {
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'shallowwater' });
-}else if (Math.random() < 0.09) {
+}else if (hashCoords(chunkX,chunkY,126, seed) < 0.09) {
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'bush' });
-}else if (Math.random() < 0.07) {
+}else if (hashCoords(chunkX,chunkY,127, seed) < 0.07) {
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'randomrock1' });
-}else if (Math.random() < 0.07) {
+}else if (hashCoords(chunkX,chunkY,128, seed) < 0.07) {
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'randomrock2' });
 } 
 }else if (generateGranite(blockPosX, blockPosY)) {
@@ -4293,54 +4389,54 @@ if(isNearCaveEntrance){
 blocks.push({ x: i * blockSize, y: j * blockSize, type: 'cave_floor' });
 }else{
 blocks.push({ x: i * blockSize, y: j * blockSize, type: 'cave_floor' });
-if(Math.random()<0.04){
+if(hashCoords(chunkX,chunkY,129, seed)<0.04){
 blocks.push({ x: i * blockSize, y: j * blockSize, type: 'cave_wall' });
 blocks.push({ x: i * blockSize, y: j * blockSize, type: 'sapphire' });
-}else if (Math.random() < 0.04) {
+}else if (hashCoords(chunkX,chunkY,130, seed) < 0.04) {
     blocks.push({ x: i * blockSize, y: j * blockSize, type: 'cave_wall' });
     blocks.push({ x: i * blockSize, y: j * blockSize, type: 'ruby' });
-}else if (Math.random() < 0.019) {
+}else if (hashCoords(chunkX,chunkY,131, seed) < 0.019) {
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'cave_wall' });
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'coalore' });
-}else if (Math.random() < 0.0018) {
+}else if (hashCoords(chunkX,chunkY,132, seed) < 0.0014) {
     blocks.push({ x: i * blockSize, y: j * blockSize, type: 'cave_wall' });
     blocks.push({ x: i * blockSize, y: j * blockSize, type: 'diamante1' });
-}else if (Math.random() < 0.004) {
+}else if (hashCoords(chunkX,chunkY,133, seed) < 0.004) {
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'cave_wall' });
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'abyssentrance' });
   allabyssportals.push([blockPosX, blockPosY])
-}else if (Math.random() < 0.004) {
+}else if (hashCoords(chunkX,chunkY,134, seed) < 0.0025) {
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'cave_wall' });
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'hell_entrance' });
   allHellCaveEntrances.push([blockPosX, blockPosY])
-}else if (Math.random() < 0.018) {
+}else if (hashCoords(chunkX,chunkY,135, seed) < 0.018) {
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'cave_wall' });
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'cinnabar' });
-}else if (Math.random() < 0.018) {
+}else if (hashCoords(chunkX,chunkY,136, seed) < 0.018) {
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'cave_wall' });
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'ilmenite' });
-}else if (Math.random() < 0.011) {
+}else if (hashCoords(chunkX,chunkY,137, seed) < 0.011) {
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'cave_wall' });
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'osmium' });
-}else if (Math.random() < 0.004) {
+}else if (hashCoords(chunkX,chunkY,138, seed) < 0.004) {
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'cave_wall' });
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'uranium' });
-}else if (Math.random() < 0.02) {
+}else if (hashCoords(chunkX,chunkY,139, seed) < 0.02) {
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'cave_wall' });
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'opal' });
-}else if (Math.random() < 0.04) {
+}else if (hashCoords(chunkX,chunkY,140, seed) < 0.04) {
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'cave_wall' });
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'emerald' });
-}else if (Math.random() < 0.06) {
+}else if (hashCoords(chunkX,chunkY,141, seed) < 0.05) {
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'cave_wall' });
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'pyritestone' });
-}else if (Math.random() < 0.008) {
+}else if (hashCoords(chunkX,chunkY,142, seed) < 0.008) {
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'cave_wall' });
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'wolframite' });
-}else if (Math.random() < 0.04) {
+}else if (hashCoords(chunkX,chunkY,143, seed) < 0.04) {
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'cave_wall' });
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'stonewithgypsum' });
-}else if (Math.random() < 0.02) {
+}else if (hashCoords(chunkX,chunkY,144, seed) < 0.02) {
   
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'cavewallwithsalt' });
 }else {
@@ -4369,10 +4465,10 @@ const isCaveEntrance = allHellCaveEntrances.some(([entranceX, entranceY]) => {
 const isNearCaveEntrance = allHellCaveEntrances.some(([entranceX, entranceY]) => {
   return Math.abs(entranceX - blockPosX) <= blockSize * 3 && Math.abs(entranceY - blockPosY) <= blockSize * 3;
 });
-const shouldPlaceHole = Math.random() < 0.05; // Ustal prawdopodobieństwo tworzenia dziury
+const shouldPlaceHole = hashCoords(chunkX,chunkY,145, seed) < 0.05; // Ustal prawdopodobieństwo tworzenia dziury
 if (generateFlesh(blockPosX, blockPosY)) {
   if (generateCaves3(blockPosX, blockPosY)) {
-  if (Math.random() < 0.2) {
+  if (hashCoords(chunkX,chunkY,146, seed) < 0.2) {
     blocks.push({ x: 0, y: 0, type: 'fleshblock1' });
   } else {
     blocks.push({ x: 0, y: 0, type: 'fleshblock1' });
@@ -4384,46 +4480,46 @@ if (generateFlesh(blockPosX, blockPosY)) {
 blocks.push({ x: 0, y: 0, type: 'moltenstone' });
 blocks.push({ x: i * blockSize, y: j * blockSize, type: 'basalt' });
 }else if (generateCaves3(blockPosX, blockPosY)) {
-  if(Math.random()<0.2){
+  if(hashCoords(chunkX,chunkY,147, seed)<0.2){
   blocks.push({ x: 0, y: 0, type: 'moltenstone' });
   
   }else{
   blocks.push({ x: 0, y: 0, type: 'hellcavestone' });
-if (Math.random() < 0.05) {
+if (hashCoords(chunkX,chunkY,148, seed) < 0.05) {
     blocks.push({ x: i * blockSize, y: j * blockSize, type: 'helltree0' });
     blocks.push({ x: i * blockSize, y: (j - 1) * blockSize, type: 'helltree1' });
     blocks.push({ x: i * blockSize, y: (j - 2) * blockSize, type: 'helltree2' });
-} else if (Math.random() < 0.002) {
+} else if (hashCoords(chunkX,chunkY,149, seed) < 0.002) {
     blocks.push({ x: 0, y: 0, type: 'hellwood' });
-}else if (Math.random() < 0.020) {
+}else if (hashCoords(chunkX,chunkY,0, seed) < 0.020) {
     blocks.push({ x: 0, y: 0, type: 'hellgrass' });
 }
   }
 } else {
   if (isNearCaveEntrance) {
-    if (Math.random() < 0.5) {
+    if (hashCoords(chunkX,chunkY,150, seed) < 0.5) {
   blocks.push({ x: 0, y: 0, type: 'moltenstone' });
 } else {
   blocks.push({ x: 0, y: 0, type: 'hellcavestone' });
 }
   } else {
     blocks.push({ x: 0, y: 0, type: 'moltenstone' });
-    if (Math.random() < 0.010) {
+    if (hashCoords(chunkX,chunkY,151, seed) < 0.010) {
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'basalt' });
 }else{
     blocks.push({ x: 0, y: 0, type: 'hellwall' });} 
-    if (Math.random() < 0.012) {
+    if (hashCoords(chunkX,chunkY,152, seed) < 0.012) {
   blocks.push({ x: 0, y: 0, type: 'hellgem' });
 } 
-  if (Math.random() < 0.02) {
+  if (hashCoords(chunkX,chunkY,153, seed) < 0.02) {
     blocks.push({ x: i * blockSize, y: j * blockSize, type: 'ilmenite' });
-  } else if (Math.random() < 0.08) {
+  } else if (hashCoords(chunkX,chunkY,154, seed) < 0.08) {
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'ruby' });
-}else if (Math.random() < 0.08) {
+}else if (hashCoords(chunkX,chunkY,155, seed) < 0.08) {
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'emerald' });
-}else if (Math.random() < 0.08) {
+}else if (hashCoords(chunkX,chunkY,156, seed) < 0.08) {
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'sapphire' });
-}else if (Math.random() < 0.005) {
+}else if (hashCoords(chunkX,chunkY,157, seed) < 0.005) {
     blocks.push({ x: i * blockSize, y: j * blockSize, type: 'opal' });
     
   }
@@ -4448,7 +4544,7 @@ const isCaveEntrance = allunderwater.some(([entranceX, entranceY]) => {
 const isNearCaveEntrance = allunderwater.some(([entranceX, entranceY]) => {
   return Math.abs(entranceX - blockPosX) <= blockSize * 3 && Math.abs(entranceY - blockPosY) <= blockSize * 3;
 });
-const shouldPlaceHole = Math.random() < 0.10; 
+const shouldPlaceHole = hashCoords(chunkX,chunkY,158, seed) < 0.10; 
 
 if(isNearCaveEntrance){
   blocks.push({ x: 0, y: 0, type: 'underwatersand' });
@@ -4457,36 +4553,36 @@ if(isNearCaveEntrance){
   if(shouldPlaceHole){
     blocks.push({ x: 0, y: 0, type: 'underwatersand' });
     blocks.push({ x: 0, y: 0, type: 'underwatersandblock' })
-    if (Math.random() < 0.0002) {
+    if (hashCoords(chunkX,chunkY,159, seed) < 0.0002) {
   blocks.push({ x: 0, y: 0, type: 'aquaore' });
 };
 
 
-if (Math.random() < 0.05) {
+if (hashCoords(chunkX,chunkY,160, seed) < 0.05) {
   blocks.push({ x: 0, y: 0, type: 'echorocks' });
 }
-if (Math.random() < 0.05) {
+if (hashCoords(chunkX,chunkY,161, seed) < 0.05) {
   blocks.push({ x: 0, y: 0, type: 'aquaore' });
 }
   }else{
     blocks.push({ x: 0, y: 0, type: 'underwatersand' });
-    if (Math.random() < 0.04) {
+    if (hashCoords(chunkX,chunkY,162, seed) < 0.04) {
  blocks.push({ x: 0, y: 0 , type: 'algae1' });
  blocks.push({ x: 0, y: -( 1 * blockSize), type: 'algae0' });
  blocks.push({ x: 0, y: -( 2 * blockSize), type: 'algae2' });
 }
-    if(Math.random()<0.05){
+    if(hashCoords(chunkX,chunkY,163, seed)<0.05){
 blocks.push({ x: 0, y: 0, type: 'coral1' });
-    }else if (Math.random() < 0.05) {
+    }else if (hashCoords(chunkX,chunkY,0, seed) < 0.05) {
   blocks.push({ x: 0, y: 0, type: 'coral2' });
 }
-if (Math.random() < 0.005) {
+if (hashCoords(chunkX,chunkY,164, seed) < 0.005) {
   blocks.push({ x: 0, y: 0, type: 'geyser' });
 }
-if (Math.random() < 0.00010) {
+if (hashCoords(chunkX,chunkY,165, seed) < 0.00010) {
   blocks.push({ x: 0, y: 0, type: 'aquagodshell' });
 };
-if (Math.random() < 0.022) {
+if (hashCoords(chunkX,chunkY,166, seed) < 0.022) {
   blocks.push({ x: 0, y: 0, type: 'seaweed' });
 };
   }
@@ -4508,23 +4604,23 @@ if (generateCaves2(blockPosX, blockPosY)) {
   blocks.push({ x: 0, y: 0, type: 'abyssfloor' });
   
 
-  if (Math.random() < 0.03) {
+  if (hashCoords(chunkX,chunkY,167, seed) < 0.03) {
     blocks.push({ x: 0, y: 0, type: 'crystal1' });
-  } else if (Math.random() < 0.03) {
+  } else if (hashCoords(chunkX,chunkY,168, seed) < 0.03) {
     blocks.push({ x: 0, y: 0, type: 'crystal2' });
-  } else if (Math.random() < 0.03) {
+  } else if (hashCoords(chunkX,chunkY,169, seed) < 0.03) {
     blocks.push({ x: 0, y: 0, type: 'crystal3' });
-  } else if (Math.random() < 0.2) {
+  } else if (hashCoords(chunkX,chunkY,170, seed) < 0.2) {
     blocks.push({ x: 0, y: 0, type: 'glowblossom' });
-  } else if (Math.random() < 0.01) {
+  } else if (hashCoords(chunkX,chunkY,171, seed) < 0.01) {
     blocks.push({ x: 0, y: 0, type: 'echorocks' });
-  }else if (Math.random() < 0.05) {
+  }else if (hashCoords(chunkX,chunkY,172, seed) < 0.05) {
     blocks.push({ x: i * blockSize, y: j * blockSize, type: 'abysstree0' });
     blocks.push({ x: i * blockSize, y: (j - 1) * blockSize, type: 'abysstree1' });
     blocks.push({ x: i * blockSize, y: (j - 2) * blockSize, type: 'abysstree2' });
-} else if (Math.random() < 0.002) {
+} else if (hashCoords(chunkX,chunkY,173, seed) < 0.002) {
     blocks.push({ x: 0, y: 0, type: 'abysswood' });
-}else if (Math.random() < 0.020) {
+}else if (hashCoords(chunkX,chunkY,174, seed) < 0.020) {
     blocks.push({ x: 0, y: 0, type: 'abyssgrass' });
 }
 
@@ -4532,28 +4628,28 @@ if (generateCaves2(blockPosX, blockPosY)) {
 }else{
 if (isNearCaveEntrance) {
   blocks.push({ x: 0, y: 0, type: 'abyssfloor' });
-    if (Math.random() < 0.002) {
+    if (hashCoords(chunkX,chunkY,175, seed) < 0.002) {
     blocks.push({ x: 0, y: 0, type: 'crystal1' });
-  } else if (Math.random() < 0.002) {
+  } else if (hashCoords(chunkX,chunkY,176, seed) < 0.002) {
     blocks.push({ x: 0, y: 0, type: 'crystal2' });
-  } else if (Math.random() < 0.002) {
+  } else if (hashCoords(chunkX,chunkY,177, seed) < 0.002) {
     blocks.push({ x: 0, y: 0, type: 'crystal3' });
-  } else if (Math.random() < 0.005) {
+  } else if (hashCoords(chunkX,chunkY,178, seed) < 0.005) {
     blocks.push({ x: 0, y: 0, type: 'glowblossom' });
-  } else if (Math.random() < 0.0005) {
+  } else if (hashCoords(chunkX,chunkY,179, seed) < 0.0005) {
     blocks.push({ x: 0, y: 0, type: 'echorocks' });
   }
 } else {
     blocks.push({ x: 0, y: 0, type: 'abyssfloor' });
-    if (Math.random() < 0.008) {
+    if (hashCoords(chunkX,chunkY,180, seed) < 0.008) {
   blocks.push({ x: 0, y: 0, type: 'crystal1' });
-} else if (Math.random() < 0.008) {
+} else if (hashCoords(chunkX,chunkY,181, seed) < 0.008) {
   blocks.push({ x: 0, y: 0, type: 'crystal2' });
-} else if (Math.random() < 0.008) {
+} else if (hashCoords(chunkX,chunkY,182, seed) < 0.008) {
   blocks.push({ x: 0, y: 0, type: 'crystal3' });
-}else if (Math.random() < 0.011) {
+}else if (hashCoords(chunkX,chunkY,183, seed) < 0.011) {
   blocks.push({ x: 0, y: 0, type: 'glowblossom' });
-}else if (Math.random() < 0.006) {
+}else if (hashCoords(chunkX,chunkY,184, seed) < 0.006) {
   blocks.push({ x: 0, y: 0, type: 'echorocks' });
 }
     blocks.push({ x: 0, y: 0, type: 'abyssblock' })
@@ -4571,7 +4667,13 @@ if (isNearCaveEntrance) {
   blocks.push({ x: 0, y: 0, type: 'voidblock' });
    
 }
-      
+if (seed.startsWith("rock") && !isInSpawnArea && hashCoords(chunkX, chunkY, 89, seed) < 0.5) {
+  blocks.push({ x: i * blockSize, y: j * blockSize, type: 'rock' });
+  if (hashCoords(chunkX, chunkY, 89, seed + 1) < 0.5) {
+    blocks.push({ x: i * blockSize, y: j * blockSize, type: 'stones' });
+  }
+}
+
     } 
     }
     
@@ -4671,8 +4773,16 @@ let dayNightCycleSpeed2 = 0.0002;  // Prędkość cyklu dnia i nocy (można dost
 let increasing = true;  // Kontroluje, czy nightpower wzrasta (noc) czy maleje (dzień)
 var surviveddays=0
 function updateDayNightCycle() {
+  if(seed.startsWith("night") ){
+    nightpower=3
+  }
+  var boost1=0
+  var boost2=0
+  if(seed.startsWith("badseed")){
+    boost1=0.001
+  } 
     if (increasing) {
-        nightpower += dayNightCycleSpeed;
+        nightpower += dayNightCycleSpeed+boost1;  
         if (nightpower >= maxNightpower) {
             nightpower = maxNightpower;
             increasing = false;  // Zacznij zmniejszać (dzień)
@@ -4681,7 +4791,7 @@ function updateDayNightCycle() {
     achievementget("Its Night Now !", 0)
 }
     } else {
-        nightpower -= dayNightCycleSpeed2;
+        nightpower -= dayNightCycleSpeed2+boost2;
         
         if (nightpower <= 0) {
             nightpower = 0;
@@ -4954,7 +5064,7 @@ if (checkIfItems("hallucinate", 1)) {
 
 
 let chunkPositions = []; // Dodajemy do przechowywania pozycji chunków
-var dontcount = ["dirt", "grass", "tallgrass", "yellow", "dandelion", "violet","tree0","pine0","birch0","tree1","pine1","birch1","tree2","pine2","birch2","grasslayer","clayblock","ashfloor","shine","shiny","log_floor","log_wall","log","stone_floor","stone_wall","brickwall","brickfloor","clayblock1","glass","gypsumblock","abyssfloor","abyssescape","snowpine1","snowpine2","snowpine3","stone_floor", "fiber_floor", "grasslayer", "yellow", "violet", "clayblock", "clayblock1", "dandelion", "toadstool", "sandblock2", "gypsumblock", "glass", "fern", "planks_floor", "log_floor", "ashblock", "ashfloor", "brickfloor", "daffodil","flax","myosotis", "fiber_floor", "bed1", "magnetite", "nettle", "stone_floor", "emeraldfloor", "sapphirefloor", "rubyfloor", "clayblock1", "clayblock","violetfloor","grass","toadstool","stones","thistle","ryeroof","houseroof","housewall","brickhouse","gelblock","gypsum_dirt","roadfloor","gypsumblock","gypsumfloor","torch","brickfloor2","door","door2","housegrass","lamp","lamp2","hellwall2","forestgrass","forestleaf","blush","hill1","climbhill","statue1_1","statue1_2","kiln","algae1","algae2","algae0","statue2_2","statue2_1","helltree0","helltree1","helltree2","abysstree2","abysstree1","abysstree0","helllog","abysslog","abyssgrass","hellgrass" ,"gypsumhouse","gypsumroof","gypsumdoor","carpet","polishedfloor","sing","palm1","palm2","coconutpalm","palm12","palm32","stonesing","cauldron","textstone","fountain","candle","grassdeco","grassdeco1"];
+var dontcount = ["dirt", "grass", "tallgrass", "yellow", "dandelion", "violet","tree0","pine0","birch0","tree1","pine1","birch1","tree2","pine2","birch2","grasslayer","clayblock","ashfloor","shine","shiny","log_floor","log_wall","log","stone_floor","stone_wall","brickwall","brickfloor","clayblock1","glass","gypsumblock","abyssfloor","abyssescape","snowpine1","snowpine2","snowpine3","stone_floor", "fiber_floor", "grasslayer", "yellow", "violet", "clayblock", "clayblock1", "dandelion", "toadstool", "sandblock2", "gypsumblock", "glass", "fern", "planks_floor", "log_floor", "ashblock", "ashfloor", "brickfloor", "daffodil","flax","myosotis", "fiber_floor", "bed1", "magnetite", "nettle", "stone_floor", "emeraldfloor", "sapphirefloor", "rubyfloor", "clayblock1", "clayblock","violetfloor","grass","toadstool","stones","thistle","ryeroof","houseroof","housewall","brickhouse","gelblock","gypsum_dirt","roadfloor","gypsumblock","gypsumfloor","torch","brickfloor2","door","door2","housegrass","lamp","lamp2","hellwall2","forestgrass","forestleaf","blush","hill1","climbhill","statue1_1","statue1_2","kiln","algae1","algae2","algae0","statue2_2","statue2_1","helltree0","helltree1","helltree2","abysstree2","abysstree1","abysstree0","helllog","abysslog","abyssgrass","hellgrass" ,"gypsumhouse","gypsumroof","gypsumdoor","carpet","polishedfloor","sing","palm1","palm2","coconutpalm","palm12","palm32","stonesing","cauldron","textstone","fountain","candle","grassdeco","grassdeco1","curedgrasslayer"];
 let waveTick = 0;
 var fenceconnections={
   "none": "./fence.png",
@@ -4979,6 +5089,7 @@ for (const [name, src] of Object.entries(fenceconnections)) {
   frames: ['./water.png', './water2.png'], // Klatki animacji
   speed: 0.5 // Czas trwania jednej klatki (w sekundach)
 },*/
+ 
 var waterconnections = {
   "u1": "./water_up1.png",
   "u2": "./water_up2.png",
@@ -4988,7 +5099,6 @@ var waterconnections = {
   "l2": "./water_left2.png",
   "r1": "./water_right1.png",
   "r2": "./water_right2.png",
- 
   "1": "./water.png",
   "2": "./water2.png"
 }
@@ -5268,7 +5378,7 @@ if ((hasAbove && hasBelow && hasLeft && !hasCUR)) {
         { x: 32, y: 0, conn: "r1" , conn2:"r2" },  // po prawej
         { x: -32, y: 0, conn: "l1" , conn2:"l2" }   // po lewej
     ];
-    const blockTypes = ["sand", "grass", "forestgrass", "grasslayer"];
+    const blockTypes = ["sand", "grass", "forestgrass", "grasslayer","curedgrasslayer"];
 
     for (const offset of offsets) {
         const { x, y, conn , conn2 } = offset;
@@ -5384,8 +5494,40 @@ let blo = 0;
                 const y = parseVar(block.y + chunkY * blockSize - offsetY +zoomedDELTA/2-rmxy ,1);
 renderedBlocks.push({ type: block.type, x: block.x + chunkX * blockSize - offsetX +zoomedDELTA/2-rmxy , y: block.y + chunkY * blockSize - offsetY +zoomedDELTA/2-rmxy  }); // Zbieranie bloków
 
-
-if(block.type !== 'fence'&&block.type !== 'road' && block.type !== 'grass2' && block.type !== 'coast'&& block.type !== 'water' && block.type !== "hill1"&& block.type !== "climbhill"){
+if ( (block.type == 'grass'||block.type == 'grassfloor2'|| block.type == 'grass3'|| block.type == 'tallgrass'|| block.type == 'grasslayer'|| block.type == 'forestgrass' || block.type == 'forestgrasslayer' ) && seed.startsWith("badseed") ) {
+  if (textures["darkgrass"] && textures["darkgrass"].complete && textures["darkgrass"].naturalWidth > 0) {
+    ctx.drawImage(textures["darkgrass"], x, y, blockSize + addgap, blockSize + addgap);
+  }
+}else if ((block.type == 'sand' || block.type == 'desertsand') && seed.startsWith("badseed")) {
+  if (textures["darksand"] && textures["darksand"].complete && textures["darksand"].naturalWidth > 0) {
+    ctx.drawImage(textures["darksand"], x, y, blockSize + addgap, blockSize + addgap);
+  }
+}else if ((block.type == 'snowgrass2' || block.type == 'snowgrass') && seed.startsWith("badseed")) {
+  if (textures["bloodsnow"] && textures["bloodsnow"].complete && textures["bloodsnow"].naturalWidth > 0) { 
+    ctx.drawImage(textures["bloodsnow"], x, y, blockSize + addgap, blockSize + addgap);
+  }
+}else if ((block.type == 'magnetite') && seed.startsWith("badseed")) {
+  if (textures["darkmagnetite"] && textures["darkmagnetite"].complete && textures["darkmagnetite"].naturalWidth > 0) {
+    ctx.drawImage(textures["darkmagnetite"], x, y, blockSize + addgap, blockSize + addgap);
+  }
+}else if ((block.type == 'waterentrance') && seed.startsWith("badseed")) {
+  if (textures["bloodentrance"] && textures["bloodentrance"].complete && textures["bloodentrance"].naturalWidth > 0) {
+    ctx.drawImage(textures["bloodentrance"], x, y, blockSize + addgap, blockSize + addgap);
+  }
+}else if(block.type == 'water' && seed.startsWith("badseed")){
+                  if (animatedTextures["bloodliquid"]) {
+                  const anim = animatedTextures["bloodliquid"];
+                  const currentTime = performance.now() / 1000; // Aktualny czas w sekundach
+                  if (currentTime - anim.lastFrameTime > anim.speed) {
+                    anim.currentFrame = (anim.currentFrame + 1) % anim.frames.length;
+                    anim.lastFrameTime = currentTime;
+                  }
+                  if (anim.frames[anim.currentFrame] && anim.frames[anim.currentFrame].complete && anim.frames[anim.currentFrame].naturalWidth > 0) {
+                    // Rysowanie animowanej tekstury
+                    ctx.drawImage(anim.frames[anim.currentFrame], x, y, blockSize + addgap, blockSize + addgap);
+                  }
+                }  
+}else if(block.type !== 'fence'&&block.type !== 'road' && block.type !== 'grass2' && block.type !== 'coast'&& block.type !== 'water' && block.type !== "hill1"&& block.type !== "climbhill"){
                 if (animatedTextures[block.type]) {
                     // Animowana tekstura
                     const anim = animatedTextures[block.type];
@@ -5744,6 +5886,13 @@ const textureDefinitions = {
     "butterflyblue2": "./butterflyblue2.png",
     "universebulb": "./universebulb.png",
     "trueprojectile": "./trueprojectile.png",
+    
+    
+    "demonbat1": "./demonbat1.png",
+    "demonbat2": "./demonbat2.png",
+    
+    "demon1": "./demon1.png",
+    "demon2": "./demon2.png",
 };
 
 for (const [key, path] of Object.entries(textureDefinitions)) {
@@ -5773,35 +5922,37 @@ const enemies = {
   "good_boomerang": { hp: Infinity, atk: 0 },
   "draco_boomerang": { hp: Infinity, atk: 0 },
   "hell_boomerang": { hp: Infinity, atk: 0 },
-  "bat": { hp: 5, atk: -1 },
-  "giantbat": { hp: 20, atk: -1 },
+  "bat": { hp: 5, atk: -1.5 },
+  "giantbat": { hp: 20, atk: -1.5 },
   "shark": { hp: 10, atk: -2 },
-  "duck": { hp: 7, atk: -2 },
-  "ghost": { hp: 2000, atk: -2 },
-  "hellskull": { hp: 300, atk: -2 },
+  "duck": { hp: 7, atk: -1.5},
+  "ghost": { hp: 2000, atk: -1.5 },
+  "hellskull": { hp: 300, atk: -1 },
   "hellscourgehead": { hp: 1000, atk: -2 },
-  "hellscourgebody": { hp: Infinity, atk: -2 },
+  "hellscourgebody": { hp: Infinity, atk: -1.5 },
   "bunny": { hp: 5, atk: 0 },
-  "greenslime": { hp: 20, atk: -0.5 },
-  "blueslime": { hp: 25, atk: -0.5 },
-  "pinkslime": { hp: 40, atk: -0.5 },
-  "skellybones": { hp: 40, atk: -0.5 },
-  "zombie": { hp: 30, atk: -0.5 },
-  "wasp": { hp: 4, atk: -1 },
-  "raven": { hp: 15, atk: -1 },
-  "voltary": { hp: 1000, atk: -2 },
+  "greenslime": { hp: 20, atk: -2 },
+  "blueslime": { hp: 25, atk: -2 },
+  "pinkslime": { hp: 40, atk: -2},
+  "skellybones": { hp: 40, atk: -1.5 },
+  "zombie": { hp: 30, atk: -1.5 },
+  "wasp": { hp: 4, atk: -1.2 },
+  "raven": { hp: 15, atk: -1.2 },
+  "voltary": { hp: 1000, atk: -1.5 },
+  "demon": { hp: 20, atk: -1},
+  "demonbat": { hp: 25, atk: -1.5 },
   "desertscourgehead": { hp: 500, atk: -2 },
-  "desertscourgebody": { hp: Infinity, atk: -2 },
+  "desertscourgebody": { hp: Infinity, atk: -1 },
   "desertelemental": { hp: 300, atk: -2 },
-"skull": { hp: 50, atk: -0.5 },
-"spary": { hp: 200, atk: -0.5 },
-"spikegod": { hp: 2000, atk: -1 },
+"skull": { hp: 50, atk: -1.5 },
+"spary": { hp: 200, atk: -1.5 },
+"spikegod": { hp: 2000, atk: -1.6 },
 "darkeye": { hp: 4000, atk: -1.5 },
 "1medusa": { hp: 400, atk: -1.5 },
-"2medusa": { hp: 5000, atk: -1.0 },
-"floatingeye": { hp: 400, atk: -1.0 },
-"flesh": { hp: 6000, atk: -1.0 },
-"insaneuniversegod": { hp: 10000, atk: -2.0 },
+"2medusa": { hp: 5000, atk: -1.5 },
+"floatingeye": { hp: 400, atk: -1.5 },
+"flesh": { hp: 6000, atk: -1.5 },
+"insaneuniversegod": { hp: 10000, atk: -1.0 },
 "trueuniversehead": { hp: 25000, atk: -2.0 },
 "trueuniversebody": { hp: Infinity, atk: -0.2 },
 "aquagod": { hp: 3000, atk: -1.0 },
@@ -5970,7 +6121,7 @@ function createHellScourge() {
   }
 }
 function removeEntityById(entityId) {
-    const toRemove = renderedEnemies.filter(enemy => enemy.id === entityId);
+ //   const toRemove = renderedEnemies.filter(enemy => enemy.id === entityId);
     renderedEnemies = renderedEnemies.filter(enemy => enemy.id !== entityId);
     releaseID(entityId);
 }
@@ -6026,6 +6177,7 @@ var yyte=null
 function gfggf(data){
   yyte=data
 }
+
 let updfixbug=0
 var arrows = {
     "arrow": { dmg: -4.0, speed: 17 },
@@ -6061,6 +6213,14 @@ var butterflyentities = {
  
 };
 var speedmultiply=1.45
+var attackedenemy=[] 
+function updateHealth3(amount,enemy){
+  if (!attackedenemy.includes(enemy)) {
+        attackedenemy.push(enemy);
+    }
+  updateHealth(amount)
+   
+}
 function updateEnemies() {
   var removebymagic=0;
   if(updfixbug==0){
@@ -6256,10 +6416,10 @@ enemy.y += enemy.directionY * fds2 + sinusoidalOffsetY*speedmultiply;
 
 enemy.angleTickCounter++;
     enemy.angleTickCounter++;
-    if (enemy.hp <= 0) {
+  if (enemy.hp <= 0) {
   gfggf(enemy.id)
   return false; // Usuwa `trueuniversehead`, gdy hp <= 0
-}
+  }
 }
 
 if (enemy.type === "abyssdevourerhead") {
@@ -6406,7 +6566,7 @@ enemy.angle = angleToPlayer;
     }
     if (enemy.type in arrows) {}else if (enemy.type in magicspellsfromentities) {}else{
       
- if (distanceToPlayer <= 32 && enemy.type == "universeblast") { updateHealth(-1.2); }else if (distanceToPlayer <= 32) { updateHealth(-0.8); }
+ if (distanceToPlayer <= 32 && enemy.type == "universeblast") { updateHealth3(-1.2,enemy); }else if (distanceToPlayer <= 32) { updateHealth3(-0.8,enemy); }
 }}
 if (enemy.type === "crimsonprojectile") {
     enemy.height = 32-8;
@@ -6437,8 +6597,8 @@ enemy.angle = angleToPlayer;
             return false; 
         }
     }
-    if (enemy.type in arrows) {}else if (enemy.type in magicspellsfromentities) {}else{
-if (distanceToPlayer <= 32) { updateHealth(-1.5); }
+    if (enemy.type in arrows) {}else if (enemy.type in magicspellsfromentities) {}else{ 
+if (distanceToPlayer <= 32) { updateHealth3(-1.5,enemy); }
 }}
 if (enemy.type === "trueprojectile") {
     enemy.height = 32-8;
@@ -6470,7 +6630,7 @@ enemy.angle = angleToPlayer;
         }
     }
    if (enemy.type in arrows) {}else if (enemy.type in magicspellsfromentities) {}else{
-if (distanceToPlayer <= 32) { updateHealth(-1.5); }
+if (distanceToPlayer <= 32) { updateHealth3(-1.5,enemy); }
 }}
 if (enemy.type === "hellscourgehead") {
     enemy.height =32+16
@@ -6709,6 +6869,77 @@ if (Math.random() >= 0.3) {
   spawnBatNearPlayer();
 }
         }
+
+if (enemy.type == "demon" || enemy.type == "demonbat") {
+   
+let ggdf = 0;
+function updatePlayerAngle() {
+    switch (lastDirection) {
+        case 'right':
+            ggdf = 0;
+            break;
+        case 'down':
+            ggdf = 90;
+            break;
+        case 'left':
+            ggdf = 180;
+            break;
+        case 'up':
+            ggdf = 270;
+            break;
+    }
+}
+updatePlayerAngle();
+if (Math.random() < 0.013) {
+    const angleInRadians = ggdf * (Math.PI / 180);
+    const playerDirectionX = Math.cos(angleInRadians) * 32 * 5;
+    const playerDirectionY = Math.sin(angleInRadians) * 32 *5;
+    enemy.x = offsetX+player.x/1.5 + playerDirectionX;
+    enemy.y =offsetY-32+ player.y + playerDirectionY;
+}
+let entityname=""
+  entityname="crimsonprojectile"
+
+    // Przelicz ggdf na radiany
+    const angleInRadians = ggdf * (Math.PI / 180);
+    const playerDirectionX = Math.cos(angleInRadians) * 32 * 5;
+    const playerDirectionY = Math.sin(angleInRadians) * 32 * 5;
+  // Losowe przywoływanie floatingeye
+  let rand=Math.random() <= 0.035
+  if (enemy.type == "demon") {
+  rand = Math.random() <= 0.025
+}
+  if (rand) {
+    if(!checkIfHasEnemy(entityname,9)){
+    let bat = new Enemy(8 * blockSize + offsetX, 8 * blockSize + offsetY, entityname);
+    const spawnDistance = 9 * blockSize;
+    function spawnBatNearPlayer() {
+      let batX, batY;
+      if (Math.random() >= 0.3) {
+        batX = offsetX + spawnDistance;
+      } else {
+        batX = offsetX;
+      }
+      if (Math.random() >= 0.3) {
+        batY = offsetY + spawnDistance;
+      } else {
+        batY = offsetY;
+      }
+      batX = offsetX+32 + player.x / 1.5 + playerDirectionX;
+     batY = offsetY-32+ player.y + playerDirectionY;
+      let bat = new Enemy(batX, batY, entityname);
+       
+      newEnemies.push(bat);
+    }
+    spawnBatNearPlayer();
+  }}
+ 
+}
+
+
+        
+        
+        
 if (enemy.type == "flesh"||enemy.type=="insaneuniversegod"||enemy.type=="aquagod") {
   enemy.height = 80 + 32;
   enemy.width = 80 + 32;
@@ -7067,16 +7298,26 @@ const distanceFromPlayer = Math.sqrt(
           ((enemy.x+enemy.width/2) - playerCenterX) ** 2 + ((enemy.y+enemy.height/2) - playerCenterY) ** 2);
 let collisionDetected2 = false;
 if (enemy.type in arrows) {}else  if (enemy.type in magicspellsfromentities || enemy.type in butterflyentities) {} else if (enemy.type!=="aquablast" && enemy.type!=="universeblast"){
-if (distanceFromPlayer <= 32) {  updateHealth(-1);
+if (distanceFromPlayer <= 32) {  updateHealth3(-1,enemy);
+
+
 if(enemy.type=="trueuniversehead"){
-  updateHealth(-5);
+  updateHealth3(-5,enemy);
+  if(diedRMEN==1 && enemy.id ){
+    gfggf(enemy.id)
+    return false;
+  }
 }
 if (enemy.type == "trueuniversebody") {
-  updateHealth(-2);
+  updateHealth3(-2,enemy);
+  if (diedRMEN == 1) {
+  gfggf(enemy.id)
+  return false;
+}
 }
 if(enemy.type=="flesh"|| enemy.type=="insaneuniversegod"|| enemy.type=="aquagod"){
   let ggdf = 0;
-updateHealth(-10);
+updateHealth3(-10,enemy);
 // Funkcja aktualizacji kąta gracza
 function updatePlayerAngle() {
     switch (lastDirection) {
@@ -7110,7 +7351,13 @@ updatePlayerAngle();
     enemy.y =offsetY-32+ player.y + playerDirectionY;
 
 
-}}}
+}
+  if (diedRMEN == 1 && enemy.id) {
+  gfggf(enemy.id) 
+  return false;
+  }
+  
+}}
 
  
 
@@ -7133,7 +7380,7 @@ return false; break;}
  
 
  
-  if(enemy.type=='bat'|| enemy.type=='wasp'|| enemy.type=='bat1'||enemy.type=='greenslime'||enemy.type=='blueslime'||enemy.type=='pinkslime'||enemy.type=='bunny'|| enemy.type=="skellybones"  ||enemy.type=="zombie"){
+  if(enemy.type=='bat'|| enemy.type=='demon' || enemy.type=='demonbat' || enemy.type=='wasp'|| enemy.type=='bat1'||enemy.type=='greenslime'||enemy.type=='blueslime'||enemy.type=='pinkslime'||enemy.type=='bunny'|| enemy.type=="skellybones"  ||enemy.type=="zombie"){
         for (let block of renderedBlocks) {
             if(enemy.type=='bat'|| enemy.type=='wasp'){
                       if ( block.type === 'stone_wall' || block.type === 'log_wall' || block.type === 'brickwall'|| block.type === 'gypsumblock'|| block.type === 'planks'|| block.type === 'cave_wall' ||block.type === 'rubyblock'||block.type === 'sapphireblock'||block.type === 'emeraldblock'||block.type === 'voidblock'||block.type === 'housegrass'||block.type === 'abyssblock' ||block.type === 'fence' || block.type === 'hellwall' ||block.type === 'hellwall2'|| block.type === 'basalt' ||block.type === 'granite'|| block.type === 'basalt') {
@@ -7229,19 +7476,24 @@ if (enemy.tickCount >= 5) {
   enemy.animationFrame = (enemy.animationFrame + 1) % 2; // 
   enemy.tickCount = 0; 
 }}
+
+
+
 return true; 
 });
-/*if(removedd==1){
-  renderedEnemies = renderedEnemies.filter(e => e.type !== "trueuniversebody");
-}*/
+ 
 
 if(newEnemies.length>0){
 renderedEnemies.push(...newEnemies);
 }
 if(yyte!==null){
-  
-  removeEntityById(yyte);
- yyte=null
+  removeEntityById(yyte);  yyte=null
+} else { 
+  if (diedRMEN == 1) {
+  diedRMEN = 0;
+  renderedEnemies = renderedEnemies.filter(enemy => !attackedenemy.includes(enemy)); 
+  attackedenemy = []
+   }
 }
 
 }
@@ -7255,7 +7507,9 @@ if(yyte!==null){
 
 
 
+// attackedenemy=[]
 
+ 
 }
 
 
@@ -7281,7 +7535,10 @@ function drawEnemyHealthBar(enemy) {
  
 function drawEnemies() {
     renderedEnemies.forEach(enemy => {
-      
+if(enemy.type=='demon' || enemy.type=='demon1' ){ const enemyTexture = enemy.animationFrame === 0 ? enemyTextures['demon1'] : enemyTextures['demon2']; drawEnemyHealthBar(enemy); if (enemyTexture.complete && enemyTexture.naturalWidth > 0) { ctx.drawImage( enemyTexture, enemy.x - offsetX,  enemy.y - offsetY, enemy.width, enemy.height);}
+}
+if(enemy.type=='demonbat' || enemy.type=='demonbat2' ){ const enemyTexture = enemy.animationFrame === 0 ? enemyTextures['demonbat1'] : enemyTextures['demonbat2']; drawEnemyHealthBar(enemy); if (enemyTexture.complete && enemyTexture.naturalWidth > 0) { ctx.drawImage( enemyTexture, enemy.x - offsetX,  enemy.y - offsetY, enemy.width, enemy.height);}
+}
 if(enemy.type=='bat' || enemy.type=='bat1' ){ const enemyTexture = enemy.animationFrame === 0 ? enemyTextures['bat'] : enemyTextures['bat1']; drawEnemyHealthBar(enemy); if (enemyTexture.complete && enemyTexture.naturalWidth > 0) { ctx.drawImage( enemyTexture, enemy.x - offsetX,  enemy.y - offsetY, enemy.width, enemy.height);}
 }if( enemy.type=='greenmagic' ){ const enemyTexture = enemy.animationFrame === 0 ? enemyTextures['greenmagic1'] : enemyTextures['greenmagic2']; if (enemyTexture.complete && enemyTexture.naturalWidth > 0) { ctx.drawImage( enemyTexture, enemy.x - offsetX,  enemy.y - offsetY, enemy.width, enemy.height);}
 }if( enemy.type=='butterflyred' ){ const enemyTexture = enemy.animationFrame === 0 ? enemyTextures['butterflyred1'] : enemyTextures['butterflyred2']; if (enemyTexture.complete && enemyTexture.naturalWidth > 0) { ctx.drawImage( enemyTexture, enemy.x - offsetX,  enemy.y - offsetY, enemy.width, enemy.height);}
@@ -7784,15 +8041,13 @@ function growTreeInVisibleChunks() {
           removeBlockAtPosition(Math.floor(((globalX - offsetX) / 32) * 32), Math.floor(((globalY - offsetY) / 32) * 32), 'lit_furnace');
           buildBlockAtPosition(Math.floor(((globalX - offsetX) / 32) * 32), Math.floor(((globalY - offsetY) / 32) * 32), 'furnace'); 
           
-        }}else if (Math.random() < 0.095 && Math.random() < 0.055 && isRaining) {
-        if (block.type === 'dirt') {
-          // Obliczamy globalne współrzędne bloku
-          const globalX = block.x + 3 + (parseInt(chunkKey.split(',')[0]) * blockSize);
-          const globalY = block.y + 3 + (parseInt(chunkKey.split(',')[1]) * blockSize);
-
-          // Usuwamy sadzonkę
+        }}else if (Math.random() < 0.11 && Math.random() < 0.2 && isRaining) {
+ const globalX = block.x + 3 + (parseInt(chunkKey.split(',')[0]) * blockSize);
+const globalY = block.y + 3 + (parseInt(chunkKey.split(',')[1]) * blockSize);
+        if (block.type === 'dirt' && checkBlockAtPositionOnlyDirt( Math.floor(((globalX - offsetX) / 32) * 32), Math.floor(((globalY - offsetY) / 32) * 32) )) {
+          console.log(JSON.stringify(chunkBlocks))
           removeBlockAtPosition(Math.floor(((globalX - offsetX) / 32) * 32), Math.floor(((globalY - offsetY) / 32) * 32), 'dirt');
-          buildBlockAtPosition(Math.floor(((globalX - offsetX) / 32) * 32), Math.floor(((globalY - offsetY) / 32) * 32), 'grass'); 
+           
           buildBlockAtPosition(Math.floor(((globalX - offsetX) / 32) * 32), Math.floor(((globalY - offsetY) / 32) * 32), 'water'); 
         }}else if (Math.random() < 0.095 && Math.random() < 0.075) {
         if (block.type === 'lit_kiln') {
@@ -8159,6 +8414,9 @@ let rainTextureIndex = 0;
 const rainTextures = [
     "./rain1.png", "./rain2.png", "./rain3.png", "./rain4.png"
 ];
+const bdrainTextures = [
+  "./bdrain1.png", "./bdrain2.png", "./bdrain3.png", "./bdrain4.png"
+];
 const snowtextures = [
     "./snow1.png", "./snow2.png", "./snow3.png", "./snow4.png","./snow5.png","./snow6.png","./snow7.png"
 ];
@@ -8174,6 +8432,11 @@ const hellparticles = [
 const rainTextureChangeInterval = 2; // co ile klatek zmienia się tekstura deszczu
 
 // Wczytaj tekstury deszczu
+const loadedbdRainTextures = bdrainTextures.map(src => {
+  const img = new Image();
+  img.src = getBase64Image(removeDotSlash(src), assets);
+  return img;
+});
 const loadedRainTextures = rainTextures.map(src => {
     const img = new Image();
     img.src = getBase64Image(removeDotSlash(src),assets) ;
@@ -8245,13 +8508,26 @@ function drawRainEffectOnBlocks() {
   }
 else  if (generateCave !== 1 && isinhouse !== 1 && inhell !== 1 && (isStayOn("snowgrass") ||isStayOn("snowgrass2") )) {
   ctx.globalAlpha = 0.6;
+  var currentRainTexture =0;
+  if (!seed.startsWith("badseed")) {
   if (by5 % rainTextureChangeInterval === 0) {
     rainTextureIndex = (rainTextureIndex + 1) % loadedsnowTextures.length;
   }
   if (rainTextureIndex >= loadedsnowTextures.length) {
     rainTextureIndex = 0;
   }
-  const currentRainTexture = loadedsnowTextures[rainTextureIndex];
+  currentRainTexture = loadedsnowTextures[rainTextureIndex];
+  }else   {
+    if (by5 % (rainTextureChangeInterval + 2) === 0) {
+  rainTextureIndex = (rainTextureIndex + 1) % loadedsandstormTxt.length;
+}
+if (rainTextureIndex >= loadedsandstormTxt.length) {
+  rainTextureIndex = 0;
+}
+  ctx.globalAlpha = 0.4;
+  currentRainTexture = loadedbdRainTextures[rainTextureIndex];
+     
+}
   let scaled = 1.2
   let scale = 1.2
   const rainTextureSize = blockSize * scale;
@@ -8298,9 +8574,16 @@ if (rainTextureIndex >= loadedsandstormTxt.length) {
     rainTextureIndex = 0;
 }
 
-  const currentRainTexture = loadedsandstormTxt[rainTextureIndex];
+  var  currentRainTexture = loadedsandstormTxt[rainTextureIndex];
   let scaled = 1.2
-  let scale = 1.2
+let scale = 1.2
+  if (seed.startsWith("badseed")) {
+  ctx.globalAlpha = 0.4 ;
+  currentRainTexture = loadedbdRainTextures[rainTextureIndex];
+  scaled=1.55
+  scale=1.4
+}
+  
   const rainTextureSize = blockSize * scale;
   const rainSize = blockSize * scaled;
   chunkPositions.forEach(chunk => {
@@ -8317,19 +8600,25 @@ if (rainTextureIndex >= loadedsandstormTxt.length) {
       
       playRain()
         // Ustawienie przezroczystości deszczu
-        ctx.globalAlpha = 0.4; // 0.5 oznacza 50% przezroczystości, można dostosować
+        
+        ctx.globalAlpha = 0.4; 
 
         // Zwiększ indeks tekstury co kilka klatek, by animacja była płynna
         if (by5 % rainTextureChangeInterval === 0) {
-            rainTextureIndex = (rainTextureIndex + 1) % loadedRainTextures.length;
+            rainTextureIndex = (rainTextureIndex + 1) % loadedRainTextures.length; 
         }
 if (rainTextureIndex >= loadedRainTextures.length) {
     rainTextureIndex = 0;
 }
 
         // Pobierz aktualną teksturę deszczu
-        const currentRainTexture = loadedRainTextures[rainTextureIndex];
-
+        
+        
+        var currentRainTexture = loadedRainTextures[rainTextureIndex];
+        
+if(seed.startsWith("badseed")){
+  currentRainTexture = loadedbdRainTextures[rainTextureIndex];
+}
         // Ustal rozmiar tekstury deszczu, aby odpowiadał 2.5 bloku
         let scaled=1.6
         let scale=1.3
@@ -9038,11 +9327,19 @@ if (isflying == 1) {
 if (options.noclip == 1) {
   nocliping = 1
 }
-}
+} 
 var unfixable=0
 let isUpdating2 = false;
 var zmiennaBruh=0
 function update() {
+  
+  const healthBar = document.getElementById('healthBar');
+const healthPercentage = (currentHP / maxHP) * 100;
+healthBar.style.width = healthPercentage + '%';
+
+   if(seed.startsWith("raining")){
+     isRaining=true;
+   }
   if(options.nomusic==undefined){ options.nomusic=0} 
   if(options.Fskipping){ options.Fskipping=0}
 if (isUpdating) return; 
@@ -9076,6 +9373,11 @@ if(abletostart==1&&paused!==1 && unfixable==0){
         weponDelay-=1
     }
  if(by5>14){
+   
+   attackedenemy=[]
+   if( !checkIfHasEnemy("trueuniversehead",1) && currentTrack == trueTrack ){
+     playMusic()
+  }  
     // unfixable=1
          if (options.invertControls == 1) {
         document.getElementById("joystick").style.left = ""
@@ -9186,7 +9488,7 @@ if (inWater) {
     showTextInCanvas2("X:"+Math.floor(offsetX/32)+" Y:"+Math.floor(offsetY/32) )
   }
   if(checkIfItems("healmedalion",1)){
-    updateHealth(0.01);
+    updateHealth2(0.04);
   }
   
   
@@ -9235,6 +9537,24 @@ if(!checkIfHasEnemy("butterflyyellow",3)&&!checkIfHasEnemy("butterflyred",3)&&!c
   spawnEnemyNearPlayer();
 }}
     }
+    
+if (Math.random() <= 0.02 && seed.startsWith("badseed") && isPlayerInWater() ) { 
+        if(!checkIfHasEnemy("demon",3)){
+  const slimeTypes = ["demon"];
+  const randomSlime = slimeTypes[Math.floor(Math.random() * slimeTypes.length)];
+  const spawnDistance = 8 * blockSize;
+
+  function spawnEnemyNearPlayer() {
+    const enemyX = Math.random() >= 0.3 ? offsetX + spawnDistance : offsetX - spawnDistance;
+    const enemyY = Math.random() >= 0.3 ? offsetY + spawnDistance : offsetY - spawnDistance;
+    let bat = new Enemy(enemyX, enemyY, randomSlime);
+    renderedEnemies.push(bat);
+    bat.speed = 6
+  }
+  spawnEnemyNearPlayer();
+}}
+    
+    
     if(isStayOn("forestgrass")&& nightpower>=2.0){
       if (Math.random() <= 0.021) {
         if(!checkIfHasEnemy("firefly",3)){
@@ -9275,8 +9595,7 @@ if (Math.random() <= 0.015) {
   spawnEnemyNearPlayer();
 }
     }
-    if(inhell==1){
-      if(isStayOn("fleshblock1")||isStayOn("fleshblock2")||isStayOn("fleshblock")){
+    if(isStayOn("fleshblock1")||isStayOn("fleshblock2")||isStayOn("fleshblock")){
 if (Math.random() <= 0.015) {
   const slimeTypes = ['hellskull',"flesher","flesher"];
   const randomSlime = slimeTypes[Math.floor(Math.random() * slimeTypes.length)];
@@ -9296,7 +9615,9 @@ bat.speed=2.5
     bat.speed=4.2
     }
   }spawnEnemyNearPlayer();}
-      }else{
+      }
+    if(inhell==1){
+       
       if (Math.random() <= 0.008) {
   const slimeTypes = ['hellskull',"hellscourge",'hellskull','hellskull',"flesher"];
   let randomSlime = slimeTypes[Math.floor(Math.random() * slimeTypes.length)];
@@ -9314,7 +9635,7 @@ if (Math.random() >= 0.3) {enemyY = offsetY + spawnDistance; } else { enemyY = o
   }
         
       }
-    }}
+    }
     if(isunderwater==0 && inhell==0){
       
       if (Math.random() <= 0.008) {
@@ -9385,6 +9706,9 @@ if (Math.random() <= 0.003) {
 
             if (Math.random() <= 0.007) {
         let bat = new Enemy(8 * blockSize + offsetX, 8 * blockSize + offsetY, 'giantbat');
+        if(seed.startsWith("badseed")){
+          bat = new Enemy(8 * blockSize + offsetX, 8 * blockSize + offsetY, 'demonbat');
+        }
         const spawnDistance = 9 * blockSize;
         function spawnBatNearPlayer() {
           let batX, batY;
@@ -9403,6 +9727,9 @@ if (Math.random() <= 0.003) {
 
           // Tworzenie nowego nietoperza w wylosowanej pozycji
           let bat = new Enemy(batX, batY, 'giantbat');
+ if (seed.startsWith("badseed")) {
+  bat = new Enemy(8 * blockSize + offsetX, 8 * blockSize + offsetY, 'demonbat');
+}
           renderedEnemies.push(bat); // Dodanie nietoperza do listy renderowanych przeciwników
         }
 
@@ -9503,6 +9830,10 @@ renderedEnemies.push(bat);
 }
       if(Math.random()<=0.007){
         let bat = new Enemy(8 * blockSize + offsetX, 8 * blockSize + offsetY, 'bat');
+        
+ if (seed.startsWith("badseed") && Math.random()<0.2) {
+  bat = new Enemy(8 * blockSize + offsetX, 8 * blockSize + offsetY, 'demonbat');
+}
         // Stała reprezentująca 10 bloków odległości
 const spawnDistance = 9* blockSize;
 
@@ -9526,6 +9857,9 @@ function spawnBatNearPlayer() {
 
     // Tworzenie nowego nietoperza w wylosowanej pozycji
     let bat = new Enemy(batX, batY, 'bat');
+     if (seed.startsWith("badseed") && Math.random() < 0.2) {
+   bat = new Enemy(8 * blockSize + offsetX, 8 * blockSize + offsetY, 'demonbat');
+    }
     renderedEnemies.push(bat); // Dodanie nietoperza do listy renderowanych przeciwników
 }
 
@@ -10182,8 +10516,8 @@ setTimeout(function(){isUpdating = 0;isUpdating = false; update();  }, frameDura
 
 let hitboxShowEnabled = 0;  // Zmienna kontrolująca widoczność hitboxów
 let vartt=0
-// Funkcja sprawdzająca kolizję z blokami "rock"
-const CcBuilder = ["stone_floor", "fiber_floor","grasslayer","yellow","violet","thistle","clayblock","clayblock1","dandelion","toadstool","sandblock2","gypsumblock","glass","fern","planks_floor","log_floor","ashblock","ashfloor","brickfloor","dirt","daffodil","flax","myosotis","fiber_floor","bed1","magnetite","nettle","stone_floor","emeraldfloor","sapphirefloor","rubyfloor","opalblock","brickfloor","gypsum_dirt","violetfloor","brickfloor2"];
+// Funkcja sprawdzająca kolizję z blokami  
+const CcBuilder = ["stone_floor", "fiber_floor","grasslayer","yellow","violet","thistle","clayblock","clayblock1","dandelion","toadstool","sandblock2","gypsumblock","glass","fern","planks_floor","log_floor","ashblock","ashfloor","brickfloor","dirt","daffodil","flax","myosotis","fiber_floor","bed1","magnetite","nettle","stone_floor","emeraldfloor","sapphirefloor","rubyfloor","opalblock","brickfloor","gypsum_dirt","violetfloor","brickfloor2","curedgrasslayer"];
 let notabletoreturn987444=0
 function clearCaveWallsNearEntrance(entranceX, entranceY) {
     // Definiujemy promień w blokach do przeszukania w pobliżu wejścia
@@ -11092,7 +11426,7 @@ if(paused==1){
 }
 
 function dropItemAtPlayerPosition(item) {
-  
+  updateInventory()
  if (activeChest) {
   if (!chestsData[`${activeChest[0]},${activeChest[1]}`]) {
     chestsData[`${activeChest[0]},${activeChest[1]}`] = [];
@@ -11101,6 +11435,7 @@ function dropItemAtPlayerPosition(item) {
   if (chestItems.length < 20) {  
     chestsData[`${activeChest[0]},${activeChest[1]}`].push( item );
     updateCrafting();
+    
  } else {
    if(langPlactive){
     TextPopUp("Skrzynia jest pełna!");
@@ -11147,7 +11482,15 @@ var chunkKey = `${Math.floor(newBlock.x)},${Math.floor(newBlock.y)}`;
 if(item=="chest"){
    
 }
-
+if(options.dropany==1){
+  chunks[chunkKey].push({x:0,y:0,type:item}); 
+  if (paused == 1) {
+  paused = 0
+  update()
+  paused = 1
+}
+  return;
+}
 if (chunks[chunkKey] && chunks[chunkKey].length > 13) {
         addItem(item, 1); // Dodaj przedmiot do ekwipunku
         if (langPlactive == 1) {
@@ -11197,7 +11540,7 @@ if (item == "candy") {
   if (currentStamina > 95) {
 
   } else {
-    updateStamina(40)
+    updateStamina(40) 
     return;
   }
 }
@@ -11454,7 +11797,7 @@ cannotmove=1
   item = "hook"
 
 }}
-if (item == "mercurybottle") {
+if (item == "mercurybottle" ) {
   if(options.dropany==0){
   item = "mercuryliquid"
   addItem("bottle",1);
@@ -12576,6 +12919,12 @@ if (enemy.type == "flesh") {
     achievementget("The flesh ", 1)
   
 }
+if (enemy.type == "flesher" && seed.startsWith("badseed")) {let r = Math.floor((dx + player.x * 32) / 32)
+  let r2 = Math.floor((dy + player.y * 32) / 32)
+   if(Math.random()<0.3){
+  buildBlockAtPosition(r, r2, "thingeyes")
+}achievementget("Bₗₒₒd wᵢₗₗ bₑ ₛₕₑd by ₜₕₒₛₑ wₕₒ ᵢs", 1)}
+
 if (enemy.type == "soulcat") {
   let r = Math.floor((dx + player.x * 32) / 32)
   let r2 = Math.floor((dy + player.y * 32) / 32)
@@ -12896,7 +13245,7 @@ if (enemy.type == "darkeye") {
 
 
 // Obiekt przechowujący stany bloków
-const floorblocks = ["stone_floor", "fiber_floor", "grasslayer", "yellow", "violet", "clayblock", "clayblock1", "dandelion", "toadstool", "sandblock2", "gypsumblock", "glass", "fern", "planks_floor", "log_floor", "ashblock", "ashfloor", "brickfloor", "daffodil","flax","myosotis" ,"fiber_floor", "bed1", "magnetite", "nettle", "stone_floor", "emeraldfloor", "sapphirefloor", "rubyfloor", "clayblock1", "clayblock","violetfloor","grass","toadstool","stones","thistle","ryeroof","houseroof","housewall","brickhouse","gelblock","gypsum_dirt","roadfloor","brickfloor2","road","deadgrassfloor2","grass2","forestgrasslayer","deadgrassfloor2","deadgrassfloor","forestgrass","forestgrasslayer","hill1","climbhill","gypsumroof","gypsumhouse","gypsumdoor","polishedfloor","snowgrass2","snowgrass"];
+const floorblocks = ["stone_floor", "fiber_floor", "grasslayer", "yellow", "violet", "clayblock", "clayblock1", "dandelion", "toadstool", "sandblock2", "gypsumblock", "glass", "fern", "planks_floor", "log_floor", "ashblock", "ashfloor", "brickfloor", "daffodil","flax","myosotis" ,"fiber_floor", "bed1", "magnetite", "nettle", "stone_floor", "emeraldfloor", "sapphirefloor", "rubyfloor", "clayblock1", "clayblock","violetfloor","grass","toadstool","stones","thistle","ryeroof","houseroof","housewall","brickhouse","gelblock","gypsum_dirt","roadfloor","brickfloor2","road","deadgrassfloor2","grass2","forestgrasslayer","deadgrassfloor2","deadgrassfloor","forestgrass","forestgrasslayer","hill1","climbhill","gypsumroof","gypsumhouse","gypsumdoor","polishedfloor","snowgrass2","snowgrass","smooth_stone","blossomblock","curedgrasslayer"];
  
 function deleteFromChunk(x, y, types) {
   
@@ -14385,6 +14734,36 @@ function getKeyBlockAtPosition(x, y, type) {
 }
 
 // Funkcja sprawdzająca, czy na danej pozycji znajduje się blok typu 'type'
+function checkBlockAtPositionOnlyDirt(x, y) {
+  const globalX = x + offsetX;
+  const globalY = y + offsetY;
+  const snappedGlobalX = Math.floor(globalX / blockSize) * blockSize;
+  const snappedGlobalY = Math.floor(globalY / blockSize) * blockSize;
+
+  const chunkX = Math.floor(snappedGlobalX / blockSize);
+  const chunkY = Math.floor(snappedGlobalY / blockSize);
+  const chunkKey = `${chunkX},${chunkY}`;
+
+  let chunkBlocks = chunks[chunkKey];
+  if (!chunkBlocks) return true;
+
+  for (let i = 0; i < chunkBlocks.length; i++) {
+    let block = chunkBlocks[i];
+    let blockGlobalX = block.x + chunkX * blockSize;
+    let blockGlobalY = block.y + chunkY * blockSize;
+
+    if (blockGlobalX === snappedGlobalX && blockGlobalY === snappedGlobalY) {
+      if (block.type ) {
+        if(block.type !== "dirt"){
+        return false;
+        }
+      }
+    }
+  }
+
+  return true;
+}
+
 function checkBlockAtPosition(x, y, type) {
     // Oblicz pozycje globalne z przesunięciem
     const globalX = x + offsetX;
@@ -14487,11 +14866,11 @@ function checkEmptySlots(number) {
 // Show save names modal
 // Function to show the save names modal with detected save slots
 async function showsaves() {
-    const saveNames = [];
+    const saveNames2 = [];
 
     try {
         const db = await initDB(); // Inicjalizujemy bazę danych
-        const transaction = db.transaction("gameStates", "readonly"); // Transakcja w trybie tylko do odczytu
+        const transaction = db.transaction("gameStates", "readonly"); 
         const store = transaction.objectStore("gameStates");
 
         // Pobierz wszystkie zapisy gry
@@ -14504,7 +14883,7 @@ async function showsaves() {
             gameStates.forEach(gameState => {
                 const slot = gameState.slot;
                 if (slot !== undefined) {
-                    saveNames.push(slot); // Dodajemy sloty zapisów do listy
+                    saveNames2.push(slot); // Dodajemy sloty zapisów do listy
                 }
             });
 
@@ -14531,10 +14910,10 @@ function closeSaveNamesModal() {
 
 
 </script>
-<div onclick="openInventory()" id="Q1EQ" style="position: absolute; bottom: 12vh; right:5px; width:11px; height:11px; background: rgba(181, 181, 181, 0.20) ; background: url('./joystick.png') ;
+<div onclick="openInventory()" id="Q1EQ" style="position: absolute; bottom: 12vh; right:5px; width:11px; height:11px; background: rgba(181, 181, 181, 0.20) ; background: url('./EQ.png') ;
 background-size: 100%;
-opacity:0.5;  color: rgba(0, 200, 255, 1); padding: 25px;image-rendering: pixelated; font-size: 15px;
-font-family: Arial, Helvetica, sans-serif;">EQ</div>
+opacity:0.5;  color: rgba(0, 200, 255, 1); padding: 30px;image-rendering: pixelated; font-size: 15px;
+font-family: Arial, Helvetica, sans-serif;"></div>
 <script>
 
 let inventoryOpen = false;
@@ -14823,7 +15202,7 @@ document.getElementById("allachievements2").innerHTML+=d
     <button data-var="Fskipping" onclick="toggleAndStyleButton(this);">frames skipping</button>
     <br>
     <button onclick="exportData2();">export world as pfdata  </button>
-
+    <button data-var="autopause" onclick="customAlert(seed)">get seed ( info older version doesnt use seeds but use math.random() ) </button>
 <br>
 <!--    <button onclick="exportData();">export wld 1.5.8 ( it could take some time ) </button>
 load pfwld file : <input type="file" id="fileInput"    onchange="loadData2(event)" />
@@ -14831,7 +15210,7 @@ load pfwld file : <input type="file" id="fileInput"    onchange="loadData2(event
 <button onclick="removeSaveFile(document.getElementById('savename').value || '')"> DELETE DATA FROM SELECTED SLOT  </button>
 <br> <br>
 <button onclick="randomizeCloudsAnimation(); document.getElementById('loadingMenu').style.display = 'none'; document.getElementById('MainMenu').style.display = 'block'; cancontinue=1; document.getElementById('continuebtn').style.display='none'; document.getElementById('advanced').style.display='none'; document.getElementById('gamescontainer').style.display='none';  paused=1 ; document.getElementById('inventory').style.visibility = 'hidden';
-document.getElementById('inventory').style.pointerEvents = 'none'; ">backtomenu</button>
+document.getElementById('inventory').style.pointerEvents = 'none';  document.getElementById('seedplay').style.display='none';  ">backtomenu</button>
 </ffd>
 </div>
 <script>
@@ -15397,6 +15776,7 @@ async function removeSaveFile(slot) {
 
         request.onsuccess = function() {
             customAlert("Save file in slot " + slot + " deleted successfully.");
+            upadtegameslots()
         };
 
         request.onerror = function(event) {
@@ -15626,6 +16006,7 @@ chest: "Skrzynia",
     forestgrasslayer: "Warstwa leśnej trawy",
     broom: "Miotła",
     blush: "Róż",
+    curedgrasslayer:"Wyleczona Warstwa trawy",
     forestleaf: "Liść leśny",
     gravestone: "Nagrobek",
     moltensword: "Miecz Magmy",
@@ -15910,7 +16291,9 @@ chest: "Skrzynia",
 }};
 
         var slots = 8;  // Max slots
-        var allItems = { // Definicja tekstur przedmiotów
+        var allItems = { // teksturki  
+        corruptedthing: "./corruptedthing.png",
+  thingeyes: "./thingeyes.png",
 lit_kiln:"./lit_kiln1.png",
 chest: "./chest.png",
 cavebuilder: "./cavebuilder.png",
@@ -16043,6 +16426,7 @@ extinguished_campfire: './extinguished_campfire1.png',
         magicwandofsharp: './wandofsharp.png',
   hyperblastwand: './hyperblastwand.png',
         forestgrasslayer:"./forestgrass.png",
+        curedgrasslayer:"./grass.png",
         broom: './broom.png',
         blush: './forestblush.png',
   forestleaf: './forestleaf.png',
@@ -16392,6 +16776,11 @@ for (const [name, src] of Object.entries(allItems)) {
 "plantmaker": [["woodboard","grasslayer","yellow","woodboard"]],
 "chest": [["woodboard","log","woodboard","woodboard","woodboard"]],
         };
+        var badseedrecipesplus = {
+          "plantmaker": [["woodboard","grasslayer","corruptedthing","woodboard"]],
+          "corruptedthing":[["thingeyes","thingeyes","thingeyes"]],
+          "curedgrasslayer":[["grasslayer","corruptedthing"]]
+        }
         var canbedecrafted=["brickwall","clayblock1","ashfloor","cordage","fiber","fireplow","stone_wall","fiber_floor","torch","campfire","brickfloor","fireroll","decrafter","log_floor","log_wall","sharpstone","pointed_stick","thistleroot","woodboard","hand_torch","stoneshovel","stone_axe","iron_spear","copper_spear","fiber_fabric","extrabag","cavemakingpickaxe","pickaxe","opalblock","emeraldblock","emeraldfloor","sapphireblock","sapphirefloor","rubyfloor","rubyblock","planks","planks_floor","houseroof","house_wall","furnace","kiln","campfire","decrafter","log_floor","log_wall","stone_floor","gelblock","aquaspear","goodsword","universesword","sharpsaw","nightsword","fleshsaber","goodmace","truegodsword","trueuniversesword","iron_mace","iron_sword","sharpmace","aquagodshell","deepgodspawner","voltary_essence",
         "fleshdumbass","housewall","houseroof","housefloor","planks_floor","planks","table","titaniumbuff","titaniumsword","lamptorch","brickfloor2","trueuniversespawner","deepgodspawner","hellbuff","hellsword","moltensword","knive","hellknive","magicwand","magicwandofsharp","hyperblastwand","greenwand","blower","forestleaf","titanium_boomerang","boomerang","good_boomerang","gypsumroof","gypsumhouse","gypsumdoor","sing","hallucinate","stonesing","dracobuff","plantmaker","cauldron","titaniumbar","fountain","textstone","stairsup","hypersword","osmiumbar","osmiumsword","osmiumbuff","toxicsword","leafbowl", "wolframaxe","uraniumaxe","chest","cavebuilder"
         ]
@@ -16418,6 +16807,7 @@ var plantmakerrecipes = {
     "tallgrass": [["gel"]],
     "toadstool": [["gel","gel","gel"]],
     "snowflower": [["gel","gel"]],
+    "blossomblock": [["yellow","glowblossom"]],
 }
 var campfirerecipes = {
 "cooked_thistleroot": [["thistleroot"]],
@@ -16492,7 +16882,8 @@ var furnacerecipes = {
 "wolframaxe": [["wolfram","wolfram","iron_bar","longstick"]],
 "wolfram": [["wolframite", "coal"]],
 "uraniumaxe": [["uranium","uranium","wolframaxe","longstick"]],
-"cavebuilder":[["bigrock","bigrock","sharpstone"]]
+"cavebuilder":[["bigrock","bigrock","sharpstone"]],
+"smooth_stone":[["bigrock","sharpstone"]],
 }
 var cauldronrecipes = {
     "bowl": [["clay", "clay", "clay", "clay", "clay", "clay"]],
@@ -16983,7 +17374,8 @@ function deconstructItem(item) {
         fermentatorRecipes,
         kiln_recipes,
         plantmakerrecipes,
-        cauldronrecipes
+        cauldronrecipes,
+        badseedrecipesplus
     ];
 
     // Przechodzimy przez każdą tablicę z recepturami
@@ -17059,7 +17451,7 @@ if (options.autopause == 1) {
         // Funkcja dodawania przedmiotu do ekwipunku
         function addItem(item, amount) {
             for (let i = 0; i < amount; i++) {
-                if (yourItems.length < slots) {
+                if (yourItems.length < slots+1 ) {
                     yourItems.push(item);
                 } else {
                     console.log("Not enough space!");
@@ -17138,9 +17530,25 @@ if (options.autopause == 1) {
          
         function craftItem(item) {
     let TheItem = item;
+/*if(!checkEmptySlots(0) && options.creativemode==1 ){
+      if(langPlactive==1){
+        TextPopUp("Brak miejsca");
+      }else {
+      TextPopUp("no space");
+      } 
+      return;
+}else if (!checkEmptySlots(1) && options.creativemode == 0) {
+  if (langPlactive == 1) {
+    TextPopUp("Brak miejsca");
+  } else {
+    TextPopUp("no space");
+  }
+  return;
+}*/
 if(item=="yeast"){
   dropItemAtPlayerPosition("bowl")
 }
+
     // Lista grupreceptur, po których będziemy iterować
     const recipeGroups = [
         recipes,
@@ -17154,7 +17562,8 @@ if(item=="yeast"){
         redanvilrecipes,
         kiln_recipes,
         plantmakerrecipes,
-        cauldronrecipes
+        cauldronrecipes,
+        badseedrecipesplus
     ];
 
     let recipesList = null;  // Zmienna do przechowywania znalezionej listy receptur
@@ -17563,6 +17972,9 @@ container.className = "slots2";
 }
  
     let activeRecipes = { ...recipes };  
+    if(seed.startsWith("badseed")){
+     activeRecipes = { ...recipes, ...badseedrecipesplus };   
+    }
 if (isNearFurnace(player.x, player.y)) {
     activeRecipes = { ...activeRecipes, ...furnacerecipes };
     if(langPlactive==1){
@@ -17873,6 +18285,12 @@ try {
 
         updfixbug = 1
 
+if (gameState.seed) {
+  seed = gameState.seed
+} else {
+  seed = Math.floor(10 ** 15 + Math.random() * 9 * 10 ** 15).toString();
+}
+ 
 
         if (gameState.AVAILABLE_IDS) {
           AVAILABLE_IDS = gameState.AVAILABLE_IDS
@@ -17886,6 +18304,7 @@ if (gameState.achievements1 !== null && gameState.achievements1) {
 } else {
     achievements = []
 }
+
 if(gameState.chestsData){
   chestsData=JSON.parse(gameState.chestsData)
 }
@@ -18025,7 +18444,12 @@ async function loadGameState3(slot) {
 
         updfixbug = 1
 
-
+if (gameState.seed) {
+  seed = gameState.seed
+} else {
+  seed = Math.floor(10 ** 15 + Math.random() * 9 * 10 ** 15).toString();
+} 
+ 
         if (gameState.AVAILABLE_IDS) {
           AVAILABLE_IDS = gameState.AVAILABLE_IDS
         }
@@ -18146,7 +18570,7 @@ if (isinhouse2 == 1) {
           updateButtonStyle(button, options[varName]);
         });
         playMusic();
-        
+        playRandomMusic();
  options.autopause = 1;
  
       };
@@ -18168,81 +18592,93 @@ let saveTimer = null;
 async function saveGameState(slot) {
     if (checkIfHasEnemy("trueuniversehead", 1)) {
         showModal("You are Fighting with TRUE UNIVERSE, saving isn't a good idea?", function () {});
-        return; // Przerwij, jeśli gracz walczy
+        return;
     }
+
     if (!saveTimer) {
-    savedtimes = 1;
-    saveTimer = setInterval(() => {
-        if (savedtimes >= 5) {
-            achievementget("Uhm...saving ONE time is enough, y'know?", 1);
-            clearInterval(saveTimer);
-            saveTimer = null;
-        }
-        savedtimes = 0;
-    }, 30000);
-}
-savedtimes++;
- 
-    showModal("Are you sure to overwrite this game?", async function() {
-        try {
-            
-            
+        savedtimes = 1;
+        saveTimer = setInterval(() => {
+            if (savedtimes >= 5) {
+                achievementget("Uhm...saving ONE time is enough, y'know?", 1);
+                clearInterval(saveTimer);
+                saveTimer = null;
+            }
+            savedtimes = 0;
+        }, 30000);
+    }
+    savedtimes++;
 
-            const db = await initDB();
-            const transaction = db.transaction("gameStates", "readwrite");
-            const store = transaction.objectStore("gameStates");
-
-            const gameState = {
-                slot,
-                curseofgos,
-                offsetX,
-                offsetY,
-                increasing,
-                isRaining,
-                nightpower,
-                slots,
-                VISIBLEIDS,
-                AVAILABLE_IDS,
-                cannotmove,
-                options: JSON.stringify(options),
-                yourItemsDurabilities: JSON.stringify(yourItemsDurabilities),
-                activatedCheats,
-                currentHP,
-                currentStamina,
-                generateCave,
-                yourItems: JSON.stringify(yourItems),
-                overworldChunks: JSON.stringify(overworldChunks),
-                hellchunks: JSON.stringify(hellchunks),
-                houseChunks: JSON.stringify(housechunks),
-                caveChunks: JSON.stringify(caveChunks),
-                house2chunks: JSON.stringify(house2chunks),
-                seachunks: JSON.stringify(seachunks),
-                abysschunks: JSON.stringify(abysschunks),
-                renderedEnemies: (RENDEREDENEMIES2),
-                oxygen,
-                inabyss,
-                isunderwater,
-                isinhouse,
-                isinhouse2:isinhouse2,
-                inhell,
-                dayscount:surviveddays,
-                chestsData:JSON.stringify(chestsData),
-                spawnX: player.spawnX ,
-                spawnY: player.spawnY ,
-                chunks: JSON.stringify(chunks),
-                dataChunksStructures : dataChunksStructures,
-                savedinworld: player.savedinworld,
-                achievements1 : (achievements),
-            };
-
-            store.put(gameState);
+    try {
+        const db = await initDB();
+        const transaction = db.transaction("gameStates", "readonly");
+        const store = transaction.objectStore("gameStates");
+           
+        if (saveNames.includes(slot)) {
+            showModal("Are you sure to overwrite this game?", async function() {
+                await saveToDB(db, store, slot);
+                customAlert("Game saved successfully in slot " + slot);
+            });
+        } else {
+            await saveToDB(db, store, slot);
             customAlert("Game saved successfully in slot " + slot);
-        } catch (error) {
-            customAlert("Failed to save game: " + error);
+             
         }
-    });
+          
+    } catch (error) {
+        customAlert("Failed to save game: " + error);
+    }
 }
 
+async function saveToDB(db, store, slot) {
+    const transaction = db.transaction("gameStates", "readwrite");
+    const storeWrite = transaction.objectStore("gameStates");
+    const gameState = {
+        slot,
+        curseofgos,
+        offsetX,
+        offsetY,
+        increasing,
+        isRaining,
+        nightpower,
+        slots,
+        VISIBLEIDS,
+        AVAILABLE_IDS,
+        cannotmove,
+        options: JSON.stringify(options),
+        yourItemsDurabilities: JSON.stringify(yourItemsDurabilities),
+        activatedCheats,
+        currentHP,
+        currentStamina,
+        generateCave,
+        yourItems: JSON.stringify(yourItems),
+        overworldChunks: JSON.stringify(overworldChunks),
+        hellchunks: JSON.stringify(hellchunks),
+        houseChunks: JSON.stringify(housechunks),
+        caveChunks: JSON.stringify(caveChunks),
+        house2chunks: JSON.stringify(house2chunks),
+        seachunks: JSON.stringify(seachunks),
+        abysschunks: JSON.stringify(abysschunks),
+        renderedEnemies: (RENDEREDENEMIES2),
+        oxygen,
+        inabyss,
+        isunderwater,
+        isinhouse,
+        isinhouse2,
+        inhell,
+        dayscount: surviveddays,
+        chestsData: JSON.stringify(chestsData),
+        spawnX: player.spawnX,
+        spawnY: player.spawnY,
+        chunks: JSON.stringify(chunks),
+        dataChunksStructures,
+        savedinworld: player.savedinworld,
+        achievements1: achievements,
+        seed
+    };
+
+    storeWrite.put(gameState);
+    upadtegameslots()
+}
 
 
 
