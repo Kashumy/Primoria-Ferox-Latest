@@ -15,7 +15,8 @@ Here is my game for Android. I hope you enjoy survival games! 😉.
 note : i dont know how many days i spent on this game to make this .
  <img src="https://img.shields.io/badge/The%20game%20is%20free.%20But%20I%20would%20be%20very%20grateful%20if%20you%20share%20it%20with%20your%20friends%20%3B%29-coral?style=for-the-badge&logo=gamepad&logoColor=white">
 
-You can donate me views by making this game popular ; )
+| `You can donate me views by sharing this game to your friends ; ) ` |
+ 
 ___
 
 **Game category** 
@@ -30,6 +31,7 @@ survial openworld adventure retro singleplayer webview chill
 </p>
 
 ---
+<img src="https://github.com/Kashumy/Primoria-Ferox-Latest/blob/main/game.gif">
 
 ## 🕹️ About the Game
 
