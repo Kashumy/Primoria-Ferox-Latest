@@ -33,6 +33,9 @@ survial openworld adventure retro singleplayer webview chill
 ---
 <img src="https://github.com/Kashumy/Primoria-Ferox-Latest/blob/main/game.gif">
 
+<img src="https://github.com/Kashumy/Primoria-Ferox-Latest/blob/main/game1.gif">
+
+ 
 ## 🕹️ About the Game
 
 **Primoria-Ferox** is a survival game designed for Android devices ( but you can also play it in browser ).  
