@@ -1,4 +1,4 @@
- <!--
+  <!--
 
                  PRIMORIA FEROX
 
@@ -37,7 +37,7 @@ ważne Edycja Plików pfd to cheating !
 to twoje sumienie że oszukujesz w grze :)
 
   */
-var gameversion = " 1.5.8 pre5 b "
+var gameversion = " 1.5.8 pre5 b fixed"
 var APKversion=false;
 if (window.location.protocol === 'file:') {
   console.log(' (file://). protocol');
@@ -622,6 +622,7 @@ this isn't a fake loading screen !
 var langDEactive=0;
     // Angielskie splash teksty
     var splashTexts = [
+     
         "Other side on the other road",
         "Splash Text is always welcome",
         "Powered with HTML5!",
@@ -695,11 +696,41 @@ var langDEactive=0;
         "If you don't learn to swim, you'll drown.",
         "Au revoir, je ne reviens pas",
         "Bonjour le monde",
-        "Rest is a priority"
+        "Rest is a priority",
+        "What do you think about thinking about what do you think and think about what think do you think ?",
+        "Did you know that you can't cut down a tree without an axe?",
+        "Without tree fibers you can't do almost anything",
+        "The blocks are weird but that's normal",
+        "Some blocks can be covered by other blocks or objects.",
+        "Without a weapon you are weak",
+        "English or Spanish. It doesn't matter .Anyway nobody is gay",
+        "The game probably deserves a PEGI 13+",
+        "The desert is not safe. badseed even more so",
+        "Dlaczego jest tu polski splash ? ",
+        "Back on track and back to the madness",
+        "Isekai isn't real",
+        "I lock little kitties in my code ^_^",
+      "<span style='color:blue'>=`ᢦ ᤪ ᢦ`=</span>   why im even doing that sh*meow*t",
+    `<span style="color: red;">R</span><span style="color: orange;">a</span><span style="color: #f0e000;">i</span><span style="color: green;">n</span><span style="color: blue;">b</span><span style="color: indigo;">o</span><span style="color: violet;">w</span><span style="color: red;">!</span>`
     ];
 
     // Polskie tłumaczenia
     var splashTextsPL = [
+      "Co sądzisz o tym o tym co sądzisz co sądzisz o sądzisz ?",
+      
+      "Isekai nie istnieje",
+      "Zamykam małe kotki w moim kodzie ^_^",
+      "Back on track i przejdź na madness",
+      "Why is there an English splash here?",
+      "Angielski czy hiszpański. Nieważne. W każdym razie nikt nie jest gejem",
+      "Gra prawdopodobnie zasługuje na PEGI 13+ ",
+      "Pustynia Jest nie bezpieczna. badseed jeszcze bardziej ",
+      "Bloki są dziwne ale to normalne",
+      "Niektóre bloki można przykryć innymi blokami lub przedmiotami",
+      "Bez broni jesteś bezbronny",
+      "Bez włókien drzew nie zrobisz prawie wszystkiego!",
+      "Co myślisz o myśleniu o tym, co myślisz i myślisz o tym, co myślisz?",
+      "Wiedziałeś że bez siekiery nie zetkniesz drzewa?",
         "Druga strona na drugiej drodze",
         "Tekst powitalny zawsze mile widziany",
         "Działa na HTML5!",
@@ -775,7 +806,7 @@ var langDEactive=0;
     function splashrandomize() {
         const splash = document.getElementById('splashText');
         const texts = langPlactive ? splashTextsPL : splashTexts;
-        splash.innerText = texts[Math.floor(Math.random() * texts.length)];
+        splash.innerHTML = texts[Math.floor(Math.random() * texts.length)];
     }
 
     splashrandomize();
@@ -803,7 +834,7 @@ var langDEactive=0;
     "Almost there! Counting clouds and unicorns.",
     "Hang tight! We're checking if the coffee is strong enough.",
     "Loading... time to ponder the meaning of life!",
-    "Please wait, our robot is doing a little dance.",
+    "Please Trying To Connect With Nearest UFO",
     "Loading... remember to breathe and stretch!",
     "Just a moment, we're negotiating with the Wi-Fi gremlins!",
     "Hold off! The area is under construction.",
@@ -867,7 +898,7 @@ var langDEactive=0;
             
             const loadingMenu = document.getElementById('loadingMenu');
             const texts = langPlactive ? loadingTextsPL : loadingTexts;
-loadingMenu.innerText = texts[Math.floor(Math.random() * texts.length)]; 
+loadingMenu.innerHTML = texts[Math.floor(Math.random() * texts.length)]; 
 console.log(loadingMenu.innerText )
              if(document.getElementById('loadingScreen')){
                  document.getElementById('loadingScreen').innerText=loadingMenu.innerText 
@@ -1216,15 +1247,23 @@ if (isunderwater == 1) {
     chunks = overworldChunks;
     isinhouse = 0;
 }
+offsetX = 0;
+offsetY = 0;
 if(player.savedinworld=="house"){
+  if(!housechunks.length<2){
     isinhouse=1
 overworldChunks = { ...chunks };
 chunks = housechunks;
-}
- 
-
 offsetX = player.spawnX;
 offsetY = player.spawnY;
+}else{
+  player.savedinworld=''
+}
+}
+if(player.spawnX){
+offsetX = player.spawnX;
+offsetY = player.spawnY;
+}
 
 
 diedRMEN=1
@@ -2056,19 +2095,27 @@ function playslash() {
   slashsound2.volume=0.5
     slashsound2.play();
 }
+
+let playingSlashes = 0;
+const maxSlashes = 10; 
 function playslash2() {
-  if(options.nomusic==1)return;
-  let slashsound2 = new Audio();
-  if (Math.random() < 0.3) {
-    slashsound2.src = slashsound.src
-  } else if (Math.random() < 0.5) {
-    slashsound2.src = slashsound3.src
-  } else {
-    slashsound2.src = slashsound4.src
-  }
-  slashsound2.volume = 0.32
-  slashsound2.play();
+    if (options.nomusic == 1 || playingSlashes >= maxSlashes) return;
+    playingSlashes++;
+    let slashsound2 = new Audio();
+    if (Math.random() < 0.3) {
+        slashsound2.src = slashsound.src;
+    } else if (Math.random() < 0.5) {
+        slashsound2.src = slashsound3.src;
+    } else {
+        slashsound2.src = slashsound4.src;
+    }
+    slashsound2.volume = 0.32;
+    slashsound2.play();
+    slashsound2.onended = () => {
+        playingSlashes--; 
+    };
 }
+
 function blockedsound() {
   if(options.nomusic==1)return;
     noucant.play();
@@ -2257,7 +2304,7 @@ const nightmusicTracks = [
 
 
 "./primoriWorld.mp3",
-"./primoriaferox7.mp3",
+//"./primoriaferox7.mp3",
   "./night.mp3",
   "./night5.mp3",
 "./KaputDeFerxo.mp3",
@@ -2284,7 +2331,7 @@ const desertTrack = new Audio('./SandInEyes.mp3');
 const desertnightTrack = new Audio('./ruins.mp3');
 const snowyTrack = new Audio('./snowy.mp3');
 const snowyTrack2 = new Audio('./Ethernia cold.mp3');
-const foresttrack = new Audio('./mightNight.mp3');
+const foresttrack = new Audio('./MyCosmos.mp3');
 const abyssumTrack = new Audio('./abyssum.mp3');
 const hellTrack = new Audio('./The Magma.mp3');
 const aquamarine = new Audio('./deep in abyss.mp3');
@@ -3932,9 +3979,14 @@ let inhell = 0;
  
  
 function getRandomKey(obj) {
+
     const klucze = Object.keys(obj); 
     const losowyIndeks = Math.floor(Math.random() * klucze.length); 
+    if(klucze[losowyIndeks]!=="godsword"||klucze[losowyIndeks]!=="godwand"){
     return klucze[losowyIndeks]; 
+    }else{
+   // return klucze[losowyIndeks]; 
+    }
 }
 
 function xorshift(seed) { let state = BigInt(seed) & 0xFFFFFFFFFFFFFFFFn; return function() { state ^= state << 13n; state ^= state >> 7n; state ^= state << 17n; return Number(state & 0x7FFFFFFFFFFFFFFFn) / Number(0x7FFFFFFFFFFFFFFFn); }; }
@@ -3997,7 +4049,7 @@ if(inabyss==1){
 if (seed.startsWith("randomloot") && !isInSpawnArea && hashCoords(chunkX, chunkY, 0.5, seed) < 0.008) {
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'forestgrass' });
   blocks.push({ x: 0, y: 0, type: 'chest' });
-  chestsData[`${chunkX},${chunkY}`] = [getRandomKey(allItems), getRandomKey(allItems)];
+  chestsData[`${chunkX},${chunkY}`] = [getRandomKey(allItems), getRandomKey(allItems),getRandomKey(allItems)];
 }else  if (hashCoords(chunkX,chunkY,43, seed) < 0.003) {
     blocks.push({ x: i * blockSize, y: j * blockSize, type: 'desertsand' });
     blocks.push({ x: i * blockSize, y: j * blockSize, type: 'skull' });
@@ -4042,7 +4094,7 @@ if (blockType === 'forestgrass') {
   if (seed.startsWith("randomloot") && !isInSpawnArea && hashCoords(chunkX, chunkY, 0.5, seed) < 0.008) {
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'forestgrass' });
   blocks.push({ x: 0, y: 0, type: 'chest' });
-  chestsData[`${chunkX},${chunkY}`] = [getRandomKey(allItems), getRandomKey(allItems)];
+  chestsData[`${chunkX},${chunkY}`] = [getRandomKey(allItems), getRandomKey(allItems),getRandomKey(allItems)];
 }else if (hashCoords(chunkX,chunkY,52, seed) < 0.15) {
     blocks.push({ x: i * blockSize, y: j * blockSize, type: 'forestgrass' });
      blocks.push({ x: i * blockSize, y: j * blockSize, type: 'pine0' });
@@ -4104,7 +4156,7 @@ if (blockType === 'forestgrass') {
 if (seed.startsWith("randomloot") && !isInSpawnArea && hashCoords(chunkX, chunkY, 0.5, seed) < 0.008) {
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'snowgrass' });
   blocks.push({ x: 0, y: 0, type: 'chest' });
-  chestsData[`${chunkX},${chunkY}`] = [getRandomKey(allItems), getRandomKey(allItems)];
+  chestsData[`${chunkX},${chunkY}`] = [getRandomKey(allItems), getRandomKey(allItems),getRandomKey(allItems),getRandomKey(allItems),getRandomKey(allItems)];
 }else if (hashCoords(chunkX,chunkY,66, seed) < 0.1) {
       blocks.push({ x: i * blockSize, y: j * blockSize, type: 'snowgrass' });
         blocks.push({ x: i * blockSize, y: j * blockSize, type: 'snowpine1' });
@@ -4816,7 +4868,7 @@ if (surviveddays > 100) {
     achievementget("<span style='color: purple;'>100 days !</span>", 1)
 }
 if (surviveddays > 500) {
-    achievementget("Man you're playing really long <span style='color: yellow;'>500 days !</span>", 1)
+    achievementget("Man you're realy playing very long <span style='color: yellow;'>500 days !</span>", 1)
 }
         }
     }
@@ -8183,7 +8235,7 @@ if(checkBlockAtPosition(globalX-offsetX,globalY -offsetY,"snowgrass")||checkBloc
                     { x: 0, y: -32, type: "tree1" }, // Drugi blok pnia
                     { x: 0, y: -64, type: "tree2" },
                 ];
-                }        else if (Math.random() < 0.3) {
+                } else if (Math.random() < 0.37) {
                   treeStructure = [
                     { x: 0, y: 0, type: "birch0" }, // Pień drzewa
                     { x: 0, y: -32, type: "birch1" }, // Drugi blok pnia
@@ -9349,7 +9401,16 @@ function update() {
   canvas.style.transform = " translate(-50%,-50%) scale(120%,100%)"
   }else if (options.rendermode == 3) {
   canvas.style.transform = " translate(-50%,-50%) scale(130%,108%)"
-  }else{
+}else if (options.rendermode == 4) {
+  canvas.style.transform = " translate(-50%,-50%) scale(95%,100%)"
+}else if (options.rendermode == 5) {
+  canvas.style.transform = ` translate(-50%,-85% ) scale(150%,600%)`
+}else if (options.rendermode == 6) {
+  canvas.style.transform = ` translate(-50%,-55% ) scale(160%,140%)`
+}else if (options.rendermode == 7) {
+  canvas.style.transform = ` translate(-50%,-55% ) scale(100%,100%)`
+  ctx.imageSmoothingEnabled = true;
+}else{
   canvas.style.transform=" translate(-50%,-50%) scale(110%,100%)"
   }
   const healthBar = document.getElementById('healthBar');
@@ -9418,19 +9479,27 @@ if(abletostart==1&&paused!==1 && unfixable==0){
        }
   canvas.width=420+zoomedDELTA; canvas.height=350+zoomedDELTA;
   ctx = canvas.getContext('2d');
+  if (options.rendermode !== 7) {
 ctx.imageSmoothingEnabled = false;
+}else{
+ctx.imageSmoothingEnabled = true;
+}
 player.x = canvas.width / 2 - 2 ;
 player.y = canvas.height / 2 + 6.7 ;
  }else{
   canvas.width=420; canvas.height=350;
   ctx = canvas.getContext('2d');
+  if (options.rendermode !== 7) {
 ctx.imageSmoothingEnabled = false;
+}else{
+  ctx.imageSmoothingEnabled = true;
+}
 zoomedDELTA=0
     player.x = canvas.width / 2 -2+zoomedDELTA;
     player.y = canvas.height / 2 +6.7+zoomedDELTA;
     
  }}
- 
+  
   
   if (isUpdating>1) {
       isUpdating=0
@@ -9879,7 +9948,7 @@ function spawnBatNearPlayer() {
      if (seed.startsWith("badseed") && Math.random() < 0.2) {
    bat = new Enemy(8 * blockSize + offsetX, 8 * blockSize + offsetY, 'demonbat');
     }
-    bat.speed=(Math.random()*1.5)+1
+    bat.speed=(Math.random()*2)+1.2
     renderedEnemies.push(bat); // Dodanie nietoperza do listy renderowanych przeciwników
 }
 
@@ -10826,6 +10895,39 @@ if (nocliping == 0 && options.noclip == 0) {
 }
 
 if(  options.noclip!==1 ){
+  
+  if (block.type === 'voidblock') {
+                  if(delayChangeDimension!==1){
+
+          let dx = (player.x + player.width / 2) - (block.x + blockSize / 2);
+          let dy = (player.y + player.height / 2) - (block.y + blockSize / 2);
+
+
+          let distance = Math.sqrt(dx * dx + dy * dy);
+          if (hitboxShowEnabled == 1) {
+            ctx.fillStyle = 'red';
+            ctx.fillRect(block.x, block.y, blockSize, blockSize);
+          }
+          if (distance < collisionRadius/2.5) {
+            // Jeśli kolizja, zaznacz blok na czerwono
+if(isinhouse==1){
+housechunks = chunks
+}else if (isinhouse2 == 1) {
+  house2chunks = chunks
+}
+showTextInCanvas("house warping bug fixed :)")
+isinhouse = 0;
+isinhouse2 = 0;
+chunks = overworldChunks; // Przywróć chunk-i świata
+delayChangeDimension = 1
+setTimeout(function() {
+  delayChangeDimension = 0
+}, 5000)
+overworldChunks = null; 
+collisionDetected = true; 
+          delayChangeDimension = 1;
+        }}}
+  
   if (block.type === 'cave_wall'||block.type === 'cavewall'||block.type === 'broken_cavewall' || block.type === 'broken_cavewall') {
                   if(delayChangeDimension!==1){
 
@@ -11266,6 +11368,9 @@ function showTextInCanvas(text) {
 if (options.rendermode == 3) {
   textY = canvas.height -45;
 }
+if (options.rendermode == 6) {
+  textY = canvas.height - 65;
+}
     // Ustawiamy, aby tekst zniknął za 2 sekundy
     textTimeout = performance.now() + 4000;  // Teraz + 2 sekundy
 }
@@ -11294,6 +11399,9 @@ function showTextInCanvas2(text) {
 textY2 =canvas.height -50;
 if (options.rendermode == 3) {
   textY2 = canvas.height - 55;
+}
+if (options.rendermode == 6) {
+  textY = canvas.height - 65;
 }
     // Ustawiamy, aby tekst zniknął za 2 sekundy
     textTimeout2 = performance.now() + 4000;  // Teraz + 2 sekundy
@@ -12363,33 +12471,39 @@ function igniteFiberAround(x, y, radius = 64) {
         }
     }
 }
- 
-var curseofgos=0
-function removeBatAtPosition(x, y) {
-  const weapon = checkIfPlayerHasAnyWeapon(); // tutaj możesz sprawdzić, jaką broń ma gracz
-  let playerCenterX = player.x + offsetX + player.width * 2;
-let playerCenterY = player.y + offsetY + player.height * 2;
-playerCenterX -= 32 + 32;
-playerCenterY -= 32 + 33;
+ let lastHitEnemySoundTime = 0;
+const hitEnemySoundCooldown = 100;
 
-  
-  if (!weapon) return; 
-  const range = itemsAndDamage[weapon].range; 
- renderedEnemies.forEach(enemy => {
-      const dx = x - (enemy.x + enemy.width) + offsetX;
-      const dy = y - (enemy.y + enemy.height) + offsetY;
-      const distanceClick = Math.sqrt(dx * dx + dy * dy);
-      const distanceFromPlayer = Math.sqrt(
-        (enemy.x - playerCenterX) ** 2 + (enemy.y - playerCenterY) ** 2
-      );
-      if (distanceClick <= range && distanceFromPlayer <= range && enemy.hp<(9999*99)) {
-        if(options.nomusic!==1){
-let slashsound6 = new Audio();
-slashsound6.src = hitenemysound.src
-slashsound6.volume = 0.25;
-slashsound6.play();
-}
-}});
+function removeBatAtPosition(x, y) {
+    const weapon = checkIfPlayerHasAnyWeapon();
+    if (!weapon) return;
+
+    let playerCenterX = player.x + offsetX + player.width * 2 - 64;
+    let playerCenterY = player.y + offsetY + player.height * 2 - 65;
+
+    const range = itemsAndDamage[weapon].range;
+    const now = performance.now(); 
+
+    renderedEnemies.forEach(enemy => {
+        const dx = x - (enemy.x + enemy.width) + offsetX;
+        const dy = y - (enemy.y + enemy.height) + offsetY;
+        const distanceClick = Math.sqrt(dx * dx + dy * dy);
+        const distanceFromPlayer = Math.sqrt(
+            (enemy.x - playerCenterX) ** 2 + (enemy.y - playerCenterY) ** 2
+        );
+
+        if (distanceClick <= range && distanceFromPlayer <= range && enemy.hp < (9999 * 99)) {
+            if (options.nomusic !== 1 && now - lastHitEnemySoundTime >= hitEnemySoundCooldown) {
+                lastHitEnemySoundTime = now;
+
+                let slashsound6 = new Audio(hitenemysound.src);
+                slashsound6.volume = 0.12;
+                slashsound6.play();
+            }
+        }
+    });
+
+
  if(weapon=="godwand"){
     updateStamina(-1)
   const typesof = ["godmagic"];
@@ -12797,6 +12911,7 @@ function checkIfPlayerHasAnyWeapon() {
 }
  
 function attackEnemyAtPosition(x, y) {
+  
   let playerCenterX = player.x + offsetX + player.width * 2;
   let playerCenterY = player.y + offsetY + player.height * 2;
   playerCenterX -= 32 + 32;
@@ -15224,12 +15339,16 @@ document.getElementById("allachievements2").innerHTML+=d
     <button onclick="exportData2();">export world as pfdata  </button>
     <button data-var="autopause" onclick="customAlert(seed)">get seed ( info older version doesnt use seeds but use math.random() ) </button>
     <br><br>
-    <label for="renderMode" style="color:white;">Renderer Mode:</label>
+    <label for="renderMode" style="color:white;">Screen Mode:</label>
 <select id="renderMode" name="renderMode">
   <option value="0" data-renderer="classicOLD">Standard X1</option>
   <option value="1" data-renderer="canvasX8">Classic X0</option> 
   <option value="2" data-renderer="HHGHcanvas">HHGH Canvas</option>
   <option value="3" data-renderer="canvas">XL screen</option>
+  <option value="4" data-renderer="canvas">Slim Tiny x05</option>
+  <option value="5" data-renderer="canvas">Fuc`d up</option>
+  <option value="6" data-renderer="canvas">Full 9FX</option>
+  <option value="8" data-renderer="canvas">Standard Canvas</option>
 </select>
 <script>
  
@@ -15439,7 +15558,9 @@ updateTextMenuLoading()
             const worldData = JSON.parse(worldDataPart);
   gameState = Object.assign({}, gameState, worldData);
          updfixbug = 1
-
+player.spawnY=0;
+player.spawnX=0;
+player.savedinworld="";
 if (gameState.seed) {
   seed = gameState.seed
 } else {
@@ -18263,9 +18384,12 @@ if (gameState.dayscount) {
     surviveddays = gameState.dayscount
 }
  if (gameState.spawnX) {
-            player.spawnX = gameState.spawnX
-            player.spawnY = gameState.spawnY
-        }
+  player.spawnX = gameState.spawnX
+  player.spawnY = gameState.spawnY
+} else {
+  player.spawnX = 0
+  player.spawnY = 0
+}
         if (typeof gameState.renderedEnemies === "string") {
           renderedEnemies = JSON.parse(gameState.renderedEnemies);
         } else {
@@ -18401,7 +18525,9 @@ if (options) {
         seachunks = JSON.parse(gameState.seachunks);
         abysschunks = JSON.parse(gameState.abysschunks);
         if (gameState.savedinworld) {
-        player.savedinworld = (gameState.savedinworld);
+        player.savedinworld = gameState.savedinworld;
+        }else{
+          player.savedinworld=""
         }
         if (gameState.hellchunks) {
           hellchunks = JSON.parse(gameState.hellchunks);
@@ -18417,6 +18543,8 @@ if (options) {
         }
         if (gameState.isinhouse2) {
     isinhouse2 = gameState.isinhouse2
+}else{
+  isinhouse2=0;
 }
 if (gameState.dayscount) {
     surviveddays = gameState.dayscount
@@ -18424,6 +18552,9 @@ if (gameState.dayscount) {
  if (gameState.spawnX) {
             player.spawnX = gameState.spawnX
             player.spawnY = gameState.spawnY
+        }else{
+          player.spawnX =0
+          player.spawnY =0
         }
         if (typeof gameState.renderedEnemies === "string") {
           renderedEnemies = JSON.parse(gameState.renderedEnemies);
