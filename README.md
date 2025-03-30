@@ -1,7 +1,7 @@
 # 🗿 Primoria-Ferox 
 
 <p align="center">
-    <img src="https://img.shields.io/badge/PLAY%20ONLINE%20!-green?style=for-the-badge&logo=gamepad&logoColor=white">
+    <img src="https://img.shields.io/badge/PLAY%20ONLINE%20!-green?style=for-the-badge&logo=gamepad&logoColor=white" href="https://kashumy.github.io/Primoria-Ferox-Latest">
 </p>
   
 ---
@@ -46,7 +46,7 @@ I hope you enjoy it! If you have any ideas for what I could add to the game, fee
 
 - **Primoria-Ferox / Repo:** Older version of the current game.  
   **Note:** Do not change the version from 6 -> 3 -> 2 -> 1, as this may corrupt your save file!  
-  You can play offline on my repo [Primoria-Ferox-Online](https://kashumy.github.io/Primoria-Ferox-Online).  
+  You can play offline on my repo [Primoria-Ferox-Online](https://kashumy.github.io/Primoria-Ferox-Latest).  
   Soon, I will add multiplayer to these games.  
    
 
