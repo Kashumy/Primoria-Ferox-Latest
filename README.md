@@ -1,8 +1,11 @@
 # 🗿 Primoria-Ferox 
 
 <p align="center">
-    <img src="https://img.shields.io/badge/PLAY%20ONLINE%20!-green?style=for-the-badge&logo=gamepad&logoColor=white" href="https://kashumy.github.io/Primoria-Ferox-Latest">
+  <a href="https://kashumy.github.io/Primoria-Ferox-Latest">
+    <img src="https://img.shields.io/badge/PLAY%20ONLINE%20!-green?style=for-the-badge&logo=gamepad&logoColor=white">
+  </a>
 </p>
+
   
 ---
 
