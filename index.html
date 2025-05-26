@@ -18,7 +18,7 @@ FULL Release                    1.5.+
   <!-- In apk Version Link to MyLiblary ( bez niej nie można by było zapisywać plików w mojej grze w apk )-->
   <script src="./javanative.js"></script>
   
-    <script src="./raw.js"></script>
+    <script src="./rsrc-raw.js"></script>
     <script>
     function setBase64Image(imgElement, key, rsrc) {
       if (typeof rsrc !== "undefined" && rsrc[key]) {imgElement.src = "data:image/png;base64," + rsrc[key];} else {console.warn(`err: ${key}`);}}
@@ -40,7 +40,7 @@ to twoje sumienie że oszukujesz w grze :)
 var gameversion = " 1.5.8 pre5 b fixed"
 var APKversion=false;
 if (window.location.protocol === 'file:') {
-  console.log(' (file://). protocol');
+  console.log(' (file://). protocol Aplikacja w Natywnym kodzie lub pliku');
   APKversion=true;
 } else {
   console.log('Aplikacja jest uruchomiona w przeglądarce.');
@@ -49,7 +49,7 @@ if (window.location.protocol === 'file:') {
 
 let experimentalmultiplayer=0;
 let gametest=0;
-    var yourItems = [];  // Ekwipunek
+    var yourItems = []; 
   </script>
       <style>
  
@@ -736,7 +736,6 @@ var langDEactive=0;
         "Działa na HTML5!",
         "Witaj świecie",
         "Ahh, klasyczna ścieżka dźwiękowa Primoria Ferox",
-        "Co robi Jeremi w pralce? Czyści wspomnienia",
         "Świat jest tak prosty jak czerń i biel",
         "Każdy może kodować. Wystarczy dużo kawy",
         "Pozdrowienia dla moich kolegów ;)",
@@ -749,6 +748,15 @@ var langDEactive=0;
         "Nie, to nie jest Terraria!",
         "Kliknij Pokaż więcej, aby zobaczyć przepisy",
         "Eksploruj świat, a znajdziesz coś ciekawego",
+        
+        
+        "Wiedziałeś że pustynne potwory dropią medalion szybkości i rdzeń pustynny",
+        "Zabijaj mroźne duchy by zdobyć ważne materiały urzywane w specjalnym kowadle",
+        "Drewno Palmowe nadaje się tylko do opału ",
+        "Latające koty w czeluści dropia gemy",
+      
+ 
+        
         "Ścinaj drzewa!",
         "Diament jest niezniszczalny.",
         "Pamiętaj, po śmierci nie wracasz!",
@@ -816,7 +824,7 @@ var langDEactive=0;
     
     
     const loadingTexts = [
-            "Loading... go touch some grass!",
+      "Did you know that desert monsters drop the Medallion of Speed and the Desert Core", "Kill frost spirits to get important materials used in the special anvil", "Palmwood is only good for firewood", "Flying cats in the abyss drop gems",  "Loading... go touch some grass!",
             "Please wait, we're fetching the stars!",
             "Hang tight! The magic is happening.",
             "Loading your dreams...",
@@ -943,9 +951,9 @@ Masz pomysł na grę? Możesz podzielić się nim pod
 - Nowy system jaskiń  
 
 <span style="color: lightgreen;">Chcesz zmienić język?</span>  
-<select id="languageSelect" onchange="changeLanguage()">  
+<select id="languageSelect" option="en" value="en" onchange="changeLanguage()">  
   <option value="en">English</option>  
-  <option value="pl">Polski</option>  
+  <option value="pl" selected>Polski</option>  
 </select>
  
 `
@@ -1134,6 +1142,7 @@ opacity: 0.8
   noclip: 0,
   zoomout: 0,
   biggerzoomout: 0,
+  hyperzomout: 0,
   Fskipping: 0,
   hideBlocksnumber: 0,
   showEveryBlocksNumber: 0,
@@ -1392,7 +1401,7 @@ if(nightpower<0){
 function updateStamina(amount) {
         // Aktualizacja HP, ograniczenie do wartości od 0 do maxHP
         if (amount > 0 && currentStamina<maxHP ) {
-  if (currentHP > 90) {
+  if (currentHP > 90 && isflying==0 ) {
     currentHP -= 0.15
     currentStamina += 0.8
     
@@ -1698,7 +1707,7 @@ const inventory = {
     items: [], // Tablica przechowująca przedmioty
     maxSlots: 4, // Maksymalna liczba slotów w ekwipunku
 };
-const waterBuilder = ["stone_floor", "fiber_floor","grasslayer","yellow","violet","thistle","clayblock","clayblock1","dandelion","toadstool","sandblock2","gypsumblock","glass","fern","planks_floor","log_floor","ashblock","ashfloor","brickfloor","dirt","daffodil","flax" ,"myosotis" ,"fiber_floor","bed1","magnetite","nettle","stone_floor","emeraldfloor","sapphirefloor","rubyfloor","opalblock","opalblock","violetfloor","gypsum_dirt","gypsumfloor","gelfloor","gelblock","fiber_floor", "grasslayer", "yellow", "violet", "clayblock", "clayblock1", "dandelion", "toadstool", "sandblock2", "gypsumblock", "glass", "fern", "planks_floor", "log_floor", "ashblock", "ashfloor", "brickfloor", "daffodil", "fiber_floor", "bed1", "magnetite", "nettle", "stone_floor", "emeraldfloor", "sapphirefloor", "rubyfloor", "clayblock1", "clayblock","violetfloor","toadstool","stones","thistle","ryeroof","houseroof","housewall","brickhouse","gelblock","gypsum_dirt","roadfloor","gypsumblock","gypsumfloor","brickfloor2","grass2","forestgrasslayer","deadgrassfloor2","deadgrassfloor","forestgrasslayer","hill","climbhill","hellplank","abyssplank","polishedfloor","snowgrass2","dandelion","dandelion2","smooth_stone","blossomblock","curedgrasslayer"];
+const waterBuilder = ["stone_floor", "fiber_floor","grasslayer","yellow","violet","thistle","clayblock","clayblock1","dandelion","toadstool","sandblock2","gypsumblock","glass","fern","planks_floor","log_floor","ashblock","ashfloor","brickfloor","daffodil","flax" ,"myosotis" ,"fiber_floor","bed1","magnetite","nettle","stone_floor","emeraldfloor","sapphirefloor","rubyfloor","opalblock","opalblock","violetfloor","gypsum_dirt","gypsumfloor","gelfloor","gelblock","fiber_floor", "grasslayer", "yellow", "violet", "clayblock", "clayblock1", "dandelion", "toadstool", "sandblock2", "gypsumblock", "glass", "fern", "planks_floor", "log_floor", "ashblock", "ashfloor", "brickfloor", "daffodil", "fiber_floor", "bed1", "magnetite", "nettle", "stone_floor", "emeraldfloor", "sapphirefloor", "rubyfloor", "clayblock1", "clayblock","violetfloor","toadstool","stones","thistle","ryeroof","houseroof","housewall","brickhouse","gelblock","gypsum_dirt","roadfloor","gypsumblock","gypsumfloor","brickfloor2","grass2","forestgrasslayer","deadgrassfloor2","deadgrassfloor","forestgrasslayer","hill","climbhill","hellplank","abyssplank","polishedfloor","snowgrass2","dandelion","dandelion2","smooth_stone","blossomblock","curedgrasslayer","road2"];
 function isPlayerInWater() {
     let isInWater = false;
  
@@ -2166,8 +2175,14 @@ if(inWater ){
         else if (moveUp) {player.currentAnimation = 'inwater_moveup';lastDirection="up"}
         else if (moveDown) {player.currentAnimation = 'inwater_movedown';lastDirection="down"}
         playerSpeed = waterspeed;
+        if (seed.startsWith("speed")) {
+          playerSpeed = waterspeed*1.5
+        }
     } else {
         playerSpeed = norspeed;
+        if (seed.startsWith("speed")) {
+  playerSpeed = norspeed * 1.5
+}
         if (moveRight && moveUp) {player.currentAnimation = 'moveupright';lastDirection="up";}
         else if (moveLeft && moveUp) {player.currentAnimation = 'moveupleft';lastDirection="left";}
         else if (moveRight) {player.currentAnimation = 'moveright';lastDirection="right";}
@@ -2271,6 +2286,7 @@ function drawPlayer() {
 var cannotmove=0
 
 const musicTracks = [
+  "./LandOnMyLand.mp3",
   "./primoria ferox 1.mp3",
   "./primoria ferox 3.mp3",
   "./new horizons above.mp3",
@@ -2301,7 +2317,7 @@ const musicTracks2 = [
 "./nightstand.mp3",
 ];
 const nightmusicTracks = [
-
+"./LOVECHONOVA.mp3",
 
 "./primoriWorld.mp3",
 //"./primoriaferox7.mp3",
@@ -2332,6 +2348,7 @@ const desertnightTrack = new Audio('./ruins.mp3');
 const snowyTrack = new Audio('./snowy.mp3');
 const snowyTrack2 = new Audio('./Ethernia cold.mp3');
 const foresttrack = new Audio('./MyCosmos.mp3');
+const cemetery = new Audio('./graveyard.mp3');
 const abyssumTrack = new Audio('./abyssum.mp3');
 const hellTrack = new Audio('./The Magma.mp3');
 const aquamarine = new Audio('./deep in abyss.mp3');
@@ -2693,6 +2710,7 @@ currentTrack.play().then(() => fadeIn(snowyTrack2));
   };
 }}
 var isPlayingForest=false; 
+var isPlayingGraveyard=false; 
 function startForest() {
   if(!(checkIfHasEnemy("trueuniversehead",1))){
       if(nightpower>1.5){
@@ -2709,13 +2727,52 @@ currentTrack.play().then(() => fadeIn(foresttrack));
 
   currentTrack.onended = () => {
     currentTrack = null;
-   // isPlayingForest = false;
+   isPlayingForest = false;
   };
       }
 }}
+function startCementary() {
+  if(!(checkIfHasEnemy("trueuniversehead",1))){
+      if(true){
+        if(currentTrack) { currentTrack.pause()
+          currentTrack.currentTime = 0;
+          currentTrack=null
+        }
+ currentTrack = cemetery;
+currentTrack.volume = 0;
+currentTrack.loop=true;
+currentTrack.play().then(() => fadeIn(cemetery));
+
+  isPlayingGraveyard = true;
+
+  currentTrack.onended = () => {
+    currentTrack = null;
+   isPlayingGraveyard = false;
+  };
+      }
+}}
+function stopCementary() {
+	if ( isPlayingGraveyard) {
+		currentTrack.pause();
+		currentTrack.currentTime = 0;
+		isPlayingGraveyard = false;
+		fadeOut(foresttrack, () => {
+			cemetery.pause();
+			cemetery.currentTime = 0;
+			isPlayingGraveyard = false;
+			if (inabyss === 1) {
+				playAbyssumTrack();
+			} else if (checkIfHasEnemy("trueuniversehead", 1)) {
+				playTrueTrack();
+			} else {
+		//		playRandomMusic();
+			}
+		});
+	}
+}
 function stopForest() {
     
-    if (currentTrack === foresttrack||isPlayingForest) {
+    if ( isPlayingForest) {
         currentTrack.pause();
 currentTrack.currentTime = 0;
 isPlayingForest = false;
@@ -2730,18 +2787,25 @@ isPlayingForest = false;
             } else if (checkIfHasEnemy("trueuniversehead", 1)) {
                 playTrueTrack();
             } else {
-                playRandomMusic();
+             //   playRandomMusic();
             }
         });
     }
 }
 function checkPlayerOnDesertSand() {
-  if( isPlayingForest ) return; 
-if (  ((isStayOn("forestgrasslayer") || isStayOn("forestgrass"))&& nightpower>2 && !isPlayingForest)   ) {
-    startForest(); // Zatrzymaj pustynną muzykę
-}else if (((isStayOn("grass") || isStayOn("water")) && (isPlayingDesertMusic || isPlayingSnowyMusic|| isPlayingForest))) {
+ // if( (isPlayingForest && !isPlayingGraveyard ) ) return; 
+if (((isStayOn("deadgrassfloor") || isStayOn("deadgrassfloor2")) )) {
+	if(!isPlayingGraveyard){
+	stopForest();
+	startCementary();
+	}
+} else if (((isStayOn("forestgrasslayer") || isStayOn("forestgrass")) && nightpower > 2 && !isPlayingForest)) {
+	stopCementary();
+	startForest(); // Zatrzymaj pustynną muzykę
+} else if (((isStayOn("grass") || isStayOn("grasslayer") || isStayOn("water") || isStayOn("water2")) && (isPlayingDesertMusic || isPlayingSnowyMusic|| isPlayingForest || isPlayingGraveyard ))) {
      stopSnowyMusic();
      stopForest();
+     stopCementary();
     stopDesertMusic();  // Zatrzymaj pustynną muzykę
   }else if (( isStayOn("snowgrass") ||isStayOn("snowgrass2") )&& !isPlayingSnowyMusic) {
       achievementget("Cold island",0)
@@ -2848,6 +2912,29 @@ const textures = {};
 
 // Definicja nazw tekstur i ich ścieżek
 const textureSources = {
+  itempotato:"./itempotato.png",
+  litpumpkin:"./litpumpkin.png",
+  chips:"./chips.png",
+  potato:"./potato.png",
+  potato2:"./potato2.png",
+  fire:"./fire1.png",
+  
+  
+  bluetorch:"./bluetorch1.png",
+  melonfruit:"./melonfruit.png",
+  melon:"./melon.png",
+  melon2: "./melon2.png",
+  melon1: "./melon1.png",
+  nametag: "./nametag.png",
+  melonsword: "./melonsword.png",
+   
+   
+  trashcan:"./trashcan.png",
+  pumpkin1:"./pumpkin1.png",
+  pumpkin2:"./pumpkin2.png",
+  pumpkin3:"./pumpkin3.png",
+  pumpkin:"./pumpkin.png",
+  
   corruptedthing:"./corruptedthing.png",
   thingeyes:"./thingeyes.png",
   bloodentrance:"./bloodentrance.png",
@@ -3395,6 +3482,9 @@ function loadWeaponTextures() {
 
 
 const animatedTextures = {
+  fire:{
+    frames:["./fire1.png","./fire2.png"], speed:1.5
+  },
     hallucinate: {
         frames : ["./hallucinate1.png","./hallucinate2.png","./hallucinate3.png","./hallucinate4.png","./hallucinate5.png","./hallucinate6.png",],
         speed:0.5
@@ -3476,6 +3566,10 @@ algae0: {
  statueofgods: {
   frames: ['./statueofgods1.png', './statueofgods2.png'], // Klatki animacji
   speed: 0.2 // Czas trwania jednej klatki (w sekundach)
+},
+bluetorch: {
+  frames: ['./bluetorch1.png', './bluetorch2.png'], 
+  speed: 0.2
 },
     torch: {
         frames: ['./torch.png', './torch2.png'], // Klatki animacji
@@ -3610,7 +3704,6 @@ for (const [name, src] of Object.entries(textureSources)) {
     textures[name] = new Image();
     let src2 = removeDotSlash(src)
 textures[name].src = getBase64Image(src2, assets);
-  //  textures[name].src = src;
 }
 
 var offsetX = 0;
@@ -3982,7 +4075,7 @@ function getRandomKey(obj) {
 
     const klucze = Object.keys(obj); 
     const losowyIndeks = Math.floor(Math.random() * klucze.length); 
-    if(klucze[losowyIndeks]!=="godsword"||klucze[losowyIndeks]!=="godwand"){
+    if(klucze[losowyIndeks]!=="godsword" && klucze[losowyIndeks]!=="godwand"){
     return klucze[losowyIndeks]; 
     }else{
    // return klucze[losowyIndeks]; 
@@ -4101,9 +4194,12 @@ if (blockType === 'forestgrass') {
  blocks.push({ x: i * blockSize, y: (j - 1) * blockSize, type: 'pine1' });
  blocks.push({ x: i * blockSize, y: (j - 2) * blockSize, type: 'pine2' });
  blocks.push({ x: i * blockSize, y: (j - 3) * blockSize, type: 'pine2' });
-  } else if (hashCoords(chunkX,chunkY,53, seed) < 0.08) {
+  } else if (hashCoords(chunkX, chunkY, 53, seed) < 0.08) {
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'forestgrass' });
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'forestleaf' });
+}else if (hashCoords(chunkX, chunkY, 53.5, seed) < 0.005) {
+  blocks.push({ x: i * blockSize, y: j * blockSize, type: 'forestgrass' });
+  blocks.push({ x: i * blockSize, y: j * blockSize, type: 'melon1' });
 }else if (hashCoords(chunkX,chunkY,54, seed) < 0.02) {
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'forestgrass' });
   blocks.push({ x: i * blockSize, y: j * blockSize, type: 'bigrock' });
@@ -4282,9 +4378,12 @@ if (seed.startsWith("randomloot") && !isInSpawnArea && hashCoords(chunkX, chunkY
   blocks.push({ x: i * blockSize, y: (j - 1) * blockSize, type: 'pine1' });
   blocks.push({ x: i * blockSize, y: (j - 2) * blockSize, type: 'pine2' });
 blocks.push({ x: i * blockSize, y: (j - 3) * blockSize, type: 'pine2' });
-}else if (!isInSpawnArea && hashCoords(chunkX,chunkY,89, seed) < 0.02 ) {
-    blocks.push({ x: i * blockSize, y: j * blockSize, type: 'grass' });
-    blocks.push({ x: i * blockSize, y: j * blockSize, type: 'rock' });
+}else if (!isInSpawnArea && hashCoords(chunkX, chunkY, 89, seed) < 0.02) {
+  blocks.push({ x: i * blockSize, y: j * blockSize, type: 'grass' });
+  blocks.push({ x: i * blockSize, y: j * blockSize, type: 'rock' });
+}else if (!isInSpawnArea && hashCoords(chunkX, chunkY, 89.5, seed) < 0.002) {
+  blocks.push({ x: i * blockSize, y: j * blockSize, type: 'grass' });
+  blocks.push({ x: i * blockSize, y: j * blockSize, type: 'pumpkin1' });
 }  else if (!isInSpawnArea && hashCoords(chunkX,chunkY,90, seed) < 0.007) {
     blocks.push({ x: i * blockSize, y: j * blockSize, type: 'grass' });
     blocks.push({ x: i * blockSize, y: j * blockSize, type: 'longstick' });
@@ -4837,11 +4936,16 @@ function updateDayNightCycle() {
   if(seed.startsWith("night") ){
     nightpower=3
   }
+  
   var boost1=0
   var boost2=0
   if(seed.startsWith("badseed")){
     boost1=0.001
   } 
+  if (seed.startsWith("speed")) {
+  boost1 = 0.01
+  boost2 = 0.02
+}
     if (increasing) {
         nightpower += dayNightCycleSpeed+boost1;  
         if (nightpower >= maxNightpower) {
@@ -4930,10 +5034,13 @@ function isNearTorch2(blocks, x, y) {
 }
 var blocksGlow = {
     "torch": { "x": 1, "y": 1, "d": 1 }, 
+    "litpumpkin": { "x": 0, "y": 0, "d": 2 }, 
     "candle": { "x": 1, "y": 1, "d": 0 },
     "lamp2": { "x": 2, "y": 2, "d": 1 },
     "cave_escape": { "x": 0, "y": 0, "d": 1 },
+    "blossomblock": { "x": 0, "y": 0, "d": 1 },
     "glowblossom": { "x": 0, "y": 0, "d": 1 },
+    "bluetorch": { "x": 0, "y": 0, "d": 1 },
     "lit_furnace": { "x": 3, "y": 3, "d": 1 },
     "lit_kiln": { "x": 3, "y": 2, "d": 1 },
     "campfire": { "x": 0, "y": 0, "d": 1 },
@@ -5125,7 +5232,7 @@ if (checkIfItems("hallucinate", 1)) {
 
 
 let chunkPositions = []; // Dodajemy do przechowywania pozycji chunków
-var dontcount = ["dirt", "grass", "tallgrass", "yellow", "dandelion", "violet","tree0","pine0","birch0","tree1","pine1","birch1","tree2","pine2","birch2","grasslayer","clayblock","ashfloor","shine","shiny","log_floor","log_wall","log","stone_floor","stone_wall","brickwall","brickfloor","clayblock1","glass","gypsumblock","abyssfloor","abyssescape","snowpine1","snowpine2","snowpine3","stone_floor", "fiber_floor", "grasslayer", "yellow", "violet", "clayblock", "clayblock1", "dandelion", "toadstool", "sandblock2", "gypsumblock", "glass", "fern", "planks_floor", "log_floor", "ashblock", "ashfloor", "brickfloor", "daffodil","flax","myosotis", "fiber_floor", "bed1", "magnetite", "nettle", "stone_floor", "emeraldfloor", "sapphirefloor", "rubyfloor", "clayblock1", "clayblock","violetfloor","grass","toadstool","stones","thistle","ryeroof","houseroof","housewall","brickhouse","gelblock","gypsum_dirt","roadfloor","gypsumblock","gypsumfloor","torch","brickfloor2","door","door2","housegrass","lamp","lamp2","hellwall2","forestgrass","forestleaf","blush","hill1","climbhill","statue1_1","statue1_2","kiln","algae1","algae2","algae0","statue2_2","statue2_1","helltree0","helltree1","helltree2","abysstree2","abysstree1","abysstree0","helllog","abysslog","abyssgrass","hellgrass" ,"gypsumhouse","gypsumroof","gypsumdoor","carpet","polishedfloor","sing","palm1","palm2","coconutpalm","palm12","palm32","stonesing","cauldron","textstone","fountain","candle","grassdeco","grassdeco1","curedgrasslayer"];
+var dontcount = ["dirt", "grass", "tallgrass", "yellow", "dandelion", "violet","tree0","pine0","birch0","tree1","pine1","birch1","tree2","pine2","birch2","grasslayer","clayblock","ashfloor","shine","shiny","log_floor","log_wall","log","stone_floor","stone_wall","brickwall","brickfloor","clayblock1","glass","gypsumblock","abyssfloor","abyssescape","snowpine1","snowpine2","snowpine3","stone_floor", "fiber_floor", "grasslayer", "yellow", "violet", "clayblock", "clayblock1", "dandelion", "toadstool", "sandblock2", "gypsumblock", "glass", "fern", "planks_floor", "log_floor", "ashblock", "ashfloor", "brickfloor", "daffodil","flax","myosotis", "fiber_floor", "bed1", "magnetite", "nettle", "stone_floor", "emeraldfloor", "sapphirefloor", "rubyfloor", "clayblock1", "clayblock","violetfloor","grass","toadstool","stones","thistle","ryeroof","houseroof","housewall","brickhouse","gelblock","gypsum_dirt","roadfloor","gypsumblock","gypsumfloor","torch","brickfloor2","door","door2","housegrass","lamp","lamp2","hellwall2","forestgrass","forestleaf","blush","hill1","climbhill","statue1_1","statue1_2","kiln","algae1","algae2","algae0","statue2_2","statue2_1","helltree0","helltree1","helltree2","abysstree2","abysstree1","abysstree0","helllog","abysslog","abyssgrass","hellgrass" ,"gypsumhouse","gypsumroof","gypsumdoor","carpet","polishedfloor","sing","palm1","palm2","coconutpalm","palm12","palm32","stonesing","cauldron","textstone","fountain","candle","grassdeco","grassdeco1","curedgrasslayer","road2" ,"cinnabargeode"];
 let waveTick = 0;
 var fenceconnections={
   "none": "./fence.png",
@@ -5519,6 +5626,10 @@ function drawChunks() {
      startX = Math.floor(offsetX / blockSize)-1  ;
      startY = Math.floor(offsetY / blockSize)-1  ;
     }
+   if (zoomedDELTA > 80) {
+    startX = Math.floor(offsetX / blockSize) - 2;
+    startY = Math.floor(offsetY / blockSize) - 1;
+  }
     const endX = startX + Math.ceil(canvas.width / blockSize / 1) + 1;
     const endY = startY + Math.ceil(canvas.height / blockSize / 1) + 3;
  
@@ -6283,6 +6394,9 @@ function updateHealth3(amount,enemy){
    
 }
 function updateEnemies() {
+  
+  
+    
   var removebymagic=0;
   if(updfixbug==0){
   darkeyes=0
@@ -8064,10 +8178,6 @@ enemy.height
   enemy.height
 );
         }
-
-        
-        
-        
     });
     RENDEREDENEMIES2 = renderedEnemies
 }
@@ -8108,8 +8218,11 @@ const globalY = block.y + 3 + (parseInt(chunkKey.split(',')[1]) * blockSize);
         if (block.type === 'dirt' && checkBlockAtPositionOnlyDirt( Math.floor(((globalX - offsetX) / 32) * 32), Math.floor(((globalY - offsetY) / 32) * 32) )) {
           console.log(JSON.stringify(chunkBlocks))
           removeBlockAtPosition(Math.floor(((globalX - offsetX) / 32) * 32), Math.floor(((globalY - offsetY) / 32) * 32), 'dirt');
-           
+           if(Math.random()<0.3){
           buildBlockAtPosition(Math.floor(((globalX - offsetX) / 32) * 32), Math.floor(((globalY - offsetY) / 32) * 32), 'water'); 
+           }else{
+             buildBlockAtPosition(Math.floor(((globalX - offsetX) / 32) * 32), Math.floor(((globalY - offsetY) / 32) * 32), 'shallowwater'); 
+           }
         }}else if (Math.random() < 0.095 && Math.random() < 0.075) {
         if (block.type === 'lit_kiln') {
           // Obliczamy globalne współrzędne bloku
@@ -8132,14 +8245,43 @@ const globalY = block.y + 3 + (parseInt(chunkKey.split(',')[1]) * blockSize);
           
         }}else if (Math.random() < 0.075 && Math.random() < 0.075) {
         if (block.type === 'wildcarrot') {
-          // Obliczamy globalne współrzędne bloku
           const globalX = block.x + 3 + (parseInt(chunkKey.split(',')[0]) * blockSize);
           const globalY = block.y + 3 + (parseInt(chunkKey.split(',')[1]) * blockSize);
-
-          // Usuwamy sadzonkę
           removeBlockAtPosition(Math.floor(((globalX - offsetX) / 32) * 32), Math.floor(((globalY - offsetY) / 32) * 32), 'wildcarrot');
           buildBlockAtPosition(Math.floor(((globalX - offsetX) / 32) * 32), Math.floor(((globalY - offsetY) / 32) * 32), 'carrot2'); 
-          
+        }}  if (Math.random() < 0.075 && Math.random() < 0.075) {
+        if (block.type === 'pumpkin1') {
+          const globalX = block.x + 3 + (parseInt(chunkKey.split(',')[0]) * blockSize);
+          const globalY = block.y + 3 + (parseInt(chunkKey.split(',')[1]) * blockSize);
+          removeBlockAtPosition(Math.floor(((globalX - offsetX) / 32) * 32), Math.floor(((globalY - offsetY) / 32) * 32), 'pumpkin1');
+          buildBlockAtPosition(Math.floor(((globalX - offsetX) / 32) * 32), Math.floor(((globalY - offsetY) / 32) * 32), 'pumpkin2'); 
+        }}else if (Math.random() < 0.085 && Math.random() < 0.085) {
+        if (block.type === 'pumpkin2') {
+          const globalX = block.x + 3 + (parseInt(chunkKey.split(',')[0]) * blockSize);
+          const globalY = block.y + 3 + (parseInt(chunkKey.split(',')[1]) * blockSize);
+          removeBlockAtPosition(Math.floor(((globalX - offsetX) / 32) * 32), Math.floor(((globalY - offsetY) / 32) * 32), 'pumpkin2');
+          buildBlockAtPosition(Math.floor(((globalX - offsetX) / 32) * 32), Math.floor(((globalY - offsetY) / 32) * 32), 'pumpkin3'); 
+        }}
+        if (Math.random() < 0.075 && Math.random() < 0.075) {
+        if (block.type === 'melon1') {
+          const globalX = block.x + 3 + (parseInt(chunkKey.split(',')[0]) * blockSize);
+          const globalY = block.y + 3 + (parseInt(chunkKey.split(',')[1]) * blockSize);
+          removeBlockAtPosition(Math.floor(((globalX - offsetX) / 32) * 32), Math.floor(((globalY - offsetY) / 32) * 32), 'melon1');
+          buildBlockAtPosition(Math.floor(((globalX - offsetX) / 32) * 32), Math.floor(((globalY - offsetY) / 32) * 32), 'melon2'); 
+        }}else if (Math.random() < 0.085 && Math.random() < 0.085) {
+        if (block.type === 'melon2') {
+          const globalX = block.x + 3 + (parseInt(chunkKey.split(',')[0]) * blockSize);
+          const globalY = block.y + 3 + (parseInt(chunkKey.split(',')[1]) * blockSize);
+          removeBlockAtPosition(Math.floor(((globalX - offsetX) / 32) * 32), Math.floor(((globalY - offsetY) / 32) * 32), 'melon2');
+          buildBlockAtPosition(Math.floor(((globalX - offsetX) / 32) * 32), Math.floor(((globalY - offsetY) / 32) * 32), 'melon'); 
+        }}
+        
+        if (Math.random() < 0.075 && Math.random() < 0.075) {
+        if (block.type === 'potato2') {
+          const globalX = block.x + 3 + (parseInt(chunkKey.split(',')[0]) * blockSize);
+          const globalY = block.y + 3 + (parseInt(chunkKey.split(',')[1]) * blockSize);
+          removeBlockAtPosition(Math.floor(((globalX - offsetX) / 32) * 32), Math.floor(((globalY - offsetY) / 32) * 32), 'potato2');
+          buildBlockAtPosition(Math.floor(((globalX - offsetX) / 32) * 32), Math.floor(((globalY - offsetY) / 32) * 32), 'potato'); 
         }}
        if(Math.random()<0.05&&Math.random()<0.09){
             if (block.type === 'hellsapling') {
@@ -8346,7 +8488,7 @@ removeBlockAtPosition(x, y - (32 * 2), "coconutpalm");
                
             }}}else if(block.type === 'mycelium'){
               //if (Math.random()<0.04&&Math.random()<0.05) {
-            if (Math.random()<0.04&&Math.random()<0.05) {
+            if (Math.random()<0.04&&Math.random()<0.04) {
 if (true) {
                 const globalX = block.x + (parseInt(chunkKey.split(',')[0]) * blockSize);
                 const globalY = block.y + (parseInt(chunkKey.split(',')[1]) * blockSize);
@@ -8567,7 +8709,31 @@ function drawRainEffectOnBlocks() {
 
     ctx.globalAlpha = 1.0;
   }
-else  if (generateCave !== 1 && isinhouse !== 1 && inhell !== 1 && (isStayOn("snowgrass") ||isStayOn("snowgrass2") )) {
+  if (options.fancygraphic == 1) {
+  if (isStayOn("deadgrassfloor") || isStayOn("deadgrassfloor2")) {
+    function drawFog(ctx, width, height) {
+      const centerX = width / 2;
+      const centerY = height / 2;
+      const maxRadius = Math.max(width, height) * 0.6;
+
+      const fogGradient = ctx.createRadialGradient(
+        centerX, centerY, 0,
+        centerX, centerY, maxRadius
+      );
+
+      fogGradient.addColorStop(0, 'rgba(255, 255, 255, 0)');
+      fogGradient.addColorStop(0.7, 'rgba(255, 255, 255, 0.4)');
+      fogGradient.addColorStop(1, 'rgba(255, 255, 255, 0.7)');  
+
+      ctx.fillStyle = fogGradient;
+      ctx.fillRect(0, 0, width, height);
+    }
+
+    drawFog(ctx, canvas.width, canvas.height);
+  }
+}
+
+   if (generateCave !== 1 && isinhouse !== 1 && inhell !== 1 && (isStayOn("snowgrass") ||isStayOn("snowgrass2") )) {
   ctx.globalAlpha = 0.6;
   var currentRainTexture =0;
   if (!seed.startsWith("badseed")) {
@@ -9252,8 +9418,8 @@ function drawOxygenBar(ctx) {
         const barWidth = canvas.width * 0.5;  // Szerokość paska jako 50% szerokości canvasa
         const barHeight = 10;  // Wysokość paska tlenu
         const barX = (canvas.width - barWidth) / 2;  // Pozycja paska na środku
-        const barY = canvas.height -25 - barHeight - 10; // Pasek na dole canvasa
-
+let barY = canvas.height -25 - barHeight - 10; // Pasek na dole canvasa
+if(options.rendermode == 6){ barY = canvas.height -60 - barHeight - 10; }
         // Obliczenie szerokości zielonego paska na podstawie poziomu tlenu
         const oxygenLevelWidth = (oxygen / maxOxygen) * barWidth;
 
@@ -9295,8 +9461,14 @@ if(inWater ){
         else if (moveUp) {player.currentAnimation = 'inwater_moveup';lastDirection="up"}
         else if (moveDown) {player.currentAnimation = 'inwater_movedown';lastDirection="down"}
         playerSpeed = waterspeed;
+        if (seed.startsWith("speed")) {
+  playerSpeed = waterspeed * 1.5
+}
     } else {
         playerSpeed = norspeed;
+        if (seed.startsWith("speed")) {
+  playerSpeed = norspeed * 1.5
+}
         if (moveRight && moveUp) {player.currentAnimation = 'moveupright';lastDirection="up";}
         else if (moveLeft && moveUp) {player.currentAnimation = 'moveupleft';lastDirection="left";}
         else if (moveRight) {player.currentAnimation = 'moveright';lastDirection="right";}
@@ -9393,6 +9565,7 @@ var unfixable=0
 let isUpdating2 = false;
 var zmiennaBruh=0
 function update() {
+  
   if(options.rendermode==1){
   canvas.style.transform=" translate(-50%,-50%) scale(100%,100%)"
   }else if (options.rendermode == 0) {
@@ -9472,11 +9645,14 @@ if(abletostart==1&&paused!==1 && unfixable==0){
         document.getElementById("Q1EQ").style.right = offsetboxGui
     }
       if(options.zoomout==1){
-       if(options.biggerzoomout==1){
-        zoomedDELTA=53
-       }else{
-       zoomedDELTA=37
-       }
+if (options.hyperzomout == 1) {
+  options.hyperzomout = 0
+  //  zoomedDELTA = 100 // 100 def
+}else if (options.biggerzoomout == 1) {
+  zoomedDELTA = 53
+}else{
+zoomedDELTA= 37
+}
   canvas.width=420+zoomedDELTA; canvas.height=350+zoomedDELTA;
   ctx = canvas.getContext('2d');
   if (options.rendermode !== 7) {
@@ -9489,6 +9665,7 @@ player.y = canvas.height / 2 + 6.7 ;
  }else{
   canvas.width=420; canvas.height=350;
   ctx = canvas.getContext('2d');
+  
   if (options.rendermode !== 7) {
 ctx.imageSmoothingEnabled = false;
 }else{
@@ -9552,6 +9729,9 @@ if (checkIfItems("osmiumbuff", 1)) {
 if(checkIfItems("broom", 1) && isflying==1){
  updateStamina(-0.10)
 playerSpeed = 6.5  // 6.5
+if (seed.startsWith("speed")) {
+  playerSpeed = playerSpeed * 1.5
+}
 }else if (isflying == 1) {
   isflying = 0
 } else if( checkIfItems("speedmedalion",1) ){
@@ -9564,9 +9744,15 @@ if (inWater) {
   }else{
     
     playerSpeed=5
+    if (seed.startsWith("speed")) {
+  playerSpeed = playerSpeed * 1.5
+}
     const inWater = isPlayerInWater();
     if(inWater){
     playerSpeed = waterspeed;
+    if (seed.startsWith("speed")) {
+  playerSpeed = playerSpeed * 1.5
+}
     }
   }
   
@@ -9607,7 +9793,23 @@ if(!checkIfHasEnemy("butterflyyellow",3)&&!checkIfHasEnemy("butterflyred",3)&&!c
   spawnEnemyNearPlayer();
 }}
 }
+if(isStayOn("deadgrassfloor")&& nightpower>=1){
+      if (Math.random() <= 0.018) {
+        if(!checkIfHasEnemy("ghost",2)){
+  const slimeTypes = [ "ghost"];
+  const randomSlime = slimeTypes[Math.floor(Math.random() * slimeTypes.length)];
+  const spawnDistance = 9 * blockSize ;
 
+  function spawnEnemyNearPlayer() {
+    const enemyX = Math.random() >= 0.3 ? offsetX + spawnDistance : offsetX - spawnDistance;
+    const enemyY = Math.random() >= 0.3 ? offsetY + spawnDistance : offsetY - spawnDistance;
+    let bat = new Enemy(enemyX, enemyY, randomSlime);
+    renderedEnemies.push(bat);
+    bat.speed = 2.5
+  }
+  spawnEnemyNearPlayer();
+}}
+    }
     if(isStayOn("forestgrass")&& nightpower>=2.7){
       if (Math.random() <= 0.015) {
         if(!checkIfHasEnemy("ghost",2)){
@@ -10271,7 +10473,7 @@ if (isinhouse == 1) {
 
 by5=0
 if(isStayOn("desertsand")){
-  if (Math.random() <= 0.07) {
+  if (Math.random() <= 0.18) {
   const slimeTypes = ['desertelemental',"desertelemental","desert"];
   const randomSlime = slimeTypes[Math.floor(Math.random() * slimeTypes.length)];
   const spawnDistance = 9 * blockSize;
@@ -10309,8 +10511,11 @@ if (Math.random() >= 0.3) {enemyY = offsetY + spawnDistance; } else { enemyY = o
 }
 }
 }
-
-updateEnemies()
+if (seed.startsWith("speed")) {
+updateEnemies();updateEnemies();updateEnemies();
+}else{
+  updateEnemies();
+}
 updatePlayerAnimation();
 
 if (Math.random() < 0.04 && Math.random() < 0.006 && isRaining !== false) {
@@ -10495,14 +10700,17 @@ drawOxygenBar(ctx);
 //chunkPositions.forEach(chunk => {
      // if (isNearTorch2(renderedBlocks, chunk.x, chunk.y)) {
      
-if(!checkIfHasEnemy("darkeye",1)&&!generateCave && options.fancynight==1){
+if(!checkIfHasEnemy("darkeye",1)&&!generateCave && options.fancynight==1 &&!isinhouse&&!isinhouse2 && inhell!==1){
 if(nightpower>2.3){
 ctx.fillStyle = `rgba(5, 0, 220, 0.08)`;
 ctx.fillRect(0, 0, canvas.width, canvas.height);
 }else if (nightpower > 1.9) {
-  ctx.fillStyle = `rgba(5, 50, 200, 0.08)`;
+  ctx.fillStyle = `rgba(5, 5, 220, 0.07)`;
   ctx.fillRect(0, 0, canvas.width, canvas.height);
-}}
+}else if (nightpower > 1.5 &&increasing) {
+  ctx.fillStyle = `rgba(50, 40, 100, 0.05)`;
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+} }
      
      if (options.fancygraphic !== 0) {
        if(inabyss!==1){
@@ -10562,8 +10770,8 @@ gradient.addColorStop(0.6, 'rgba(20, 20, 0, 0.05)');
 gradient.addColorStop(1, 'rgba(30, 30, 30, 0.3)');
 }else {
   gradient.addColorStop(0, 'rgba(20, 20, 0, 0.1)');
-gradient.addColorStop(0.3, 'rgba(20, 20, 0, 0.35)');
-gradient.addColorStop(1, 'rgba(30, 20, 0, 0.7)');
+gradient.addColorStop(0.3, 'rgba(20, 20, 0, 0.05)');
+gradient.addColorStop(1, 'rgba(30, 20, 0, 0.5)');
 }
 
 }else{
@@ -10874,7 +11082,7 @@ if (nocliping == 0 && options.noclip == 0) {
   let dy = (player.y + player.height / 2) - (block.y + blockSize / 2);
 
 
-  let distance = Math.sqrt(dx * dx + dy * dy);
+  let distance = Math.sqrt(dx * dx + dy * dy); 
   if (hitboxShowEnabled == 1) {
    ctx.fillStyle = 'red';
    ctx.fillRect(block.x, block.y, blockSize, blockSize);
@@ -10985,7 +11193,7 @@ overworldChunks = null; // Wyczyść zapis
                 overworldChunks = null; 
                 warped=1
                 return;
-            } else if (block.type === 'hell_entrance' || block.type === 'hell_entrance' && inhell === 0) {
+            } else if (block.type === 'hell_entrance' || block.type === 'hell_entrance' && inhell === 0 &&!checkBlockAtPosition(block.x,block.y, "cavebuilder") ) {
               warped=1
   const blockAbove = renderedBlocks.find(b =>
     b.x === block.x && b.y === block.y - blockSize
@@ -11047,7 +11255,7 @@ if (delayChangeDimension !== 1) {
   let distance = Math.sqrt(dx * dx + dy * dy);
 
   if (distance < 5) { 
-    if (block.type === 'underwaterescape' || block.type === 'underwaterentrance' && !checkBlockAtPosition(block.x,block.y, "water1") && generateCave !== 1 &&    isinhouse !== 1 && inabyss !== 1 ) {
+    if (block.type === 'underwaterescape' || block.type === 'underwaterentrance' && !checkBlockAtPosition(block.x,block.y, "water1") && generateCave !== 1 &&    isinhouse !== 1 && inabyss !== 1 &&!checkBlockAtPosition(block.x,block.y, "cavebuilder") ) {
   const blockAbove = renderedBlocks.find(b =>
     b.x === block.x && b.y === block.y - blockSize // 
   );
@@ -11222,7 +11430,7 @@ if (collides2) {
   collisionDetected = true; // Kolizja wykryta
 }
 }else if (block.type === 'rock' || block.type === 'log0' || block.type === 'tree0' || block.type === 'house_wall' || block.type === 'gypsumhouse' || block.type === 'voidblock' || block.type === 'empty_black_elderberry' || block.type === 'black_elderberry' || block.type === 'birch0' || block.type === 'snowpine1' || block.type === 'yew0' || block.type === 'pine0' || block.type === 'stone_wall' || block.type === 'log_wall' || block.type === 'log' || block.type === 'sapling' || block.type === 'brickwall' || block.type === 'gypsumblock' || block.type === 'planks' || block.type === 'cave_wall' || block.type === 'broken_cavewall' || block.type === 'rubyblock' || block.type === 'sapphireblock' || block.type === 'emeraldblock' || block.type === 'brickhouse' || block.type === 'underwatersandblock' || block.type === 'abyssblock' || block.type === 'stonewithgypsum' || block.type === 'cavewallwithsalt' || block.type === 'fence' || block.type === 'table' || block.type === 'lamp' || block.type === 'hellwall' || block.type === 'hellwall2' || block.type === 'basalt' || block.type === 'granite' || block.type === 'statue1_1' || block.type === 'statue2_1' ||
-  block.type === 'helllog' || block.type === 'abysslog' || block.type === 'helltree0' || block.type === 'abysstree0' || block.type === 'hellsapling' || block.type === 'abysssapling' || block.type === 'palmlog' || block.type === 'palm1' || block.type === 'palmsapling' || block.type === 'palm12' || block.type === 'can' || block.type === 'cinnabargeode' || block.type === 'fountain' || block.type === 'cauldron'|| block.type == "plantmaker"|| block.type == "randomrock1"|| block.type == "randomrock2"|| block.type == "chest") {
+  block.type === 'helllog' || block.type === 'abysslog' || block.type === 'helltree0' || block.type === 'abysstree0' || block.type === 'hellsapling' || block.type === 'abysssapling' || block.type === 'palmlog' || block.type === 'palm1' || block.type === 'palmsapling' || block.type === 'palm12' || block.type === 'can' || block.type === 'cinnabargeode' || block.type === 'fountain' || block.type === 'cauldron'|| block.type == "plantmaker"|| block.type == "randomrock1"|| block.type == "randomrock2"|| block.type == "chest"|| block.type == "pumpkin") {
   
   // Obliczanie prostokątów kolizji
   let playerRect = {
@@ -11496,8 +11704,12 @@ chunks[chunkKey].push({ x: 0, y: 0, type: item , text:text});
 });}
 
 function dropItemAtPlayerPosition2(item) {
-    let playerX = Math.floor((offsetX + player.x) / blockSize) * blockSize;
-let playerY = Math.floor((offsetY + player.y + 1) / blockSize) * blockSize;
+    playerX = Math.floor((offsetX + player.x) / blockSize) * blockSize;
+playerY = Math.floor((offsetY + player.y + 1) / blockSize) * blockSize;
+if (options.hyperzomout == 1) {
+  playerX = Math.floor((offsetX - 32 + player.x) / blockSize) * blockSize;
+  playerY = Math.floor((offsetY - 32 + player.y + 1) / blockSize) * blockSize;
+}
     // Zaokrąglij pozycję gracza do siatki bloków 32x32
     switch (lastDirection) {
     case 'up':
@@ -11552,7 +11764,7 @@ if(paused==1){
     updateCrafting()
     
 }
-
+var plantblocks=["pumpkin1","pumpkin2","pumpkin3","pumpkin","briarempty","briar","mycelium","blackberry","emptyblackberry","black_elderberry","black_elderberry_tree","melon1","melon2","melon","potato","carrot2","wildcarrot","cactus","cactusempty","kite1"]
 function dropItemAtPlayerPosition(item) {
   updateInventory()
  if (activeChest) {
@@ -11576,8 +11788,12 @@ function dropItemAtPlayerPosition(item) {
 }
   
   
-    let playerX = Math.floor((offsetX + player.x) / blockSize) * blockSize;
-let playerY = Math.floor((offsetY + player.y + 1) / blockSize) * blockSize;
+ playerX = Math.floor((offsetX + player.x ) / blockSize) * blockSize;
+  playerY = Math.floor((offsetY + player.y + 1) / blockSize) * blockSize;
+  if(options.hyperzomout==1){
+    playerX = Math.floor((offsetX - 32 + player.x) / blockSize) * blockSize;
+playerY = Math.floor((offsetY - 32 + player.y + 1) / blockSize) * blockSize;
+  }
     // Zaokrąglij pozycję gracza do siatki bloków 32x32
     switch (lastDirection) {
     case 'up':
@@ -11619,7 +11835,7 @@ if(options.dropany==1){
 }
   return;
 }
-if (chunks[chunkKey] && chunks[chunkKey].length > 13) {
+  if (chunks[chunkKey] && chunks[chunkKey].length > 13) {
         addItem(item, 1); // Dodaj przedmiot do ekwipunku
         if (langPlactive == 1) {
             TextPopUp("maksymalna to 13.");
@@ -11629,7 +11845,16 @@ if (chunks[chunkKey] && chunks[chunkKey].length > 13) {
         }
         return; 
     }
-
+  
+if (getPlants(chunkKey,item)) {
+  addItem(item, 1); // Dodaj przedmiot do ekwipunku
+  if (langPlactive == 1) {
+    TextPopUp("nie można zasadzić rośliny na roślinę!");
+  } else {
+    TextPopUp("You cant plant plant on plant!");
+  }
+  return;
+}
     
     playhitmp3()
     
@@ -11713,13 +11938,19 @@ if (item == "coconut") {
 if (item == "carrot") {
     if(options.dropany==0){
     if (currentHP > 95) {
-
     } else {
         updateHealth(15)
-        
         return;
     }
 }}
+if (item == "chips") {
+  if (options.dropany == 0) {
+    if (currentHP > 95) {} else {
+      updateHealth(25)
+      return;
+    }
+  }
+}
 if (item == "friedegg") {
     if (currentHP > 95) {
 
@@ -11831,10 +12062,10 @@ if (item == "heavybag") {
   }
 }}
 if (item == "cooked_thistleroot") {
-  if (currentHP > 60) {
+  if (currentHP > 85) {
 
   } else {
-    updateHealth(40)
+    updateHealth(15)
     return;
   }
 }
@@ -11842,7 +12073,20 @@ if (item == "kite") {
   if (currentHP > 90) {
 
   } else {
+    updateHealth(12)
+    return;
+  }
+}
+if (item == "pumpkin") {
+  if (currentHP > 90) {
+  } else {
     updateHealth(15)
+    return;
+  }
+}if (item == "melonfruit") {
+  if (currentHP > 90) {
+  } else {
+    updateHealth(16)
     return;
   }
 }
@@ -13417,7 +13661,8 @@ function isBlockFloor(x, y) {
     return false;  
 }
 
-
+var selectedslot = ""
+var selectedslot2 = ""
 function getBlockTypeAtPosition(x, y) {
 
     }
@@ -13426,111 +13671,123 @@ let Delay=0
 
 
 let touchTD;
-
-function process_target(e){
+var intrashcan=false
+function process_target(e) {
   e.preventDefault()
-    if(Delay==1){
+  if (Delay == 1) {
     return;
   }
-Delay = 1
-setTimeout(function() {
-  Delay = 0
-}, 500)
-  if(!(checkIfHasEnemy("trueuniversehead",1))&&!(checkIfHasEnemy("deepgodhead",1))&&!(checkIfHasEnemy("flesh",1))&&!(checkIfHasEnemy("insaneuniversegod",1)) &&!(checkIfHasEnemy("2medusa",1)) &&!(checkIfHasEnemy("darkeye",1)) ){
-    if (!currentTrack || currentTrack.paused && isPlayingGame==1) {
+  Delay = 1
+  setTimeout(function() {
+    Delay = 0
+  }, 500)
+  if (!(checkIfHasEnemy("trueuniversehead", 1)) && !(checkIfHasEnemy("deepgodhead", 1)) && !(checkIfHasEnemy("flesh", 1)) && !(checkIfHasEnemy("insaneuniversegod", 1)) && !(checkIfHasEnemy("2medusa", 1)) && !(checkIfHasEnemy("darkeye", 1))) {
+    if (!currentTrack || currentTrack.paused && isPlayingGame == 1) {
       playMusic();
-
+      
     }
-
-      if ( (( (isStayOn("grass") || isStayOn("water")) && !isStayOn("snowgrass") &&!isStayOn("snowgrass2")) && isPlayingDesertMusic || isPlayingSnowyMusic ) && !isPlayingForest ) {
-        stopDesertMusic();
-      }
-      if (isStayOn("water") && (isPlayingSnowyMusic||isPlayingForest) ) {
-        stopSnowyMusic();
-        stopForest();
-      }
-//    if (isStayOn("desertsand") || isStayOn("snowgrass") ||isStayOn("snowgrass2")||isStayOn("forestgrass")||isStayOn("forestgrasslayer")) {
-        checkPlayerOnDesertSand();
-//}
-  }else{
-stopDesertMusic(); stopSnowyMusic();
+    
+    if ((((isStayOn("grass") || isStayOn("water")) && !isStayOn("snowgrass") && !isStayOn("snowgrass2")) && isPlayingDesertMusic || isPlayingSnowyMusic) && !isPlayingForest) {
+      stopDesertMusic();
+    }
+    if (isStayOn("water") && (isPlayingSnowyMusic || isPlayingForest)) {
+      stopSnowyMusic();
+      stopForest();
+    }
+    //    if (isStayOn("desertsand") || isStayOn("snowgrass") ||isStayOn("snowgrass2")||isStayOn("forestgrass")||isStayOn("forestgrasslayer")) {
+    checkPlayerOnDesertSand();
+    //}
+  } else {
+    stopDesertMusic();
+    stopSnowyMusic();
   }
-let scaledX = 0
-let scaledY = 0
-/*
-zapobiega nadpisaniu eventu następnym eventem lol
-*/
-if (e.changedTouches) {
+  let scaledX = 0
+  let scaledY = 0
+  /*
+  zapobiega nadpisaniu eventu następnym eventem lol
+  */
+  if (e.changedTouches) {
     for (let i = 0; i < e.changedTouches.length; i++) {
-    const touch = e.changedTouches[i];
-    const rect = canvas.getBoundingClientRect();
-    const scaleX = canvas.width / rect.width;
-    const scaleY = canvas.height / rect.height;
-    if (touch.clientX && touch) {
-        scaledX = (touch.clientX - rect.left) * scaleX + 15 - zoomedDELTA / 3; // Upewnij się, że dodanie 15 jest zamierzone
+      const touch = e.changedTouches[i];
+      const rect = canvas.getBoundingClientRect();
+      const scaleX = canvas.width / rect.width;
+      const scaleY = canvas.height / rect.height;
+      if (touch.clientX && touch) {
+        scaledX = (touch.clientX - rect.left) * scaleX + 15 - zoomedDELTA / 3;
         scaledY = (touch.clientY - rect.top) * scaleY + 15 - zoomedDELTA / 3;
+        if(options.hyperzomout==1){
+          scaledX = (touch.clientX - rect.left) * scaleX  + 15  - zoomedDELTA / 3;
+          scaledY = (touch.clientY - rect.top) * scaleY  - zoomedDELTA / 3;
+        }
+      }
+      console.log(`Scaled X: ${scaledX}, Scaled Y: ${scaledY}`);
     }
-    console.log(`Scaled X: ${scaledX}, Scaled Y: ${scaledY}`);
-}
-} else {
+  } else {
     const rect = canvas.getBoundingClientRect();
     scaledX = (e.clientX - rect.left) * (canvas.width / rect.width) + 15 - zoomedDELTA / 3;
     scaledY = (e.clientY - rect.top) * (canvas.height / rect.height) + 15 - zoomedDELTA / 3;
     console.log(`Scaled X: ${scaledX}, Scaled Y: ${scaledY}`);
-}
-     
-     
-    
-    
+  }
   
-
-
-    const weapon = checkIfPlayerHasAnyWeapon();
-x = (Math.floor(scaledX / blockSize) * blockSize) - 5;
-y = (Math.floor(scaledY / blockSize) * blockSize) - 5;
-if (options.zoomout == 1 && options.biggerzoomout == 1) {
-    y = (Math.floor(scaledY / blockSize) * blockSize) + 5;
+  
+  
+  
+  
+  
+  
+  const weapon = checkIfPlayerHasAnyWeapon();
+  x = (Math.floor(scaledX / blockSize) * blockSize) - 5;
+  y = (Math.floor(scaledY / blockSize) * blockSize) - 5;
+ if (options.zoomout == 1 && options.hyperzomout == 1) {
+  y = (Math.floor(scaledY / blockSize) * blockSize) 
+  x = (Math.floor(scaledX / blockSize) * blockSize) 
+}else if (options.zoomout == 1 && options.biggerzoomout == 1) {
+    y = (Math.floor(scaledY / blockSize) * blockSize) + 5; 
     x = (Math.floor(scaledX / blockSize) * blockSize) + 5
-}
-    removeBatAtPosition(scaledX, scaledY);
-    
-    if(options.fightmode==1){
-      return;
-    }
-/*if (isBlockFloor(x, y)) {
-  return; // Nie wykonujemy żadnej dalszej logiki
-}*/
-let radius5=1.5*blockSize
-const playerCenterX = offsetX + canvas.width / 2 * 32 * 32 * blockSize;
-const playerCenterY = offsetY + canvas.height / 2 * 32 * 32 * blockSize;
- 
-const distX2 = Math.abs(playerCenterX / blockSize / blockSize / blockSize- x);
-const distY2 = Math.abs(playerCenterY / blockSize / blockSize /blockSize- y);
- 
-if (distX2 <= radius5 && distY2 <= radius5) {
+  }
+  removeBatAtPosition(scaledX, scaledY);
   
-}else{
-  blockedsound()
-// customAlert(distanceFromPlayer)
-/*
-if(langPlactive==1){
-showTextInCanvas("nie jesteś wystarczająco blisko")
-}else{
-showTextInCanvas("you are not close enough")
+  if (options.fightmode == 1) {
+    return;
+  }
+  /*if (isBlockFloor(x, y)) {
+    return; // Nie wykonujemy żadnej dalszej logiki
+  }*/
+  let radius5 = 1.5 * blockSize
+    playerCenterX = offsetX + canvas.width / 2 * 32 * 32 * 32*32;
+    playerCenterY = offsetY + canvas.height / 2 * 32 * 32 * 32*32  ;
+    
+if (options.zoomout == 1 && options.hyperzomout == 1) {
+ playerCenterX = offsetX   + (canvas.width- (zoomedDELTA/2) ) / 2 * 32 * 32 * 32 * 32;
+ radius5 = 1.5  * blockSize
+playerCenterY = offsetY + (canvas.height- (zoomedDELTA/2)  ) / 2 * 32 * 32 * 32 * 32; 
 }
-*/
+  const distX2 = Math.abs(playerCenterX / 32 / 32 / 32 /32- x);
+  const distY2 = Math.abs(playerCenterY / 32 / 32 / 32 /32 - y);
+  
+  if (distX2 <= radius5 && distY2 <= radius5) {
+}else{
+   
+  blockedsound()
 return;
 }
 if(options.editblocks==1){
 if (checkBlockAtPosition(x, y, "chest")) {
-  let fuckingDataFunction=getKeyBlockAtPosition(x,y,"chest")
-  activeChest=[fuckingDataFunction[0] ,fuckingDataFunction[1]]
-  if(!chestsData[`${parseInt(fuckingDataFunction[0])},${parseInt(fuckingDataFunction[1])}`]){
-    chestsData[`${parseInt(fuckingDataFunction[0])},${parseInt(fuckingDataFunction[1])}`]=[];
+  let fuckingDataFunction = getKeyBlockAtPosition(x, y, "chest")
+  activeChest = [fuckingDataFunction[0], fuckingDataFunction[1]]
+  if (!chestsData[`${parseInt(fuckingDataFunction[0])},${parseInt(fuckingDataFunction[1])}`]) {
+    chestsData[`${parseInt(fuckingDataFunction[0])},${parseInt(fuckingDataFunction[1])}`] = [];
   }
-  openInventory2(); 
+  openInventory2();
   return;
-}}else {
+}
+if (checkBlockAtPosition(x, y, "trashcan")) {
+   intrashcan=true
+  openInventory3();
+  return;
+}
+  
+}else {
   
 if (checkBlockAtPosition(x, y, "chest") && checkEmptySlots(0)) {
   let fuckingDataFunction = getKeyBlockAtPosition(x, y, "chest")
@@ -13605,8 +13862,11 @@ startLightning2()
 achievementget("Summoning isn't a great idea ...", 0)
 showTextInCanvas("GOD IS COMING BRO :)  ")
 playTrueTrack()
+selectedslot2=selectedslot
 setTimeout(function(){
+if(selectedslot2==selectedslot){
 createTrueUniverse()
+}
 },12000)}}
 
 if (checkIfItems("deepgodspawner", 1)) {
@@ -13614,7 +13874,7 @@ if (checkIfItems("deepgodspawner", 1)) {
     if(isunderwater==1){
   deleteItems("deepgodspawner", 1);
 startLightning2()
-
+selectedslot    = 
 showTextInCanvas(" ? ? ?  ")
 setTimeout(function(){
 createDeepgod()
@@ -13881,23 +14141,51 @@ deleteFromChunk(x,y,["black_elderberry","black_elderberry2"])
 }
 
 if (checkBlockAtPosition(x, y, "carrot2") && checkEmptySlots(1)) {
-
     addItem("carrot", 1);
     addItem("wildcarrot", 1);
     if(Math.random()<0.12){
         addItem("wildcarrot", 1);
     }
     removeBlockAtPosition(x, y, "carrot2")
-     
+    return;
+}
+if (checkBlockAtPosition(x, y, "pumpkin3") && checkEmptySlots(1)) {
+    addItem("pumpkin", 1);
+    addItem("pumpkin1", 1);
+    if(Math.random()<0.12){
+        addItem("pumpkin1", 1);
+    }
+    removeBlockAtPosition(x, y, "pumpkin3")
     return;
 
+}
+if (checkBlockAtPosition(x, y, "melon") && checkEmptySlots(1)) {
+  addItem("melonfruit", 1);
+  addItem("melon1", 1);
+  if (Math.random() < 0.12) {
+    addItem("melon1", 1);
+    addItem("melonfruit", 1);
+  }
+  removeBlockAtPosition(x, y, "melon")
+  return;
+  
+}if (checkBlockAtPosition(x, y, "potato") && checkEmptySlots(1)) {
+  addItem("itempotato", 1);
+  addItem("potato2", 1);
+  if (Math.random() < 0.12) {
+    addItem("potato2", 1);
+    addItem("itempotato", 1);
+  }
+  removeBlockAtPosition(x, y, "potato")
+  return;
+  
 }
 
 
     // Sprawdzenie, jaki blok został kliknięty
     Object.keys(allItems).forEach(itemName => {
   if (checkBlockAtPosition(x, y, itemName) && checkEmptySlots(0)) {
-    if (itemName !== "blackberry-fruit" && itemName !== "briar-fruit" && itemName !== "grasslayer" && itemName !== "clayblock" && itemName !== "clayblock1" && itemName !== "sandblock2" && itemName !== "fireplow" && itemName !== "fireroll" && itemName !== "furnace"&& itemName !== "kiln"&& itemName!=="extinguished_campfire"&& itemName !== "magnetite"&& itemName !== "blackberry-fruit"&& itemName !== "cooked_thistleroot"&& itemName !== "cooked_bunnmeat"&& itemName !== "cooked_sharkmeat"&& itemName !== "briar-fruit"&& itemName !== "kite"&& itemName !== "rock"&& itemName !== "cave_wall"&& itemName !== "cavewall"&& itemName !== "black_elderberries"&& itemName !== "hill1"&& itemName !== "tallgrass"&& itemName !== "snowgrass2"&& itemName !== "forestgrasslayer"&& itemName !== "deadgrassfloor2"&& itemName !== "deadgrassfloor"&& itemName !== "cavedirt") {
+    if (itemName !== "blackberry-fruit" && itemName !== "briar-fruit" && itemName !== "grasslayer" && itemName !== "clayblock" && itemName !== "clayblock1" && itemName !== "sandblock2" && itemName !== "fireplow" && itemName !== "fireroll" && itemName !== "furnace"&& itemName !== "kiln"&& itemName!=="extinguished_campfire"&& itemName !== "magnetite"&& itemName !== "blackberry-fruit"&& itemName !== "cooked_thistleroot"&& itemName !== "cooked_bunnmeat"&& itemName !== "cooked_sharkmeat"&& itemName !== "briar-fruit"&& itemName !== "kite"&& itemName !== "rock"&& itemName !== "cave_wall"&& itemName !== "cavewall"&& itemName !== "black_elderberries"&& itemName !== "hill1"&& itemName !== "tallgrass"&& itemName !== "snowgrass2"&& itemName !== "forestgrasslayer"&& itemName !== "deadgrassfloor2"&& itemName !== "deadgrassfloor"&& itemName !== "cavedirt"&& itemName !== "pumpkin3" && itemName !== "melon"&& itemName !== "potato"&& itemName !== "log0") {
       addItem(itemName, 1); // Dodajemy przedmiot o tej samej nazwie, co nazwa w allItems
       removeBlockAtPosition(x, y, itemName); // Usuwamy blok po kliknięciu
 
@@ -14619,6 +14907,10 @@ if (Math.random() < 0.15) {
   buildBlockAtPositionBefore2(x, y, "bigrock")
   
   
+}else if (Math.random() < 0.03) {
+  buildBlockAtPositionBefore2(x, y, "salt")
+} else if (Math.random() < 0.009) {
+  buildBlockAtPositionBefore2(x, y, "potato2")
 }else{ if (Math.random() < 0.5){
     buildBlockAtPositionBefore2(x, y, "grasslayer");}
 }
@@ -14653,8 +14945,10 @@ if (checkBlockAtPosition(x, y, "forestgrass") && checkEmptySlots(0) && ( checkIf
   
 }else if (Math.random() < 0.09) {
   buildBlockAtPositionBefore2(x, y, "bigrock")
-  
-  
+}else if (Math.random() < 0.03) {
+  buildBlockAtPositionBefore2(x, y, "salt")
+}else if (Math.random() < 0.009) {
+  buildBlockAtPositionBefore2(x, y, "potato2")
 }else{ if (Math.random() < 0.5){
     buildBlockAtPositionBefore2(x, y, "forestgrasslayer");}
 }
@@ -14942,6 +15236,25 @@ if(floorblocks.includes(type) && options.dontbreakfloor==1){
     }
     return false;  // Nie znaleziono bloku o zadanym typie
 }
+function getPlants(chunkKey2,type) {
+   
+   
+    
+let items22=0
+   
+    let chunkBlocks = chunks[chunkKey2];
+    if (!chunkBlocks) return ; 
+        
+    for (let i = 0; i < chunkBlocks.length; i++) {
+      let block = chunkBlocks[i];
+      if ( ! plantblocks.includes( block.type ) ){ continue;}
+      if( plantblocks.includes( type )){
+        items22+=1
+      }
+    }
+   
+  return items22; 
+}
 function checkBlockAtPosition2(x, y, type) {
   // Oblicz pozycje globalne z przesunięciem
   const globalX = x + offsetX;
@@ -15054,6 +15367,9 @@ font-family: Arial, Helvetica, sans-serif;"></div>
 let inventoryOpen = false;
 document.addEventListener('keydown', function(event) {
     if (event.key === 'x' || event.key === 'X'|| event.key === "z") { 
+      if(activeChest){
+closeInventory();
+      }else{
         if (inventoryOpen) {
             closeInventory();
             inventoryOpen = false;
@@ -15062,7 +15378,7 @@ document.addEventListener('keydown', function(event) {
             openInventory();
             inventoryOpen = true;
         }
-    }
+    }}
 });
 
 </script>
@@ -15328,7 +15644,7 @@ document.getElementById("allachievements2").innerHTML+=d
     <button data-var="quickinventory" onclick="toggleAndStyleButton(this); updateInventory()">quickinventory</button>
     <button data-var="fightmode" onclick="toggleAndStyleButton(this);">fightmode prevent destroying blocks </button>
     <button data-var="zoomout" onclick="toggleAndStyleButton(this);">zoom out</button>
-    <button data-var="biggerzoomout" onclick="toggleAndStyleButton(this);">bigger zoom out</button>
+<button data-var="biggerzoomout" onclick="toggleAndStyleButton(this);">bigger zoom out</button> <!--<button data-var="hyperzomout" onclick="toggleAndStyleButton(this);">hyper zoom out experimental</button>-->
     <button data-var="invertControls" onclick="toggleAndStyleButton(this);">invertControls</button>
     <button data-var="hideBlocksnumber" onclick="toggleAndStyleButton(this);">hideBlocksnumber</button>
     <button data-var="oldlight" onclick="toggleAndStyleButton(this);">oldlight</button> <br>
@@ -15373,7 +15689,7 @@ document.getElementById('inventory').style.pointerEvents = 'none';  document.get
 </div>
 <script>
 
-
+var curseofgos=0;
 
 function exportData() {
     var gameState = {
@@ -16157,7 +16473,7 @@ chest: "Skrzynia",
     cooked_trout: "Usmażony pstrąg",
     rye: "Żyto",
     honey_mushrooms: "Opieńki",
-    cinnabar: "Cynabar",
+    cinnabar: "Cynober",
     mercury: "Rtęć",
     pipette: "Pipeta",
     ilmenite: "Ilmenit/Tytan",
@@ -16309,10 +16625,50 @@ chest: "Skrzynia",
     soup:" Zupa ",
     textstone:" Kamień z tekstem",
     stairsup:" Schody ",
+    itempotato:"Kartofel",
+    litpumpkin: "Świecąca latarnia",
+    chips: "Czipsy",
+    potato: "Kartofel",
+    potato2: "Kartofel",
+    bluetorch: "Niebieska Pochodnia",
+    skull: "Czaszka",
+    melonfruit: "Arbuz",
+  melon: "Arbuz",
+  melon2: "Arbuz",
+  melon1: "Arbuz",
+  nametag: "Znacznik",
+  melonsword: "Arbuzowy miecz",
+  trashcan: "Śmietnik",
+  pumpkin1: "Dynia",
+  pumpkin2: "Dynia",
+  pumpkin3: "Dynia",
+  pumpkin: "Dynia",
+  corruptedthing: "Skarzone coś",
+  thingeyes: "Oczy czegoś",
 }};
 
         var slots = 8;  // Max slots
         var allItems = { // teksturki  
+itempotato: "./itempotato.png",
+  litpumpkin: "./litpumpkin.png",
+  chips: "./chips.png",
+  potato: "./potato.png",
+  potato2: "./potato2.png",
+log0: "./log0.png",
+  
+bluetorch: "./bluetorch1.png",
+skull:"./skull.png",
+  melonfruit: "./melonfruit.png",
+  melon: "./melon.png",
+  melon2: "./melon2.png",
+  melon1: "./melon1.png",
+  nametag: "./nametag.png",
+  melonsword: "./melonsword.png",
+trashcan: "./trashcan.png",
+  pumpkin1: "./pumpkin1.png",
+  pumpkin2: "./pumpkin2.png",
+  pumpkin3: "./pumpkin3.png",
+  pumpkin: "./pumpkin.png",
         corruptedthing: "./corruptedthing.png",
   thingeyes: "./thingeyes.png",
 lit_kiln:"./lit_kiln1.png",
@@ -16795,7 +17151,10 @@ for (const [name, src] of Object.entries(allItems)) {
 "goodarrows": [["stick","rarefeather","sharpstone"]],
 "powerfullarrows": [["stick","mythicfeather","sharpstone"]],
 "plantmaker": [["woodboard","grasslayer","yellow","woodboard"]],
+"litpumpkin": [["pumpkin","ignited_fiber"]],
 "chest": [["woodboard","log","woodboard","woodboard","woodboard"]],
+"bluetorch": [["glowblossom","stick"]],
+"trashcan": [["chest","iron_bar","wolfram"]],
         };
         var badseedrecipesplus = {
           "plantmaker": [["woodboard","grasslayer","corruptedthing","woodboard"]],
@@ -16803,10 +17162,18 @@ for (const [name, src] of Object.entries(allItems)) {
           "curedgrasslayer":[["grasslayer","corruptedthing"]]
         }
         var canbedecrafted=["brickwall","clayblock1","ashfloor","cordage","fiber","fireplow","stone_wall","fiber_floor","torch","campfire","brickfloor","fireroll","decrafter","log_floor","log_wall","sharpstone","pointed_stick","thistleroot","woodboard","hand_torch","stoneshovel","stone_axe","iron_spear","copper_spear","fiber_fabric","extrabag","cavemakingpickaxe","pickaxe","opalblock","emeraldblock","emeraldfloor","sapphireblock","sapphirefloor","rubyfloor","rubyblock","planks","planks_floor","houseroof","house_wall","furnace","kiln","campfire","decrafter","log_floor","log_wall","stone_floor","gelblock","aquaspear","goodsword","universesword","sharpsaw","nightsword","fleshsaber","goodmace","truegodsword","trueuniversesword","iron_mace","iron_sword","sharpmace","aquagodshell","deepgodspawner","voltary_essence",
-        "fleshdumbass","housewall","houseroof","housefloor","planks_floor","planks","table","titaniumbuff","titaniumsword","lamptorch","brickfloor2","trueuniversespawner","deepgodspawner","hellbuff","hellsword","moltensword","knive","hellknive","magicwand","magicwandofsharp","hyperblastwand","greenwand","blower","forestleaf","titanium_boomerang","boomerang","good_boomerang","gypsumroof","gypsumhouse","gypsumdoor","sing","hallucinate","stonesing","dracobuff","plantmaker","cauldron","titaniumbar","fountain","textstone","stairsup","hypersword","osmiumbar","osmiumsword","osmiumbuff","toxicsword","leafbowl", "wolframaxe","uraniumaxe","chest","cavebuilder"
+        "fleshdumbass","housewall","houseroof","housefloor","planks_floor","planks","table","titaniumbuff","titaniumsword","lamptorch","brickfloor2","trueuniversespawner","deepgodspawner","hellbuff","hellsword","moltensword","knive","hellknive","magicwand","magicwandofsharp","hyperblastwand","greenwand","blower","forestleaf","titanium_boomerang","boomerang","good_boomerang","gypsumroof","gypsumhouse","gypsumdoor","sing","hallucinate","stonesing","dracobuff","plantmaker","cauldron","titaniumbar","fountain","textstone","stairsup","hypersword","osmiumbar","osmiumsword","osmiumbuff","toxicsword","leafbowl", "wolframaxe","uraniumaxe","chest","cavebuilder","bluetorch","trashcan","broom","arrows","bed","bed1","sing","ignited_fiber","gelblock","litpumpkin"
         ]
 var plantmakerrecipes = {
     //blueflower2 deepblues daffodil myosotis poppy nettle
+    "grasslayer": [["gelblock"]],
+    "hill1": [["gelblock","gelblock"]],
+"grass2": [["gel","gel","gel","gel","gel"]],
+    "roadfloor": [["gel","gel","gel"]],
+    "log0": [["log"]],
+    "road2": [["gel","gel","gel","gel"]],
+    "thistle": [["gel","gel","gel","gel"]],
+    
     "grasslayer": [["gelblock"]],
     "deadgrassfloor2": [["gelblock"]],
     "sandblock2": [["gelblock"]],
@@ -16905,6 +17272,7 @@ var furnacerecipes = {
 "uraniumaxe": [["uranium","uranium","wolframaxe","longstick"]],
 "cavebuilder":[["bigrock","bigrock","sharpstone"]],
 "smooth_stone":[["bigrock","sharpstone"]],
+"chips": [["itempotato","salt"]],
 }
 var cauldronrecipes = {
     "bowl": [["clay", "clay", "clay", "clay", "clay", "clay"]],
@@ -17422,15 +17790,19 @@ function deconstructItem(item) {
 }
 
 var aschest=0;
+var ininventory=0
+inventoryScrollY=0;
         // Otwórz ekwipunek
         function openInventory() {
-   offsetX = (Math.floor(offsetX / 32) * 32) + 17; // Zaokrąglamy offsetX
-offsetY = (Math.floor(offsetY / 32) * 32) + 10; // Zaokrąglamy offsetY
+ offsetX = (Math.floor(offsetX / 32) * 32) + 17;  
+offsetY = (Math.floor(offsetY / 32) * 32) + 10; 
+
           if(options.autopause==1){
           paused=1
           }else{
             paused=0
           }
+          ininventory=1
             document.getElementById("inventory").style.visibility = "visible";
             document.getElementById("inventory").style.pointerEvents = "all";
             updateInventory();
@@ -17450,13 +17822,20 @@ function openInventory2() {
 updateCrafting(); updateInventory();
      
 }
-
+function openInventory3() {
+    document.getElementById("inventory").style.visibility = "visible";
+    document.getElementById("inventory").style.pointerEvents = "all";
+updateCrafting(); updateInventory();
+     
+}
  
 
 
         // Zamknij ekwipunek
         function closeInventory() {
           activeChest=false;
+          intrashcan=false;
+           ininventory=0
 if (options.autopause == 1) {
   paused = 1
   setTimeout(function(){paused=0; update() },300);
@@ -17472,7 +17851,7 @@ if (options.autopause == 1) {
         // Funkcja dodawania przedmiotu do ekwipunku
         function addItem(item, amount) {
             for (let i = 0; i < amount; i++) {
-                if (yourItems.length < slots+1 ) {
+                if (yourItems.length < slots+5) {
                     yourItems.push(item);
                 } else {
                     console.log("Not enough space!");
@@ -17547,6 +17926,7 @@ if (options.autopause == 1) {
             "pickaxe":[" <span style='color:yellow;' >Time</span> to mine",0],
             "decrafter":[" <span style='color:pink;' >Reverse</span> Engineering",2],
             "soup":[" <span style='color:pink;' >Mmm</span> Yummy ;)",2],
+            "evilsummoner":["<span style='color:red;' > Feeling the evil inside </span>",0],
         }
          
         function craftItem(item) {
@@ -17740,6 +18120,7 @@ if(checkIfItems("bow",1)||checkIfItems("nightbow",1)||checkIfItems("darkbow",1)|
             dropButton.style.cursor = "pointer";
             dropButton.style.borderRadius = "3px";
             dropButton.addEventListener("click", () => {
+ 
 if (yourItems[i] == "broom" && options.dropany == 0) {if (isflying == 0) {
 item = "";isflying = 1;if (langPlactive == 1) {
     showTextInCanvas(".. latasz na miotle")
@@ -17752,6 +18133,7 @@ isflying = 0;item = "";if (langPlactive == 1) {
     showTextInCanvas("you are on land now")
 }closeInventory();return; }} else {dropItemAtPlayerPosition(yourItems[i]);} updateStamina(-5); yourItems.splice(i, 1); updateInventory(); updateCrafting();
 miniMenu.style.display = "none";if (autoclose !== 0) { closeInventory(); }
+
 });
 
 
@@ -17811,6 +18193,11 @@ if(options.quickinventory==0){
             });
 }else{
 slot.addEventListener("click", () => {
+  if (intrashcan==true) {
+  yourItems.splice(i, 1);
+  updateInventory(); updateCrafting();
+  showTextInCanvas("Deleted item ! ")
+} else {
 if (yourItems[i] == "broom" && options.dropany == 0) {if (isflying == 0) {
 item = "";isflying = 1;if (langPlactive == 1) {
     showTextInCanvas(".. latasz na miotle")
@@ -17823,6 +18210,7 @@ isflying = 0;item = "";if (langPlactive == 1) {
     showTextInCanvas("you are on land now")
 }closeInventory();return; }} else {dropItemAtPlayerPosition(yourItems[i]);} updateStamina(-5); yourItems.splice(i, 1); updateInventory(); updateCrafting();
 miniMenu.style.display = "none";if (autoclose !== 0) { closeInventory(); }
+}
 });
 }
             // Dodaj mini-menu do slotu
@@ -17907,6 +18295,9 @@ function isNearKiln(playerX, playerY) {
 let showAllRecipes = false;  // Flaga kontrolująca tryb"pokazania wszystkich receptur"
 
 function toggleAllRecipes() {
+    
+  
+   
     showAllRecipes = !showAllRecipes;  // Przełącza tryb
     updateCrafting();  // Odświeża wyświetlanie crafting menu
 }
@@ -17979,7 +18370,13 @@ container.className = "slots2";
    }
 }});
             slot.appendChild(recipeImg);
+  if (langPl.items[item] && langPlactive == 1) {
+            slotName.innerHTML = langPl.items[item]
+          } else {
             slotName.innerHTML = item;
+          }
+            
+            
         } else {
             slotName.innerHTML = ""; 
         }
@@ -18200,12 +18597,23 @@ if(variant){
                 recipeDiv.appendChild(recipeNameDiv);
                 craftingContainer.appendChild(recipeDiv);
             }
-             
+
         });
     }
-    
+    if (intrashcan) {
+  if (langPlactive == 1) {
+    craftingContainer.innerHTML = "<h1 style='color:red;' >Kliknij Slot by usnąć z niego przedmiot (item)! </h1>";
+  } else {
+    craftingContainer.innerHTML = "<h1 style='color:red;' >Click Any slot to remove item from it</h1>";
+  }
 }
-
+document.getElementById("crafting").scrollTop=inventoryScrollY
+}
+document.getElementById("crafting").addEventListener("scroll",function(){
+  if(ininventory==1&& document.getElementById("crafting").scrollTop!==0){
+  inventoryScrollY= document.getElementById("crafting").scrollTop  
+  } 
+})
         openInventory();
         closeInventory()
         
@@ -18297,6 +18705,7 @@ try {
       const request = store.get(slot);
 
       request.onsuccess = function(event) {
+        selectedslot=slot
         const gameState = event.target.result;
         if (!gameState) {
           customAlert("No save found in slot " + slot);
@@ -18455,7 +18864,7 @@ async function loadGameState3(slot) {
       const db = await initDB();
       const transaction = db.transaction("gameStates", "readonly");
       const store = transaction.objectStore("gameStates");
-
+selectedslot=slot
       const request = store.get(slot);
 
       request.onsuccess = function(event) {
@@ -18760,7 +19169,7 @@ function hideLoadingScreen() {
   if(slot==undefined ){
     slot=""
   }
-
+selectedslot=slot
   inabyss=0
   housechunks={}
   chunks={}
