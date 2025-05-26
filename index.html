@@ -1,4 +1,4 @@
-  <!--
+   <!--
 
                  PRIMORIA FEROX
 
@@ -37,7 +37,7 @@ ważne Edycja Plików pfd to cheating !
 to twoje sumienie że oszukujesz w grze :)
 
   */
-var gameversion = " 1.5.8 pre5 b fixed"
+var gameversion = "alpha 1.5.8"
 var APKversion=false;
 if (window.location.protocol === 'file:') {
   console.log(' (file://). protocol Aplikacja w Natywnym kodzie lub pliku');
@@ -64,8 +64,8 @@ html {
      
 }
 ::-webkit-scrollbar {
-    width: 5px; /* Szerokość paska przewijania */
-    background-color: rgba(0, 0, 0, 0.3); /* Tło paska przewijania z przezroczystością */
+    width: 5px; 
+    background-color: rgba(0, 0, 0, 0.3); 
     height:5px;
 }
 ::-webkit-scrollbar-track {
@@ -1131,13 +1131,14 @@ opacity: 0.8
     <script>
     var diedRMEN=0
     let options = {
+showuiinventory:0,
   autoclose: 0,
   dontbreakfloor: 0,
   dropany: 0,
   creativemode: 0,
   autopause: 1,
   fightmode: 0,
-  fancygraphic: 0,
+  fancygraphic: 1,
   quickinventory: 1,
   noclip: 0,
   zoomout: 0,
@@ -1148,7 +1149,7 @@ opacity: 0.8
   showEveryBlocksNumber: 0,
   invertControls: 0,
   fancynight: 1,
-  oldlight: 1,
+  oldlight: 0,
   editblocks: 1,
   shoot: 1,
   nomusic: 0,
@@ -9626,7 +9627,12 @@ if(abletostart==1&&paused!==1 && unfixable==0){
         weponDelay-=1
     }
  if(by5>14){
-   
+   if (options.showuiinventory == 1) {
+    updateInventory()
+   }else{
+     document.getElementById("a2slots").innerHtml=""
+    
+   }
    attackedenemy=[]
    if( !checkIfHasEnemy("trueuniversehead",1) && currentTrack == trueTrack ){
      playMusic()
@@ -15418,6 +15424,39 @@ closeInventory();
      overflow: hidden scroll;
      
 }
+#slotsContainer2 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 44vw;
+  height: 52px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  font-style: monospace ;
+}
+#slotsContainer2::-webkit-scrollbar {
+    width: 5px; 
+    background-color: rgba(0, 0, 0, 0.09); 
+    height:5px;
+}
+#slotsContainer2::-webkit-scrollbar-track {
+  background-color: #00000000; 
+}
+ 
+#slotsContainer2::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.08); 
+}
+.a2slots {
+  display: flex;
+  gap: 4px;
+  width:40px; height:40px;
+  padding: 2px;
+  color : white;
+  
+}
+
+
+
 .slots {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(40px, 1fr));
@@ -15427,6 +15466,7 @@ closeInventory();
     width: 100%; /* Gwarantuje dopasowanie do szerokości */
     box-sizing: border-box;
 }
+ 
 .slots2 {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(40px, 1fr));
@@ -15603,6 +15643,12 @@ document.getElementById("allachievements2").innerHTML+=d
         }
     }
 </script>
+        
+<div id="slotsContainer2">
+        <div class="a2slots" id="a2slots">
+        </div>
+</div>
+
 
     <div class="inventory-container" style="overflow: scroll; height:100%;"  id="inventory">
       <input   style="position:absolute; top:40px; right:0 ; width:50px; background:#666666;z-index: 999; border:none; outline: none; font-size: 8px;" class="hover" placeholder="save name " id="savename" ></input>
@@ -15639,6 +15685,7 @@ document.getElementById("allachievements2").innerHTML+=d
     <button data-var="dropany" onclick="toggleAndStyleButton(this);">Drop any item (fishing rod)</button> <br>
     <button data-var="dontbreakfloor" onclick="toggleAndStyleButton(this);">Dont break floors</button>
     <button data-var="autopause" onclick="toggleAndStyleButton(this);">auto pause</button>
+    <button data-var="showuiinventory" onclick="toggleAndStyleButton(this);">showuiinventory</button>
     <button data-var="fancygraphic" onclick="toggleAndStyleButton(this);">fancygraphic</button>
     <button data-var="fancynight" onclick="toggleAndStyleButton(this);">Fancy night</button>
     <button data-var="quickinventory" onclick="toggleAndStyleButton(this); updateInventory()">quickinventory</button>
@@ -17836,6 +17883,9 @@ updateCrafting(); updateInventory();
           activeChest=false;
           intrashcan=false;
            ininventory=0
+           if(options.showuiinventory==1){
+             updateInventory()
+           }
 if (options.autopause == 1) {
   paused = 1
   setTimeout(function(){paused=0; update() },300);
@@ -18069,7 +18119,9 @@ let autoclose = 1; // Flaga zamykania ekwipunku
 
 // Aktualizacja wyświetlania ekwipunku z obsługą przycisków w mini-menu
 function updateInventory() {
-    const slotsContainer = document.getElementById("slots");
+    var slotsContainer = document.getElementById("slots");
+    var slotsContainer2 = document.getElementById("a2slots");
+    slotsContainer2.innerHTML = "";
     slotsContainer.innerHTML = "";  // Czyszczenie slotów
 autoclose=options.autoclose
 if(checkIfItems("bow",1)||checkIfItems("nightbow",1)||checkIfItems("darkbow",1)||checkIfItems("hellbow",1)||checkIfItems("quantumbow",1)||checkIfItems("moltenbow",1) ||checkIfItems("rainbowbow",1)){
@@ -18218,8 +18270,13 @@ miniMenu.style.display = "none";if (autoclose !== 0) { closeInventory(); }
             slot.appendChild(itemName);
             slot.appendChild(miniMenu);
         }
+        slot1=slot
 
-        slotsContainer.appendChild(slot);
+        slotsContainer.appendChild(slot1);
+
+if (options.showuiinventory == 1 && ininventory==0) {
+  slotsContainer2.appendChild(slot1);
+}
     }
 }
 
@@ -19011,7 +19068,7 @@ if (isinhouse2 == 1) {
         });
         playMusic();
         playRandomMusic();
- options.autopause = 1;
+ // options.autopause = 1;
  
       };
 options.shoot=1
