@@ -49,7 +49,11 @@ I hope you enjoy it! If you have any ideas for what I could add to the game, fee
 
 ## 🔄 Updates
 
-- **Latest version:** `primoriaferox6`build v 1.5.7.9 (1.5.8 pre)
+- **Latest version:**
+`primoriaferox11.5`build v 1.5.8.1
+ added quick inventory but I don't remember in what minor update.
+added fancy graphics light++ and reflections fixed some bugs like in other updates
+`primoriaferox6`build v 1.5.7.9 (1.5.8 pre)
  but i found some bugs with application and i changed it to `primoriaferox7` build v 1.5.7.9 (1.5.8 pre2): bugs: eeperm cannot save file on some androids error, raining on 2 house floor, weird graphics glitches 
 
 - **Primoria-Ferox / Repo:** Older version of the current game.  
@@ -59,6 +63,7 @@ I hope you enjoy it! If you have any ideas for what I could add to the game, fee
    
 
 ### 📜 Changes
+- **In 1.5.8.1** Added light++ reflections new torches new bed direction bookshelfs spiders and web wallpapers and house walls. and more ores (carnallite, hematite, calcite, fluorite ) that doesn't have any usage for now  (fluorite for torches) :P `i think i would add usage for these in next update `
 - **In 1.5.7.6:** Added palm trees, bug fixes, coconuts, hallucinations (just for my friend), writing signs, beds, new music, and much more.
 - **In 1.5.7.8:** Added cauldron, botanical table, ducks, bows, arrows, fixes for strange bugs like mixing two dimensions, and added achievements.
 - **In 1.5.7.9:** Added stairs, reverted old lighting options to reduce lag.
