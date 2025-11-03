@@ -1,18 +1,15 @@
 # 🗿 Primoria-Ferox 
+ <table align="center"><tr><td><a href="https://kashumy.github.io/Primoria-Ferox-Latest"><img src="https://img.shields.io/badge/PLAY%20ONLINE%20!-green?style=for-the-badge&logo=gamepad&logoColor=white"></a></td><td style="padding-left:8px"><a href="https://github.com/Kashumy/Primoria-Ferox-Download/releases/tag/game"><img src="https://img.shields.io/badge/Download-Game-aqua?style=for-the-badge"></a></td></tr></table>
 
-<p align="center">
-  <a href="https://kashumy.github.io/Primoria-Ferox-Latest">
-    <img src="https://img.shields.io/badge/PLAY%20ONLINE%20!-green?style=for-the-badge&logo=gamepad&logoColor=white">
-  </a>
-</p>
 
-  
+
+
 ---
 
 
 **Hello everyone!**  
-Here is my game for Android. I hope you enjoy survival games! 😉.
-note : i dont know how many days i spent on this game to make this .
+Here is my game for Android. I hope you enjoy survival games! ☺
+ 
  <img src="https://img.shields.io/badge/The%20game%20is%20free.%20But%20I%20would%20be%20very%20grateful%20if%20you%20share%20it%20with%20your%20friends%20%3B%29-coral?style=for-the-badge&logo=gamepad&logoColor=white">
 
 ___
@@ -40,7 +37,6 @@ survival,openworld,adventure,retro, singleplayer,webview,terrain generative
 Dive into an exciting world of exploration, resource management, and challenges.  
 Craft tools, survive your first night, build a home, fight bosses and much more.
 
-
 I hope you enjoy it! If you have any ideas for what I could add to the game, feel free to write in the issues section! 
 
 ---
@@ -63,8 +59,8 @@ added fancy graphics light++ and reflections fixed some bugs like in other updat
   Soon, I will add multiplayer to these games.  
    
 
-### 📜 Changes
-- **In 1.5.8.5** Added New Logic . new things also resourcepacks custom skin editor , Added new dimension Ether .
+### 📜 Changes 𔑭
+- **In 1.5.8.5 ⛾ ** Added New Logic . new things also resourcepacks custom skin editor , Added new dimension Ether .
 - **In 1.5.8.1** Added light++ reflections new torches new bed direction bookshelfs spiders and web wallpapers and house walls. and more ores (carnallite, hematite, calcite, fluorite ) that doesn't have any usage for now  (fluorite for torches) :P `i think i would add usage for these in next update `
 - **In 1.5.7.6:** Added palm trees, bug fixes, coconuts, hallucinations (just for my friend), writing signs, beds, new music, and much more.
 - **In 1.5.7.8:** Added cauldron, botanical table, ducks, bows, arrows, fixes for strange bugs like mixing two dimensions, and added achievements.
@@ -85,7 +81,7 @@ added fancy graphics light++ and reflections fixed some bugs like in other updat
 
 ---
 
-## 📜 License
+## 📜 ☞ License ☜
 
 The game is under proprietary license. Please review the terms of the license before using or distributing:  
 [READ LICENSE](https://github.com/Kashumy/Primoria-Ferox-Download/blob/main/LICENSE.txt)
