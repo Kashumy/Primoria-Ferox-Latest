@@ -15,13 +15,11 @@ Here is my game for Android. I hope you enjoy survival games! 😉.
 note : i dont know how many days i spent on this game to make this .
  <img src="https://img.shields.io/badge/The%20game%20is%20free.%20But%20I%20would%20be%20very%20grateful%20if%20you%20share%20it%20with%20your%20friends%20%3B%29-coral?style=for-the-badge&logo=gamepad&logoColor=white">
 
-| `You can donate me views by sharing this game to your friends ; ) ` |
- 
 ___
 
 **Game category** 
 ```
-survial openworld adventure retro singleplayer webview chill
+survival,openworld,adventure,retro, singleplayer,webview,terrain generative
 
 ```
 <p align="center">
@@ -50,6 +48,9 @@ I hope you enjoy it! If you have any ideas for what I could add to the game, fee
 ## 🔄 Updates
 
 - **Latest version:**
+`primoriaferox15`build v 1.5.8.5
+added underwater logic , added ski customisation, added resource packs, added new musics , fixed some bugs, this version is still experimental i could change without version prefix
+
 `primoriaferox11.5`build v 1.5.8.1
  added quick inventory but I don't remember in what minor update.
 added fancy graphics light++ and reflections fixed some bugs like in other updates
@@ -57,12 +58,13 @@ added fancy graphics light++ and reflections fixed some bugs like in other updat
  but i found some bugs with application and i changed it to `primoriaferox7` build v 1.5.7.9 (1.5.8 pre2): bugs: eeperm cannot save file on some androids error, raining on 2 house floor, weird graphics glitches 
 
 - **Primoria-Ferox / Repo:** Older version of the current game.  
-  **Note:** Do not change the version from 6 -> 3 -> 2 -> 1, as this may corrupt your save file!  
+  **Note:** Do not change the version from 14 ... -> 2 -> 1, as this may corrupt your save file!  
   You can play offline on my repo [Primoria-Ferox-Online](https://kashumy.github.io/Primoria-Ferox-Latest).  
   Soon, I will add multiplayer to these games.  
    
 
 ### 📜 Changes
+- **In 1.5.8.5** Added New Logic . new things also resourcepacks custom skin editor , Added new dimension Ether .
 - **In 1.5.8.1** Added light++ reflections new torches new bed direction bookshelfs spiders and web wallpapers and house walls. and more ores (carnallite, hematite, calcite, fluorite ) that doesn't have any usage for now  (fluorite for torches) :P `i think i would add usage for these in next update `
 - **In 1.5.7.6:** Added palm trees, bug fixes, coconuts, hallucinations (just for my friend), writing signs, beds, new music, and much more.
 - **In 1.5.7.8:** Added cauldron, botanical table, ducks, bows, arrows, fixes for strange bugs like mixing two dimensions, and added achievements.
