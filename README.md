@@ -1,4 +1,4 @@
-# 🗿 Primoria-Ferox 
+# Primoria-Ferox 🌱
  <table align="center"><tr><td><a href="https://kashumy.github.io/Primoria-Ferox-Latest"><img src="https://img.shields.io/badge/PLAY%20ONLINE%20!-green?style=for-the-badge&logo=gamepad&logoColor=white"></a></td><td style="padding-left:8px"><a href="https://github.com/Kashumy/Primoria-Ferox-Download/releases/tag/game"><img src="https://img.shields.io/badge/Download-Game-aqua?style=for-the-badge"></a></td></tr></table>
 
 
