@@ -31,7 +31,7 @@ survial openworld adventure retro singleplayer webview chill
 </p>
 
 ---
-<img src="https://github.com/Kashumy/Primoria-Ferox-Latest/blob/main/game.gif">
+<img src="https://github.com/Kashumy/Primoria-Ferox-Latest/blob/main/game3.gif">
 
 <img src="https://github.com/Kashumy/Primoria-Ferox-Latest/blob/main/game1.gif">
 
