@@ -16,7 +16,7 @@ ___
 
 **Game category** 
 ```
-survival,openworld,adventure,retro, singleplayer,webview,terrain generative
+survival,openworld,adventure,retro, singleplayer,webview,mobile
 
 ```
 <p align="center">
@@ -33,7 +33,7 @@ survival,openworld,adventure,retro, singleplayer,webview,terrain generative
  
 ## 🕹️ About the Game
 
-**Primoria-Ferox** is a survival game designed for Android devices ( but you can also play it in browser ).  
+**Primoria-Ferox** is a survival game designed for Android devices ( but you can also play it in browser ).  The game works faster in application soo..
 Dive into an exciting world of exploration, resource management, and challenges.  
 Craft tools, survive your first night, build a home, fight bosses and much more.
 
